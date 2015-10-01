@@ -14,7 +14,8 @@ var schema = new mongoose.Schema({
     notes: [{
       type: mongoose.Schema.Type.ObjectId,
       ref: 'Notes'
-    }]
+    }],
+    pub: Boolean
 });
 
 mongoose.model('Page', schema);
