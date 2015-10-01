@@ -6,29 +6,29 @@
 
   "description": "This is a test description change it later!",
   "icons": {
-          "48": "robit_48.png",
-          "128": "robit_128.png" },
+          "48": "/icons/robit_48.png",
+          "128": "/icons/robit_128.png" },
 
 
   "browser_action": {
           "default_icon": {                    
-            "19": "robit_sleep_19.png",           
-            "38": "robit_48.png"
+            "19": "/icons/robit_sleep_19.png",           
+            "38": "/icons/robit_48.png"
           },
           "default_title": "WebNotes",
-          "default_popup": "/server/app/views/index.html"    
+          "default_popup": "popup.html"    
     },
   "permissions": ["tabs",
   "*://*/*"
   ],
   "background": {
-   "scripts": ["background.js"]
- },
- "content_scripts": [{
-    "js": ["/public/main.js"],
-    "css": ["/public/style.css"],
-    "matches": [ "*://*/*"]
-  }]
+   "scripts": ["/background/background.js"]
+ }
+ // "content_scripts": [{
+ //    "js": ["/public/main.js"],
+ //    "css": ["/public/style.css"],
+ //    "matches": [ "*://*/*"]
+ //  }]
 
 }
 
