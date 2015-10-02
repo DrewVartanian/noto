@@ -50,7 +50,7 @@ router.get('/:noteID', function(req, res, next) {
 
 // POST one
 router.post('/', function(req, res, next) {
-  Note.create(req.body)
+  Note.create({message: req.body.message})
     .then(function(note) {
         res.status(201).json(note);
     })
