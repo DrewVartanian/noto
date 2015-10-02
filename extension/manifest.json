@@ -23,13 +23,13 @@
   "*://*/*"
   ],
   "background": {
-   "scripts": ["/background/background.js"]
- }
- // "content_scripts": [{
- //    "js": ["/public/main.js"],
- //    "css": ["/public/style.css"],
- //    "matches": [ "*://*/*"]
- //  }]
+   // "scripts": ["/background/background.js"]
+   "page": "/background/background.html"
+ },
+ "content_scripts": [{
+    "js": ["/content/content.js"],
+    "matches": [ "*://*/*"]
+  }]
 
 }
 
