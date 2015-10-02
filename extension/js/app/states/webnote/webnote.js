@@ -2,7 +2,7 @@ app.config(function ($stateProvider) {
 
     $stateProvider.state('webnote', {
         url: '/webnote',
-        templateUrl: 'js/webnote/webnote.html',
+        templateUrl: 'js/app/states/webnote/webnote.html',
         controller: 'WebnoteCtrl'
     });
 
@@ -12,6 +12,12 @@ app.controller('WebnoteCtrl', function ($scope, AuthService, $state) {
 
     // $scope.login = {};
     // $scope.error = null;
+
+    
+
+    AuthService.getLoggedInUser().then(function(user){
+        $scope.user = user;
+    })
 
     // $scope.sendLogin = function (loginInfo) {
 
