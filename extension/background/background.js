@@ -22,8 +22,10 @@ chrome.contextMenus.onClicked.addListener(onClickHandler);
 
 // The onClicked callback function.
 function onClickHandler(info, tab) {
-  console.dir(info);
-  var sText = info.selectionText;
-  var url = "https://www.google.com/search?q=" + encodeURIComponent(sText);
-  window.open(url, '_blank');
-};
+  chrome.tabs.sendRequest(tab.id, "getClickedEl", function(clickedEl) {
+        console.dir(JSON.parse(clickedEl.value));
+    });
+  // var sText = info.selectionText;
+  // var url = "https://www.google.com/search?q=" + encodeURIComponent(sText);
+  // window.open(url, '_blank');
+}
