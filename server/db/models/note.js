@@ -9,7 +9,7 @@ var schema = new mongoose.Schema({
     message: String,
     color: {
       type: String,
-      defualt: '#FFFF00'
+      default: '#FFFF00'
     },
     position: {
         x: {
