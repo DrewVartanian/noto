@@ -6,8 +6,9 @@ module.exports = router;
 
 var Note = mongoose.model('Note');
 var Page = mongoose.model('Page');
-var Team = mongoose.model('Team');
+var team = mongoose.model('Team');
 var User = mongoose.model('User');
+
 
 // set req.note to specific note
 router.param('id', function(req, res, next, id) {
@@ -20,48 +21,77 @@ router.param('id', function(req, res, next, id) {
     .then(null, next);
 });
 
-// GET all
-router.get('/', function(req, res, next) {
-  Note.find().exec()
-    .then(function(notes) {
-      res.status(200).json(notes);
-      next();
-    })
-    .then(null, next);
-});
-
-// GET all notes for a user
-// /api/note/user/123
-router.get('/user/:userID', function(req, res, next) {
-  Note.find({owner: req.params.userID}).exec()
+// GET all notes written by current user
+// /api/note/user/
+router.get('/user', function(req, res, next) {
+  Note.find({owner: req.user._id}).exec()
     .then(function(notes) {
       res.status(200).json(notes);
       next();
     }, function(err) {
-      throw new Error("User not found");
+      throw new Error(err);
     })
     .then(null, next);
 });
 
-// GET one
-router.get('/:noteID', function(req, res, next) {
-  res.send(req.note);
+// GET specific note
+router.get('/:id', function(req, res, next) {
+  res.send(req.note)
+  .then(null, next);
 });
 
-// POST one
-router.post('/', function(req, res, next) {
+// POST new note to a page
+// router.post('/', function(req, res, next) {
+  // req.body to send current tab's URL as req.body.url
+  // look up current page by url
+  // Page.find({url: req.body.url})
+  // .then(function(page) {
+    // If page does not exist, create new page entry in database
+    // if(!page) {
+      // Page.create({url: req.body.url})
+      //   .then(function(page) {
+      //     Note.create({
+      //       owner: req.user._id,
+      //       page: page,
+      //     })
+      //     .then(function(note) {
+
+      //       res.status(201).json(note);
+      //     })
+      //   })
+        // If page exists,
+    // }
+  // })
+  // .then(null, next);
+// });
+
+
+
   Note.create(req.body)
     .then(function(note) {
         res.status(201).json(note);
     })
     .then(null, next);
+
+
+// PUT update note
+// TODO: only owner can edit note
+router.put('/:id', function(req, res, next) {
+  _.extend(req.note, req.body);
+  req.note.save()
+    .then(function(note) {
+      res.status(200).json(note);
+    })
+    .then(null, next);
 });
 
-// PUT one
-
-
-
-// DELETE one
-
-
+// DELETE specific note
+// TODO: only owner can delete note
+router.delete('/:id', function(req, res, next) {
+  req.note.remove()
+    .then(function() {
+      res.sendStatus(204);
+    })
+    .then(null, next);
+});
 
