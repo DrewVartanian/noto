@@ -42,7 +42,7 @@ router.post('/', function(req, res, next) {
     .then(null, next);
 });
 
-// PUT update team
+// PUT update team (name, users)
 router.put('/:id', function(req, res, next) {
   _.extend(req.team, req.body);
   req.team.save()

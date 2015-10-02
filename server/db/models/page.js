@@ -11,10 +11,10 @@ var schema = new mongoose.Schema({
   //   ref: 'Team',
   //   required: true
   // },
-  // notes: [{
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Notes'
-  // }],
+  notes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Notes'
+  }],
   pub: Boolean //?
 });
 
