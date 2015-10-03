@@ -3,13 +3,13 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
     owner: {
-      type: mongoose.Schema.Type.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     },
     message: String,
     color: {
       type: String,
-      defualt: '#FFFF00'
+      default: '#FFFF00'
     },
     position: {
         x: {

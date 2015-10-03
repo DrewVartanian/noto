@@ -7,12 +7,12 @@ var schema = new mongoose.Schema({
         required: true
     },
     team: {
-      type: mongoose.Schema.Type.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Team',
       required: true
     },
     notes: [{
-      type: mongoose.Schema.Type.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Notes'
     }],
     pub: Boolean

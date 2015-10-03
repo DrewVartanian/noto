@@ -8,7 +8,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('WebnoteCtrl', function ($scope, AuthService, $state) {
+app.controller('WebnoteCtrl', function ($scope, AuthService, $state, ExtensionFactory) {
 
     // $scope.login = {};
     // $scope.error = null;
@@ -17,7 +17,16 @@ app.controller('WebnoteCtrl', function ($scope, AuthService, $state) {
 
     AuthService.getLoggedInUser().then(function(user){
         $scope.user = user;
-    })
+        return user;
+    }).then(function (user){
+        console.log(user);
+        ExtensionFactory.getPages(user).then(function(pages){
+            console.log(pages);
+            $scope.pages = pages;
+        })
+
+    });
+
 
     // $scope.sendLogin = function (loginInfo) {
 

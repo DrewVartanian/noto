@@ -2,6 +2,11 @@
 var router = require('express').Router();
 module.exports = router;
 var _ = require('lodash');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
+var Page = mongoose.model('Page');
+var Team = mongoose.model('Team');
+var Note = mongoose.model('Note');
 
 var ensureAuthenticated = function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -28,5 +33,21 @@ router.get('/secret-stash', ensureAuthenticated, function (req, res) {
     ];
 
     res.send(_.shuffle(theStash));
+
+});
+
+router.get('/:memberId', function (req, res){
+
+    var userId = req.params.memberId;
+
+    Team.find({users: userId}).exec().then(function(teams){
+        // res.status(200).json(teams);
+        //return teams;
+        Page.find({team: {$in: teams}}).exec().then(function(pages){
+            res.status(200).json(pages);
+        })
+    });
+
+
 
 });
