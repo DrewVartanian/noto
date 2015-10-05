@@ -65,10 +65,11 @@ describe('Team Router', function() {
 
   describe('GET /:id/users', function() {
     it('should get all users in a team', function(done) {
+      console.log("what is team", team);
       loggedInAgent.get('/api/team/' + team._id + '/users')
       .expect(200).end(function(err, response) {
         if (err) return done(err);
-        expect(response.body).to.have.length(2);
+        expect(response.body.users).to.have.length(2);
         done();
       });
     });
@@ -80,10 +81,11 @@ describe('Team Router', function() {
         name: "new team"
       };
 
-      loggedInAgent.post('/api/team/', newTeam)
+      loggedInAgent.post('/api/team/').send(newTeam)
       .expect(201)
       .end(function(err, response) {
         if (err) return done(err);
+        console.log("response for post a new team", response.body);
         expect(response.body.name).to.equal("new team");
         done();
       });
@@ -92,7 +94,7 @@ describe('Team Router', function() {
 
   describe('PUT /:id', function() {
     it('should update a team', function(done) {
-      loggedInAgent.put('/api/team/' + team._id, {name: "updated name"})
+      loggedInAgent.put('/api/team/' + team._id).send({name: "updated name"})
       .expect(200)
       .end(function(err, response) {
         if (err) return done(err);
