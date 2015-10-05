@@ -100,6 +100,20 @@
             });
         };
 
+        this.signup = function (credentials) {
+            console.log("hit signup!", credentials)
+            return $http.post('http://127.0.0.1:1337/signup', credentials).then( function (response) {
+                return response.data;
+            });
+        };
+
+        this.google = function () {
+            return $http.get('http://127.0.0.1:1337/auth/google').then(function (response) {
+                return response.data;
+            });
+        };
+
+
     });
 
     app.service('Session', function ($rootScope, AUTH_EVENTS) {

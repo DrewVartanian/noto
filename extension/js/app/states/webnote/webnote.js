@@ -8,14 +8,15 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('WebnoteCtrl', function ($scope, AuthService, $state, ExtensionFactory) {
+
+app.controller('WebnoteCtrl', function ($scope, BackgroundFactory, $state, ExtensionFactory) {
 
     // $scope.login = {};
     // $scope.error = null;
 
     
 
-    AuthService.getLoggedInUser().then(function(user){
+    BackgroundFactory.checkLoggedIn().then(function(user){
         $scope.user = user;
         return user;
     }).then(function (user){
@@ -23,10 +24,9 @@ app.controller('WebnoteCtrl', function ($scope, AuthService, $state, ExtensionFa
         ExtensionFactory.getPages(user).then(function(pages){
             console.log(pages);
             $scope.pages = pages;
-        })
+        });
 
     });
-
 
     // $scope.sendLogin = function (loginInfo) {
 
