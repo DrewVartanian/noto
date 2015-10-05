@@ -43,7 +43,7 @@ router.get('/:id', function(req, res, next) {
 // POST new note to a page
 router.post('/', function(req, res, next) {
   var newNote = {
-    owner: '56129acb5fc3ffc54d05e1fe',
+    owner: req.user._id,
     message: req.body.message,
     // req.body to send current tab's URL as req.body.url
     url: req.body.url,
