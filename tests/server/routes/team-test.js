@@ -40,20 +40,14 @@ describe('Products Route', function () {
       name: 'powerRanger',
     }
 
-    var pageInfo = {
-        url: 'http://webnote.com',
-    };
 
-    var page;
+    var team;
     beforeEach('Create a page', function (done) {
       User.create([userOne, userTwo]).then(function(users){
         teamInfo.users = users;
-        Team.create({teamInfo}).then(function(team){
-          pageinfo.team = team;
-          Page.create(function(pageCreated){
-              page = pageCreated;
-              done();
-          })
+        Team.create({teamInfo}).then(function(createdTeam){
+            team = createdTeam;
+            done();
         }).then(null, done);
       })
     });
@@ -64,26 +58,39 @@ describe('Products Route', function () {
       guestAgent = supertest.agent(app);
     });
 
-    it('should return all the pages', function (done) {
-      guestAgent.get('/api/page/').expect(200).end(function (err, response) {
+    it('should GET all users in a team', function (done) {
+      guestAgent.get('/api/team/' + team._id + 'users').expect(200).end(function (err, response) {
         if (err) return done(err);
-        expect(response.body.length).to.equal(1);
+        expect(response.body.name).to.equal("powerRanger");
         done();
       });
     });
 
-    it('should get all the pages belong to the user', function (done) {
-      guestAgent.get('/api/page/user').expect(200).end(function (err, response) {
+    it('should post a new team', function (done) {
+      var newTeam = {
+        name: "new team"
+      }
+
+      guestAgent.post('/api/team/', newTeam).expect(201).end(function (err, response) {
         if (err) return done(err);
-        expect(response.body._id).to.equal(page._id.toString());
+        expect(response.body.name).to.equal("new team");
         done();
       });
     });
 
-     it('should get one page belong to the current user', function (done) {
-      guestAgent.get('/api/page/user/' + 'http://webnote.com').expect(200).end(function (err, response) {
+     it('PUT update team (name, users)', function (done) {
+      team.name = "modified team";
+      guestAgent.put('/api/team/' + team._id, team).expect(200).end(function (err, response) {
         if (err) return done(err);
-        expect(response.body._id).to.equal(page._id.toString());
+        expect(response.body.name).to.equal("modified team");
+        done();
+      });
+    });
+
+     it('DELETE specific team', function (done) {
+      guestAgent.delete('/api/team/' + team._id).expect(204).end(function (err, response) {
+        if (err) return done(err);
+        // expect(response.body.name).to.equal("modified team");
         done();
       });
     });
