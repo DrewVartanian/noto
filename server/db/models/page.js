@@ -6,16 +6,16 @@ var schema = new mongoose.Schema({
     type: String,
     required: true
   },
-  // team: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Team',
-  //   required: true
-  // },
+  team: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team',
+    required: true
+  },
   notes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Notes'
   }],
-  pub: Boolean //?
+  public: Boolean //?
 });
 
 mongoose.model('Page', schema);

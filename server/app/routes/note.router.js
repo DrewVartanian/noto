@@ -42,7 +42,6 @@ router.get('/:id', function(req, res, next) {
 
 // POST new note to a page
 router.post('/', function(req, res, next) {
-<<<<<<< HEAD
   // req.body to send current tab's URL as req.body.url
   // look up current page by url
   Page.find({url: req.body.url})
@@ -54,8 +53,7 @@ router.post('/', function(req, res, next) {
           var newPage = page;
           // create note
           Note.create({
-            owner: req.user._id,
-            page: page,
+            owner: req.user._id
           })
           .then(function(note) {
             // add req.body properties to new note
@@ -64,6 +62,7 @@ router.post('/', function(req, res, next) {
             .then(function(note) {
               // add note to new page's notes array
               newPage.notes.push(note);
+              newPage.save();
               res.status(201).json(note);
             });
           });
@@ -85,6 +84,7 @@ router.post('/', function(req, res, next) {
         note.save()
         .then(function(note) {
           currentPage.notes.push(note);
+          currentPage.save();
           res.status(201).json(note);
         });
       });

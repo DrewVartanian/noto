@@ -10,14 +10,6 @@ var schema = new mongoose.Schema({
     type: String,
     required: true
   },
-  // page: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Page'
-  // },
-  team: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Team'
-  }],
   color: {
     type: String,
     default: '#FFFF00'
