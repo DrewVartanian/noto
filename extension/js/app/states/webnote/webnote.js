@@ -14,12 +14,18 @@ app.controller('WebnoteCtrl', function ($scope, BackgroundFactory, $state, Exten
     // $scope.login = {};
     // $scope.error = null;
 
-    
+    $scope.logout = function () {
+        BackgroundFactory.logOutUser().then(function() {
+            $scope.user = '';
+            $state.go('login');
+        });
+        console.log("LOGGED ME OUT!");
+    };
 
     BackgroundFactory.checkLoggedIn().then(function(user){
         $scope.user = user;
         return user;
-    })
+    });
 
     // $scope.sendLogin = function (loginInfo) {
 

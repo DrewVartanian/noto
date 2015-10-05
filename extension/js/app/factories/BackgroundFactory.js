@@ -66,22 +66,12 @@ app.factory('BackgroundFactory', function ($http, $q) {
         logOutUser: function() {
             return $http(composeRequest('GET', '/logout'))
             .then(function (response) {
-
-                chrome.browserAction.setIcon({path: "/red128.png"});
                 chrome.tabs.query({title: 'WebNotes'}, function (tabs) {
                     if (tabs) {
                         tabs.forEach(function(tab) {
                             chrome.tabs.reload(tab.id)
                         });
                     };
-                });
-
-                chrome.tabs.query({url: '*://mail.google.com/*'}, function (tabs) {
-                    if (tabs) {
-                        tabs.forEach(function(tab) {
-                            chrome.tabs.reload(tab.id)
-                        });
-                    }
                 });
                 
                 currentUser.setLogOutUser();
