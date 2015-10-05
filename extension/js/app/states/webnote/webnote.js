@@ -16,7 +16,7 @@ app.controller('WebnoteCtrl', function ($scope, BackgroundFactory, $state, Exten
 
     
 
-    BackgroundFactory.getLoggedInUser().then(function(user){
+    BackgroundFactory.checkLoggedIn().then(function(user){
         $scope.user = user;
         return user;
     }).then(function (user){
