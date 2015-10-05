@@ -8,7 +8,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('loginController', function ($rootScope, $scope, BackgroundFactory, $state, $window, $location, $log) {
+app.controller('loginController', function ($rootScope, $scope, BackgroundFactory, $state, $window, $location, $log, AuthService) {
     $scope.login = {};
     $scope.loggedInUser = {};
     $scope.alerts = [];
@@ -43,6 +43,7 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
         $scope.error = null;
 
         BackgroundFactory.logInUser(loginInfo)
+        .then(AuthService.onSuccessfulLogin)
         .then(function (userInfo) {
             $rootScope.isLoggedIn = true;
             $state.go('webnote');
