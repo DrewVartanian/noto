@@ -1,4 +1,6 @@
 var toggle = false;
+var pages;
+getPages();
 chrome.browserAction.onClicked.addListener(function(tab) {
   toggle = !toggle;
   if(toggle){
@@ -34,4 +36,12 @@ function onClickHandler(info, tab) {
   // var sText = info.selectionText;
   // var url = "https://www.google.com/search?q=" + encodeURIComponent(sText);
   // window.open(url, '_blank');
+}
+
+
+function getPages(){
+  Promise.resolve($.get('http://localhost:1337/api/page')).then(function(mongoPages){
+    console.log('pages received',mongoPages);
+    mongoPages=pages;
+  });
 }

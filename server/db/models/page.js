@@ -13,7 +13,7 @@ var schema = new mongoose.Schema({
     },
     notes: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Notes'
+      ref: 'Note'
     }],
     pub: Boolean
 });

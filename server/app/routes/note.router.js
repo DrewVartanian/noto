@@ -6,7 +6,7 @@ module.exports = router;
 
 var Note = mongoose.model('Note');
 var Page = mongoose.model('Page');
-var team = mongoose.model('Team');
+var Team = mongoose.model('Team');
 var User = mongoose.model('User');
 
 
