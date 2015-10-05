@@ -22,7 +22,7 @@ router.param('id', function(req, res, next, id) {
 });
 
 // GET all notes written by current user
-// /api/note/user/
+// /api/note/user
 router.get('/user', function(req, res, next) {
   Note.find({owner: req.user._id}).exec()
     .then(function(notes) {
@@ -36,46 +36,54 @@ router.get('/user', function(req, res, next) {
 
 // GET specific note
 router.get('/:id', function(req, res, next) {
-  console.log("what is the note id???", req.note);
   res.status(200).json(req.note)
   .then(null, next);
 });
 
 // POST new note to a page
 router.post('/', function(req, res, next) {
-  var newNote = {owner: '56129acb5fc3ffc54d05e1fe',
-                url: req.body.url,
-                position:{
-                  x: req.body.x,
-                  y: req.body.y
-                }
-              };
-  // res.sendStatus(200);
-  // req.body to send current tab's URL as req.body.url
-  // look up current page by url
+  var newNote = {
+    owner: '56129acb5fc3ffc54d05e1fe',
+    message: req.body.message,
+    // req.body to send current tab's URL as req.body.url
+    url: req.body.url,
+    position: {
+      x: req.body.x,
+      y: req.body.y
+    },
+    association: req.body.association,
+    action: req.body.action
+  };
+
   var currentPage;
   var retNote;
 
+  // look up current page by url
+  // error note: multiple pages can have same URL
   Page.findOne({url: req.body.url})
   .then(function(page) {
     // If page does not exist, create new page entry in database
     return page?page:Page.create({url: req.body.url,team:'56129acb5fc3ffc54d05e202'});
-    }).then(function(page) {
-      currentPage=page;
-      return Note.create(newNote);
-    }).then(function(note){
-      retNote=note;
-      currentPage.notes.push(note._id);
-      return currentPage.save();
-    }).then(function(page){
-      console.log('retNote: ',retNote);
-      res.json(retNote);
-    }).then(null,next);
+    })
+  .then(function(page) {
+    currentPage = page;
+    return Note.create(newNote);
+  })
+  .then(function(note){
+    retNote = note;
+    currentPage.notes.push(note._id);
+    return currentPage.save();
+  })
+  .then(function(page){
+    console.log('new posted note: ', retNote);
+    res.json(retNote);
+  })
+  .then(null,next);
+
   //         var newPage = page;
   //         // create note
   //         Note.create({
   //           owner: req.user._id,
-  //           page: page,
   //         })
   //         .then(function(note) {
   //           // add req.body properties to new note
@@ -97,7 +105,6 @@ router.post('/', function(req, res, next) {
   //     // create note
   //     Note.create({
   //       owner: req.user._id,
-  //       page: page
   //     })
   //     // add req.body properties to new note
   //     .then(function(note) {
@@ -110,8 +117,7 @@ router.post('/', function(req, res, next) {
   //     });
   //   }
   //   // END else
-  // })
-  // .then(null, next);
+
 });
 
 
