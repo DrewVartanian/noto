@@ -16,6 +16,7 @@
     "contextMenus",
     "activeTab",
     "background",
+    "cookies",
     "*://*/*"
   ],
   "content_scripts": [{
