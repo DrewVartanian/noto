@@ -42,55 +42,58 @@ router.get('/:id', function(req, res, next) {
 
 // POST new note to a page
 router.post('/', function(req, res, next) {
+  console.log(req.body);
+  res.sendStatus(200);
   // req.body to send current tab's URL as req.body.url
   // look up current page by url
-  Page.find({url: req.body.url})
-  .then(function(page) {
-    // If page does not exist, create new page entry in database
-    if(!page) {
-      Page.create({url: req.body.url})
-        .then(function(page) {
-          var newPage = page;
-          // create note
-          Note.create({
-            owner: req.user._id,
-            page: page,
-          })
-          .then(function(note) {
-            // add req.body properties to new note
-            _.extend(note, req.body);
-            note.save()
-            .then(function(note) {
-              // add note to new page's notes array
-              newPage.notes.push(note);
-              res.status(201).json(note);
-            });
-          });
-        });
-    }
-    // END if
 
-    // If page exists, add note to page's notes array
-    else {
-      var currentPage = page;
-      // create note
-      Note.create({
-        owner: req.user._id,
-        page: page
-      })
-      // add req.body properties to new note
-      .then(function(note) {
-        _.extend(note, req.body);
-        note.save()
-        .then(function(note) {
-          currentPage.notes.push(note);
-          res.status(201).json(note);
-        });
-      });
-    }
-    // END else
-  })
-  .then(null, next);
+  // Page.find({url: req.body.url})
+  // .then(function(page) {
+  //   // If page does not exist, create new page entry in database
+  //   if(!page) {
+  //     Page.create({url: req.body.url})
+  //       .then(function(page) {
+  //         var newPage = page;
+  //         // create note
+  //         Note.create({
+  //           owner: req.user._id,
+  //           page: page,
+  //         })
+  //         .then(function(note) {
+  //           // add req.body properties to new note
+  //           _.extend(note, req.body);
+  //           note.save()
+  //           .then(function(note) {
+  //             // add note to new page's notes array
+  //             newPage.notes.push(note);
+  //             res.status(201).json(note);
+  //           });
+  //         });
+  //       });
+  //   }
+  //   // END if
+
+  //   // If page exists, add note to page's notes array
+  //   else {
+  //     var currentPage = page;
+  //     // create note
+  //     Note.create({
+  //       owner: req.user._id,
+  //       page: page
+  //     })
+  //     // add req.body properties to new note
+  //     .then(function(note) {
+  //       _.extend(note, req.body);
+  //       note.save()
+  //       .then(function(note) {
+  //         currentPage.notes.push(note);
+  //         res.status(201).json(note);
+  //       });
+  //     });
+  //   }
+  //   // END else
+  // })
+  // .then(null, next);
 });
 
 
