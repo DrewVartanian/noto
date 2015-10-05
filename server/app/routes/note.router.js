@@ -42,7 +42,6 @@ router.get('/:id', function(req, res, next) {
 
 // POST new note to a page
 router.post('/', function(req, res, next) {
-<<<<<<< HEAD
   // req.body to send current tab's URL as req.body.url
   // look up current page by url
   Page.find({url: req.body.url})
