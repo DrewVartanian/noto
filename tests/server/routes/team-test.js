@@ -23,7 +23,11 @@ describe('Products Route', function () {
     clearDB(done);
   });
 
-  describe('Unauthenticated request', function () {
+  describe('Authenticated request', function () {
+    var userInfo = {
+      email: "obama@gmail.com",
+      password: "potus"
+    }
 
     var userOne = {
       email: "karen@gmail.com",
@@ -42,6 +46,13 @@ describe('Products Route', function () {
 
 
     var team;
+
+    var loggedInAgent;
+     beforeEach('Create loggedIn user agent and authenticate', function(done) {
+            loggedInAgent = supertest.agent(app);
+            loggedInAgent.post('/login').send(userInfo).end(done);
+        });
+
     beforeEach('Create a page', function (done) {
       User.create([userOne, userTwo]).then(function(users){
         teamInfo.users = users;
@@ -52,14 +63,14 @@ describe('Products Route', function () {
       })
     });
 
-    var guestAgent;
+    
 
     beforeEach('Create guest agent', function () {
-      guestAgent = supertest.agent(app);
+      loggedInAgent = supertest.agent(app);
     });
 
     it('should GET all users in a team', function (done) {
-      guestAgent.get('/api/team/' + team._id + 'users').expect(200).end(function (err, response) {
+      loggedInAgent.get('/api/team/' + team._id + 'users').expect(200).end(function (err, response) {
         if (err) return done(err);
         expect(response.body.name).to.equal("powerRanger");
         done();
@@ -71,7 +82,7 @@ describe('Products Route', function () {
         name: "new team"
       }
 
-      guestAgent.post('/api/team/', newTeam).expect(201).end(function (err, response) {
+      loggedInAgent.post('/api/team/', newTeam).expect(201).end(function (err, response) {
         if (err) return done(err);
         expect(response.body.name).to.equal("new team");
         done();
@@ -80,7 +91,7 @@ describe('Products Route', function () {
 
      it('PUT update team (name, users)', function (done) {
       team.name = "modified team";
-      guestAgent.put('/api/team/' + team._id, team).expect(200).end(function (err, response) {
+      loggedInAgent.put('/api/team/' + team._id, team).expect(200).end(function (err, response) {
         if (err) return done(err);
         expect(response.body.name).to.equal("modified team");
         done();
@@ -88,7 +99,7 @@ describe('Products Route', function () {
     });
 
      it('DELETE specific team', function (done) {
-      guestAgent.delete('/api/team/' + team._id).expect(204).end(function (err, response) {
+      loggedInAgent.delete('/api/team/' + team._id).expect(204).end(function (err, response) {
         if (err) return done(err);
         // expect(response.body.name).to.equal("modified team");
         done();

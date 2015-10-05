@@ -74,14 +74,15 @@ describe('Notes Route', function () {
             it('should get notes', function(done) {
                 loggedInAgent.get('/api/note/' + noteObj._id).expect(200).end(function(err, response) {
                     if (err) return done(err);
-                    expect(response.body[0]._id).to.equal(noteObj._id.toString());
+                    expect(response.body._id).to.equal(noteObj._id.toString());
                     done();
                 });
             });
 
-            it('should get all notes', function(done) {
-                loggedInAgent.get('/api/note').expect(200).end(function(err, response) {
+            it('should get all notes by current user', function(done) {
+                loggedInAgent.get('/api/note/user').expect(200).end(function(err, response) {
                     if (err) return done(err);
+                    console.log("what is user notes body??", response.body);
                     expect(response.body.length).to.equal(2);
                     done();
                 });
@@ -96,7 +97,7 @@ describe('Notes Route', function () {
 					action: "click"
             	};
 
-                loggedInAgent.post('/api/note').expect(200).end(function(err, response) {
+                loggedInAgent.post('/api/note/').expect(200).end(function(err, response) {
                     if (err) return done(err);
                     expect(response.body[0].message).to.equal("This is a testing note 3");
                     done();

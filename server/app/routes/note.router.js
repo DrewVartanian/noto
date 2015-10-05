@@ -36,7 +36,8 @@ router.get('/user', function(req, res, next) {
 
 // GET specific note
 router.get('/:id', function(req, res, next) {
-  res.send(req.note)
+  console.log("what is the note id???", req.note);
+  res.status(200).json(req.note)
   .then(null, next);
 });
 
