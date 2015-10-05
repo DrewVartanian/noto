@@ -22,7 +22,7 @@ router.param('id', function(req, res, next, id) {
 });
 
 // GET all notes written by current user
-// /api/note/user/
+// /api/note/user
 router.get('/user', function(req, res, next) {
   Note.find({owner: req.user._id}).exec()
     .then(function(notes) {
