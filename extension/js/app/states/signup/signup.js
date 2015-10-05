@@ -8,7 +8,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('signupCtrl', function ($scope, AuthService, $state) {
+app.controller('signupCtrl', function ($scope, BackgroundFactory, $state) {
 
 function validateEmail(email) {
     var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -26,7 +26,7 @@ function validateEmail(email) {
         }
         $scope.error = null;
 
-        AuthService.signup(signupInfo).then(AuthService.login(signupInfo)).then(function () {
+        BackgroundFactory.registerUser(signupInfo).then(BackgroundFactory.logInUser(signupInfo)).then(function () {
             $state.go('webnote');
         }).catch(function () {
             $scope.error = 'Invalid signup credentials.';

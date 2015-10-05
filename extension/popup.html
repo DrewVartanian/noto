@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
     <link rel="stylesheet" href="/css/material.min.css">
     <link rel="stylesheet" href="/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/css/styles.css" />
@@ -14,6 +14,8 @@
     <script src="/js/app/states/login/login.js"></script>
     <script src="/js/app/states/signup/signup.js"></script>
     <script src="/js/app/states/webnote/webnote.js"></script>
+    <script src="/js/app/factories/BackgroundFactory.js"></script>
+    <script src="/js/app/directives/navbar/navbar.js"></script>
 
 
 <!-- 
@@ -24,8 +26,8 @@
 <body ng-app="WebNotes">
 	<button ui-sref="login">Login</button>
     <h5>Don't have an account?</h5> <button ui-sref='signup'>Sign up here!</button>
- 	<div id="main" ui-view></div>
-
+        <nav-bar></nav-bar>
+        <div data-ui-view></div>
 </body>
 
 </html>

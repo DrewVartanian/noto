@@ -20,6 +20,8 @@
     },
   "permissions": ["tabs",
   "contextMenus",
+  "activeTab",
+   "background",
   "*://*/*"
   ],
   "background": {
@@ -29,8 +31,11 @@
  "content_scripts": [{
     "js": ["/content/content.js"],
     "matches": [ "*://*/*"]
-  }]
+  }],
 
+  "web_accessible_resources": [
+    "/js/dependencies/externalMain.js"
+  ]
 }
 
 

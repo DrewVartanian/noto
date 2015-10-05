@@ -8,16 +8,16 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('WebnoteCtrl', function ($scope, AuthService, $state) {
+app.controller('WebnoteCtrl', function ($scope, BackgroundFactory, $state) {
 
     // $scope.login = {};
     // $scope.error = null;
 
     
 
-    AuthService.getLoggedInUser().then(function(user){
-        $scope.user = user;
-    })
+    // BackgroundFactory.getLoggedInUser().then(function(user){
+    //     $scope.user = user;
+    // })
 
     // $scope.sendLogin = function (loginInfo) {
 
