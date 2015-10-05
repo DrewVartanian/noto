@@ -2,25 +2,37 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/css/material.min.css">
-  <link rel="stylesheet" type="text/css" href="/css/style.css" />
-  <script src="/js/dependencies/angular.min.js"></script>
-  <script src="/js/dependencies/angular-ui-router.min.js"></script>
-  <script src="/js/dependencies/jquery-1.11.3.min.js"></script>
-  <script src="/js/dependencies/lodash.js"></script>
-  <script src="/js/dependencies/ui-bootstrap.min.js"></script>
-  <script src="/js/app/app.js"></script>
-  <script src="/js/fsa/fsa-pre-built.js"></script>
-  <script src="/js/app/states/login/login.js"></script>
-  <script src="/js/app/states/webnote/webnote.js"></script>
-  <script src="/js/app/factories/extension.factory.js"></script>
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <script src="/js/dependencies/angular.min.js"></script>
+    <script src="/js/dependencies/angular-ui-router.min.js"></script>
+    <script src="/js/dependencies/jquery-1.11.3.min.js"></script>
+    <script src="/js/dependencies/ui-bootstrap.min.js"></script>
+    <script src="/js/app/app.js"></script>
+    <script src="/js/fsa/fsa-pre-built.js"></script>
+    <script src="/js/app/states/login/login.js"></script>
+    <script src="/js/app/states/signup/signup.js"></script>
+    <script src="/js/app/states/webnote/webnote.js"></script>
+    <script src="/js/app/factories/BackgroundFactory.js"></script>
+    <script src="/js/app/factories/extension.factory.js"></script>
+    <script src="/js/app/directives/navbar/navbar.js"></script>
+
+
+<!-- 
+    <script src="/js/scripts/app/main.js"></script>
+     -->
 </head>
 
 <body ng-app="WebNotes">
-  <button ui-sref="login">Login</button>
-  <div id="main" ui-view></div>
+	<button ui-sref="login">Login</button>
+    <h5>Don't have an account?</h5> <button ui-sref='signup'>Sign up here!</button>
+        <nav-bar></nav-bar>
+        <div data-ui-view></div>
 </body>
 
 </html>
+
+
+<!-- 

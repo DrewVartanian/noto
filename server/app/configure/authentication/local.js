@@ -54,4 +54,18 @@ module.exports = function (app) {
 
     });
 
+     app.post('/signup', function (req, res, next) {
+        console.log("new user signup!");
+        delete req.body.isAdmin;
+        delete req.body.emailvalid;
+        User.findOne({email: req.body.email}).then(function(user){
+            if(user) res.status(500).send("User Already Exists!")
+            else 
+        User.create(req.body)
+        .then(function (user) {
+            res.json(user);
+        })
+    .then(null, next);
+    });
+        })
 };
