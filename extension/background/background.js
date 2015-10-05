@@ -28,7 +28,8 @@ function onClickHandler(info, tab) {
   chrome.tabs.sendRequest(tab.id, "getClickedEl", function(clickedEl) {
         Promise.resolve($.post('http://127.0.0.1:1337/api/note',clickedEl)).then(function(res){
           console.log('response: ',res);
-          console.log('response data: ',res.data);
+          //console.log('response data: ',res.data);
+          
         }).then(null,function(){});
         // console.dir(clickedEl);
     });
