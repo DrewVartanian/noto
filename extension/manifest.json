@@ -16,10 +16,11 @@
     "contextMenus",
     "activeTab",
     "background",
+    "cookies",
     "*://*/*"
   ],
   "content_scripts": [{
-    "js": ["/content/content.js"],
+    "js": ["/js/dependencies/jquery-1.11.3.min.js", "/content/content.js"],
     "matches": [ "*://*/*"]
   }],
   "browser_action": {
