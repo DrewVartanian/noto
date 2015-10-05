@@ -10,20 +10,59 @@ var Team = mongoose.model('Team');
 var User = mongoose.model('User');
 
 
-// GET all pages for current user (user's teams)
-// /api/page/user
-router.get('/user', function(req, res, next) {
-  // find all teams of user
 
-  // find all notes of teams
-
-  // find all pages of notes
+// GET all pages populated with notes
+router.get('/', function(req, res, next) {
+  Page.find()
+  .populate('notes')
+  .then(function(pages) {
+    res.json(pages);
+  })
+  .then(null, next);
 });
 
-// page populate notes
-// note populate team
-// team populate user
+
+// GET all pages for current user
+// /api/page/user
+router.get('/user', function(req, res, next) {
+  Page.find()
+  .then(function(pages) {
+    var pagesOfUser = [];
+    pages.forEach(function(page) {
+      if (page.team.indexOf(req.user._id) > -1) {
+        pagesOfUser.push(page);
+      }
+    });
+    return pagesOfUser;
+  })
+  // check syntax / populate placement is valid
+  .populate('notes team')
+  .then(function(pagesOfUser) {
+    res.json(pagesOfUser);
+  })
+  .then(null, next);
+});
 
 
-// GET all notes for a page+team combination
+// GET all notes on a specific page for current user
+// /api/page/user/:pageID
+router.get('/user/:pageURL', function(req, res, next) {
+  Page.find({url: req.params.pageURL})
+  .then(function(pages) {
+    var pagesOfUser = [];
+    pages.forEach(function(page) {
+      if (page.team.indexOf(req.user._id) > -1) {
+        pagesOfUser.push(page);
+      }
+    });
+    return pagesOfUser;
+  })
+  .populate('notes team')
+  .then(function(pagesOfUser) {
+    res.json(pagesOfUser);
+  })
+  .then(null, next);
+});
+
+
 
