@@ -1,85 +1,28 @@
-<html>
-
-<head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="/css/material.min.css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
-    <script src="/js/dependencies/angular.min.js"></script>
-    <script src="/js/dependencies/angular-ui-router.min.js"></script>
-    <script src="/js/dependencies/jquery-1.11.3.min.js"></script>
-    <script src="/js/dependencies/ui-bootstrap.min.js"></script>
-    <script src="/js/app/app.js"></script>
-    <script src="/js/fsa/fsa-pre-built.js"></script>
-    <script src="/js/app/states/login/login.js"></script>
-    <script src="/js/app/states/webnote/webnote.js"></script>
-
-
-<!-- 
-    <script src="/js/scripts/app/main.js"></script>
-     -->
-</head>
-
-<body ng-app="WebNotes">
-	<button ui-sref="login">Login</button>
-
- 	<div id="main" ui-view></div>
-
-</body>
-
-</html>
-
-
-<!-- 
-
-
+<!--
+chrome-extension://kboidggccmbcebbephcibbnaffkngaac/
+-->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Emails</title>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="/css/material.min.css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
-    <script src="/js/dependencies/angular.min.js"></script>
-    <script src="/js/dependencies/angular-ui-router.min.js"></script>
-    <script src="/js/dependencies/jquery-1.11.3.min.js"></script>
-    <script src="/js/dependencies/ui-bootstrap.min.js"></script>
-    <script src="/js/scripts/app/main.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/material.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <script src="/js/dependencies/angular.min.js"></script>
+  <script src="/js/dependencies/angular-ui-router.min.js"></script>
+  <script src="/js/dependencies/jquery-1.11.3.min.js"></script>
+  <script src="/js/dependencies/lodash.js"></script>
+  <script src="/js/dependencies/ui-bootstrap.min.js"></script>
+  <script src="/js/app/app.js"></script>
+  <script src="/js/fsa/fsa-pre-built.js"></script>
+  <script src="/js/app/states/login/login.js"></script>
+  <script src="/js/app/states/webnote/webnote.js"></script>
 </head>
 
-<body ng-app="GmailApp" ng-controller="mainController">
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <header class="mdl-layout__header">
-            <div class="mdl-layout__header-row">
-                <span class="mdl-layout-title">
-		        <img id = "hImage" class="android-logo-image" style = "width: 100px" src="{{src}}">
-		        WeMail
-		      </span>
-            </div>
-        </header>
-        <main class="mdl-layout__content">
-            <div class="android-content mdl-layout__content" ui-view>
-                <a name="top"></a>
-                <div class="android-be-together-section mdl-typography--text-center">
-                    <div class="android-font android-slogan">welcome to WeMail</div>
-                    <div class="android-font android-sub-slogan">read and share emails with the world</div>
-                    <button class="mdl-button mdl-js-button mdl-button--accent md-48 spaceButton" ng-if="activated" ng-click="deactivate()">
-                        <h4 style="color:red">Turn Off</h4>
-                        <i class="material-icons md-48 red">power_settings_new</i>
-                    </button>
-                    <button class="mdl-button mdl-js-button mdl-button--accent spaceButton" ng-if="!activated" ng-click="activate()">
-                        <h4>Turn On</h4>
-                        <i class="material-icons md-48">power_settings_new</i>
-                    </button>
-                </div>
-            </div>
-        </main>
-    </div>
+<body ng-app="WebNotes">
+  <button ui-sref="login">Login</button>
+  <div id="main" ui-view></div>
 </body>
 
-</html> 
-
--->
+</html>

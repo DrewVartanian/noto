@@ -1,4 +1,4 @@
-console.log("content");
+console.log("extension/content/content.js");
 var clickedEl = null;
 var offset = {};
 

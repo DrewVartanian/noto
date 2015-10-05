@@ -10,7 +10,9 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     chrome.tabs.executeScript(tab.id, {code:"alert()"});
   }
 });
+
 console.log('background js');
+// Create rightclick context menu "Add New Note" option
 chrome.runtime.onInstalled.addListener(function() {
   var context = "selection";
   var title = "Add New Note";
