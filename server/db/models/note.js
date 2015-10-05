@@ -8,16 +8,16 @@ var schema = new mongoose.Schema({
   },
   message: {
     type: String,
-    required: true
+    default: ''
   },
   // page: {
   //   type: mongoose.Schema.Types.ObjectId,
   //   ref: 'Page'
   // },
-  team: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Team'
-  }],
+  // team: [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Team'
+  // }],
   color: {
     type: String,
     default: '#FFFF00'

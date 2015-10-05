@@ -42,17 +42,34 @@ router.get('/:id', function(req, res, next) {
 
 // POST new note to a page
 router.post('/', function(req, res, next) {
-  console.log(req.body);
-  res.sendStatus(200);
+  var newNote = {owner: '56129acb5fc3ffc54d05e1fe',
+                url: req.body.url,
+                position:{
+                  x: req.body.x,
+                  y: req.body.y
+                }
+              };
+  // res.sendStatus(200);
   // req.body to send current tab's URL as req.body.url
   // look up current page by url
+  var currentPage;
+  var retNote;
 
-  // Page.find({url: req.body.url})
-  // .then(function(page) {
-  //   // If page does not exist, create new page entry in database
-  //   if(!page) {
-  //     Page.create({url: req.body.url})
-  //       .then(function(page) {
+  Page.findOne({url: req.body.url})
+  .then(function(page) {
+    // If page does not exist, create new page entry in database
+    return page?page:Page.create({url: req.body.url,team:'56129acb5fc3ffc54d05e202'});
+    }).then(function(page) {
+      currentPage=page;
+      return Note.create(newNote);
+    }).then(function(note){
+      retNote=note;
+      currentPage.notes.push(note._id);
+      return currentPage.save();
+    }).then(function(page){
+      console.log('retNote: ',retNote);
+      res.json(retNote);
+    }).then(null,next);
   //         var newPage = page;
   //         // create note
   //         Note.create({

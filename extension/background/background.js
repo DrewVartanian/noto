@@ -26,7 +26,8 @@ chrome.contextMenus.onClicked.addListener(onClickHandler);
 function onClickHandler(info, tab) {
   chrome.tabs.sendRequest(tab.id, "getClickedEl", function(clickedEl) {
         Promise.resolve($.post('http://localhost:1337/api/note',clickedEl)).then(function(res){
-          console.log(res.data);
+          console.log('response: ',res);
+          console.log('response data: ',res.data);
         }).then(null,function(){});
         // console.dir(clickedEl);
     });
