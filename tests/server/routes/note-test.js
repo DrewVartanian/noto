@@ -1,7 +1,7 @@
 // Instantiate all models
 var mongoose = require('mongoose');
 require('../../../server/db/models');
-var User = mongoose.model('Note');
+var Note = mongoose.model('Note');
 
 var expect = require('chai').expect;
 
@@ -43,8 +43,8 @@ describe('Notes Route', function () {
 		};
 
 		var userInfo = {
-            email: 'joe@gmail.com',
-            password: 'shoopdawoop'
+            email: 'obama@gmail.com',
+            password: 'potus'
         };
 
         var noteObj;
@@ -105,4 +105,5 @@ describe('Notes Route', function () {
 
 	});
 
+});
 });
