@@ -18,15 +18,15 @@
   "background",
   "*://*/*"
   ],
+ "content_scripts": [{
+    "matches": [ "*://*/*"]
+    "js": ["/content/content.js"],
+  }],
   "browser_action": {
     "default_icon": {
       "19": "/icons/robit_sleep_19.png",
       "38": "/icons/robit_48.png"
     },
- "content_scripts": [{
-    "js": ["/content/content.js"],
-    "matches": [ "*://*/*"]
-  }],
     "default_title": "WebNotes",
     "default_popup": "popup.html"
   },
