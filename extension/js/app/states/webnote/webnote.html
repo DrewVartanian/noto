@@ -1,3 +1,9 @@
-<h1>this is the landing page!!</h1>
 {{user.email}}
+{{pages}}
 
+<ul ng-repeat="page in pages">
+	<li>Page {{page.team}}</li>
+	<ul ng-repeat="note in page.notes">
+		<li>Note {{note}}</li>
+	</ul>
+</ul>
