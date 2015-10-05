@@ -25,11 +25,20 @@ var schema = new mongoose.Schema({
   position: {
     x: Number,
     y: Number,
-    z: Number
+    z: {
+      type: Number,
+      default: 100
+    }
   },
   size: {
-    x: Number,
-    y: Number
+    x: {
+      type: Number,
+      default: 250
+    },
+    y: {
+      type: Number,
+      default: 250
+    }
   },
   // DOM element association
   association: String,
