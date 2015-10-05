@@ -45,7 +45,7 @@ router.get('/user', function(req, res, next) {
 
 
 // GET all notes on a specific page for current user
-// /api/page/user/:pageID
+// /api/page/user/:pageURL
 router.get('/user/:pageURL', function(req, res, next) {
   Page.find({url: req.params.pageURL})
   .then(function(pages) {
