@@ -28,7 +28,7 @@ router.get('/:id/users', function(req, res, next) {
   req.team
     .populate('user')
     .then(function(users) {
-      res.send(users);
+      res.status(200).json(users);
     })
     .then(null, next);
 });
