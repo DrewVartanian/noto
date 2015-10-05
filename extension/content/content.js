@@ -1,28 +1,28 @@
 console.log("extension/content/content.js");
 var clickedEl = null;
+var offset = {};
 
-document.addEventListener("mousedown", function(event) {
-  //right click
-  if (event.button == 2) {
-    clickedEl = event.target;
-  }
+document.addEventListener("mousedown", function(event){
+    //right click
+    if(event.button == 2) {
+        clickedEl = event.target;
+        offset.x=event.offsetX;
+        offset.y=event.offsetY;
+    }
 }, true);
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if(request == "getClickedEl") {
         console.dir(clickedEl);
-        console.dir(JSON.stringify({x:5,y:"hello"}));
         //Do DOM calc here!!!!
-        sendResponse({
-            value: JSON.stringify(clickedEl)
-        });
+        sendResponse({url:document.URL, x: clickedEl.x+offset.x,y: clickedEl.y+offset.y});
     }
 });
 
 $(document).ready(function(){
 
     var extension_id = chrome.runtime.id
-    
+
     //THIS IS FORWARDING TO BACKGROUND SCRIPT
     document.addEventListener('get-extension-session-status', function (e) {
         chrome.runtime.sendMessage(extension_id, {message: e.type})
@@ -31,7 +31,7 @@ $(document).ready(function(){
 
     //THIS IS FORWARDING TO EXTERNAL SCRIPTS
     chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-        
+
         // console.log('listener message: ', message);
 
         if (message.command === 'process-logout') {

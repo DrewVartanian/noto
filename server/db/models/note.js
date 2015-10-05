@@ -8,8 +8,16 @@ var schema = new mongoose.Schema({
   },
   message: {
     type: String,
-    required: true
+    default: ''
   },
+  // page: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Page'
+  // },
+  // team: [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Team'
+  // }],
   color: {
     type: String,
     default: '#FFFF00'
@@ -17,11 +25,20 @@ var schema = new mongoose.Schema({
   position: {
     x: Number,
     y: Number,
-    z: Number
+    z: {
+      type: Number,
+      default: 100
+    }
   },
   size: {
-    x: Number,
-    y: Number
+    x: {
+      type: Number,
+      default: 250
+    },
+    y: {
+      type: Number,
+      default: 250
+    }
   },
   // DOM element association
   association: String,

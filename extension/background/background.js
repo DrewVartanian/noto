@@ -1,4 +1,6 @@
 var toggle = false;
+var pages;
+getPages();
 chrome.browserAction.onClicked.addListener(function(tab) {
   toggle = !toggle;
   if(toggle){
@@ -24,11 +26,22 @@ chrome.contextMenus.onClicked.addListener(onClickHandler);
 // The onClicked callback function.
 function onClickHandler(info, tab) {
   chrome.tabs.sendRequest(tab.id, "getClickedEl", function(clickedEl) {
-        console.dir(JSON.parse(clickedEl.value));
+        Promise.resolve($.post('http://localhost:1337/api/note',clickedEl)).then(function(res){
+          console.log('response: ',res);
+          console.log('response data: ',res.data);
+        }).then(null,function(){});
+        // console.dir(clickedEl);
     });
   // var sText = info.selectionText;
   // var url = "https://www.google.com/search?q=" + encodeURIComponent(sText);
   // window.open(url, '_blank');
+}
+
+function getPages(){
+  Promise.resolve($.get('http://localhost:1337/api/page')).then(function(mongoPages){
+    console.log('pages received',mongoPages);
+    mongoPages=pages;
+  });
 }
 
 var user = new User();
@@ -50,7 +63,7 @@ function User (userInfo) {
         members: [],
         key: ""
     };
-    
+
     this.setLogOutUser = function () {
 
         myCircles = [];
@@ -79,10 +92,10 @@ function User (userInfo) {
 
         return {
             email: email,
-            name: name  
+            name: name
         };
     };
-    
+
     this.setSelectedCircle = function (circle) {
 
         selectedCircle._id = circle._id;
@@ -91,7 +104,7 @@ function User (userInfo) {
         selectedCircle.members = circle.members;
         selectedCircle.key = circle.key;
 
-        sendSelectedCircle(selectedCircle);        
+        sendSelectedCircle(selectedCircle);
     };
 
     this.getSelectedCircle = function () {
@@ -105,13 +118,13 @@ function User (userInfo) {
     this.isLoggedIn = function () {
         return !!email;
     };
-}; //END OF USER
+} //END OF USER
 
 /////////////////////   ENCRYPTION STATE  /////////////////////
 
 function ControlEncryption () {
 
-    var toggleState = false; 
+    var toggleState = false;
 
     this.toggle = function () {
         toggleState = !toggleState;
@@ -122,7 +135,7 @@ function ControlEncryption () {
     };
 
     this.turnOn = function () {
-        toggleState = true;      
+        toggleState = true;
     };
 
     this.getState = function () {
@@ -173,6 +186,6 @@ function encryptionToggle () {
 function sendToContentScript (command, payload) {
 
     chrome.tabs.getSelected(null, function (tab) {
-        chrome.tabs.sendMessage(tab.id, {command: command, payload: payload})
+        chrome.tabs.sendMessage(tab.id, {command: command, payload: payload});
     });
 }
