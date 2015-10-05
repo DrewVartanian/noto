@@ -25,16 +25,19 @@ router.param('id', function(req, res, next, id) {
 // api/team/:id/users
 router.get('/:id/users', function(req, res, next) {
   // TODO: confirm syntax req.team.populate
-  req.team
-    .populate('user')
-    .then(function(users) {
-      res.send(users);
+  console.log("what is req.team", req.team);
+  // req.team
+  Team.findById(req.team._id)
+    .populate('users')
+    .then(function(team) {
+      res.status(200).json(team);
     })
     .then(null, next);
 });
 
 // POST new team
 router.post('/', function(req, res, next) {
+  console.log("what is post team req body ", req.body);
   Team.create(req.body)
     .then(function(team) {
       res.status(201).json(team);
