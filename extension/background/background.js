@@ -26,7 +26,7 @@ chrome.contextMenus.onClicked.addListener(onClickHandler);
 // The onClicked callback function.
 function onClickHandler(info, tab) {
   chrome.tabs.sendRequest(tab.id, "getClickedEl", function(clickedEl) {
-        Promise.resolve($.post('http://localhost:1337/api/note',clickedEl)).then(function(res){
+        Promise.resolve($.post('http://127.0.0.1:1337/api/note',clickedEl)).then(function(res){
           console.log('response: ',res);
           console.log('response data: ',res.data);
         }).then(null,function(){});
@@ -38,7 +38,7 @@ function onClickHandler(info, tab) {
 }
 
 function getPages(){
-  Promise.resolve($.get('http://localhost:1337/api/page')).then(function(mongoPages){
+  Promise.resolve($.get('http://127.0.0.1:1337/api/page')).then(function(mongoPages){
     console.log('pages received',mongoPages);
     mongoPages=pages;
   });
