@@ -28,7 +28,8 @@ app.controller('editController', function ($scope, BackgroundFactory, TeamFactor
     $scope.team = users;
 
 
-    $scope.addNewTeamMember = function(teamId, email){
+    $scope.addNewTeamMember = function(teamId, userObj){
+        var email = userObj.email;
         TeamFactory.updateTeam(teamId, {userEmail: email});
     };
 
