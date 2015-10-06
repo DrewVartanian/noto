@@ -36,11 +36,12 @@ router.get('/user', function(req, res, next) {
 
 // GET specific note
 router.get('/:id', function(req, res, next) {
-  res.status(200).json(req.note)
-  .then(null, next);
+  res.status(200).json(req.note);
+  // .then(null, next);
 });
 
 // POST new note to a page
+// TODO: need to add to default team
 router.post('/', function(req, res, next) {
   var newNote = {
     owner: req.user._id,
