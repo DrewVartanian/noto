@@ -1,4 +1,4 @@
-console.log("extension/content/content.js");
+console.log("content.js");
 var clickedEl = null;
 var offset = {};
 
@@ -53,8 +53,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     }
 });
 
-$(document).ready(function(){
 
+// Cryptoveil modified copypasta below
     var extension_id = chrome.runtime.id
 
     //THIS IS FORWARDING TO BACKGROUND SCRIPT
@@ -64,21 +64,14 @@ $(document).ready(function(){
 
 
     //THIS IS FORWARDING TO EXTERNAL SCRIPTS
-    chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-
-        // console.log('listener message: ', message);
+    chrome.runtime.onMessage.addListener(function (message, sender) {
 
         if (message.command === 'process-logout') {
             document.dispatchEvent(new Event(message.command));
         }
 
         if (message.command === 'process-login') {
-            document.dispatchEvent(new CustomEvent(message.command, {detail: message.payload}))
-        }
-
-        if (message.command === 'update-state') {
-            document.dispatchEvent(new CustomEvent('update-decryption-state', {detail: message.payload}));
-            document.dispatchEvent(new CustomEvent('update-encryption-state', {detail: message.payload}));
+            document.dispatchEvent(new CustomEvent(message.command, {detail: message.payload}));
         }
     });
-});
+

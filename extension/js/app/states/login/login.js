@@ -33,7 +33,7 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
         })
         .catch(function (err) {
             $log.warn('No user logged in.');
-        })
+        });
     };
 
     checkUserLoggedIn();
@@ -43,7 +43,8 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
         $scope.error = null;
 
         BackgroundFactory.logInUser(loginInfo)
-        .then(AuthService.onSuccessfulLogin)
+        // is AuthService used?
+        // .then(AuthService.onSuccessfulLogin)
         .then(function (userInfo) {
             $rootScope.isLoggedIn = true;
             $state.go('webnote');
@@ -53,7 +54,11 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
                 msg: err.data || 'no err msg',
                 type: 'danger'
             });
-        })
+        });
+    };
+
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
     };
 
 

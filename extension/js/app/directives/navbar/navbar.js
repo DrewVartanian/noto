@@ -1,4 +1,4 @@
-app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log, ExtensionFactory) {
+app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log) {
 
     return {
         restrict: 'E',
@@ -6,13 +6,7 @@ app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log, Ex
         templateUrl: '/js/app/directives/navbar/navbar.html',
         link: function(scope) {
 
-            scope.items = [{
-                label: 'Home',
-                state: 'webnote'
-            }];
-
             scope.user;
-
 
             scope.logout = function() {
                 BackgroundFactory.logOutUser()
@@ -31,13 +25,6 @@ app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log, Ex
                     .then(function(response) {
                         var userLoggedIn = response.user;
                         scope.user = userLoggedIn;
-                        return userLoggedIn;
-                    }).then(function(user) {
-                        ExtensionFactory.getPages(user)
-                        .then(function(pages) {
-                            //console.log(pages);
-                            scope.pages = pages;
-                        });
                     })
                     .catch(function(err) {
                         $log.warn(err);

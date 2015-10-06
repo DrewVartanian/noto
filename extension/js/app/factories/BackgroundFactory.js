@@ -13,8 +13,8 @@ app.factory('BackgroundFactory', function ($http, $q) {
     };
 
     var setUser = function(info) {
-      currentUser.setLoggedInUser(info);
-      return currentUser.getLoggedInUser();
+        currentUser.setLoggedInUser(info);
+        return currentUser.getLoggedInUser();
     };
 
     return {
@@ -36,15 +36,6 @@ app.factory('BackgroundFactory', function ($http, $q) {
         logInUser: function(info) {
             return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
             .then(function (response) {
-                // is this mail.google section used`?
-                chrome.tabs.query({url: '*://mail.google.com/*'}, function (tabs) {
-                    if (tabs) {
-                        tabs.forEach(function(tab) {
-                            chrome.tabs.reload(tab.id)
-                        });
-                    }
-                });
-
                 chrome.tabs.query({title: 'WebNotes'}, function (tabs) {
                     if (tabs.length) {
                         tabs.forEach(function(tab) {

@@ -3,9 +3,10 @@
 
 <head>
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/material.min.css">
     <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
     <script src="/js/dependencies/angular.min.js"></script>
     <script src="/js/dependencies/angular-ui-router.min.js"></script>
     <script src="/js/dependencies/jquery-1.11.3.min.js"></script>
@@ -22,11 +23,11 @@
 </head>
 
 <body ng-app="WebNotes">
-    <i class="fa fa-4x fa-flag"></i>
-    <button ui-sref="login">Login</button>
-    <h5>Don't have an account?</h5> <button ui-sref='signup'>Sign up here!</button>
+    <!-- <i class="fa fa-4x fa-flag"></i> -->
+    <!-- <button ui-sref="login">Login</button> -->
+    <!-- <h5>Don't have an account?</h5> <button ui-sref='signup'>Sign up here!</button> -->
     <nav-bar></nav-bar>
-    <div data-ui-view></div>
+    <div ui-view></div>
 </body>
 
 </html>
