@@ -1,29 +1,10 @@
-<nav class="navbar navbar-default" style="margin-bottom: 0px">
-    <div class="container-fluid">
-        <a type="button" class="btn btn-default btn-md" ui-sref="home">
-            <span class="glyphicon glyphicon-home"></span>
-        </a>
-        <a type="button" class="btn btn-default btn-md" ui-sref="circles">
-            <span class="glyphicon glyphicon-edit"></span>
-        </a>
-        <a type="button" class="btn btn-default btn-md" ui-sref="account">
-            <span class="glyphicon glyphicon-user"></span>
-        </a>
-        <!--       <div class="btn-group pull-right">
- -->
-        <!--  <a type="button" style="text-decoration:none" class="btn btn-default btn-md"><span>{{ user.nickname }}</span></a>
- -->
-        <div>This is the Nav!</div>
-        <a type="button" style="text-decoration:none" class="btn btn-default btn-md pull-right" data-ng-click="logout()"><span>{{ user.email }}&nbsp;&nbsp;</span><span class="glyphicon glyphicon-log-out"></span></a></div>
-    <!-- </div> -->
-    <ul ng-repeat="page in pages">
-        <li>{{page.team.name}}</li>
-        <ul ng-repeat="note in page.notes">
-            <a ng-href="{{page.url}}" target="_blank">
-                <li>Note {{page.url}}</li>
-                <li>Message {{note.message}}</li>
-            </a>
-        </ul>
-    </ul>
-    </div>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <a type="button" class="btn btn-default btn-md" ui-sref="webnotes">Home</a>
+    <a type="button" class="btn btn-default btn-md" ui-sref="login">Login</a>
+    <a type="button" class="btn btn-default btn-md" ui-sref="signup">Signup</a>
+    <a type="button" class="btn btn-default btn-md" ng-click="logout()">Logout</a>
+    <p>LoggedIn User: {{ user.email }}</p>
+  </div>
 </nav>
