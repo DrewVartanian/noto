@@ -62,4 +62,24 @@ router.delete('/:id', function(req, res, next) {
     .then(null, next);
 });
 
+router.delete('/:id/users/:userId', function(req, res, next) {
+
+
+  var users = req.team.users;
+  console.log("what are the users", users);
+   console.log("params ", req.params.userId);
+  users = users.filter(function(user){
+    return user != req.params.userId;
+  });
+
+
+  console.log("what happened to the users after delete", users);
+  req.team.users = users;
+  req.team.save()
+    .then(function() {
+      res.status(204).json(req.team);
+    })
+    .then(null, next);
+});
+
 

@@ -1,1 +1,13 @@
-Teams {{teams}}
+<!-- users {{users.users}} -->
+<div class="container">
+    <div>
+    	<p>{{ team.name }}</p>
+    	<div id="teamGroup">
+	        <ul ng-repeat="user in team.users">
+	            <li ui-sref="edit({id: page.team._id})">{{user.email}}</li>
+	           	<span class="glyphicon glyphicon-remove" ng-click="deleteMember(team._id, user._id)"></span>
+	        </ul>
+        <div>
+        <button type="button" class="btn btn-success" ng-click="addNewTeamMember()">Add new member</button>
+    </div>
+</div>

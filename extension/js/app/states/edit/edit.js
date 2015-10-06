@@ -7,23 +7,34 @@ app.config(function ($stateProvider) {
         resolve: {
             pages: function(ExtensionFactory) {
                 return ExtensionFactory.getPages()
+            },
+            users: function(TeamFactory, $stateParams) {
+                return TeamFactory.getTeamMembers($stateParams.id);
             }
         }
     });
 
 });
 
-app.controller('editController', function ($scope, BackgroundFactory, $state, $rootScope, pages, $stateParams) {
+app.controller('editController', function ($scope, BackgroundFactory, TeamFactory, $state, $rootScope, pages, $stateParams, users) {
 
     $scope.pages = pages;
     $scope.teamId = $stateParams.id;
 
-    $scope.teams = pages.filter(function(page){
-        return (page.team._id===$scope.teamId)
+    $scope.teamPages = pages.filter(function(page){
+        return (page.team._id === $scope.teamId)
     })
 
+    $scope.team = users;
 
 
+    $scope.addNewTeamMember = function(teamId, email){
+        TeamFactory.updateTeam(teamId, {userEmail: email});
+    };
+
+    $scope.deleteMember = function(teamId, userId){
+        TeamFactory.deleteTeamMember(teamId, userId);
+    };
 
     // $scope.signup = {};
     // $scope.alerts = [];
