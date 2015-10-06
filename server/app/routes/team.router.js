@@ -24,9 +24,7 @@ router.param('id', function(req, res, next, id) {
 // GET all users in a team
 // api/team/:id/users
 router.get('/:id/users', function(req, res, next) {
-  // TODO: confirm syntax req.team.populate
   console.log("what is req.team", req.team);
-  // req.team
   Team.findById(req.team._id)
     .populate('users')
     .then(function(team) {
