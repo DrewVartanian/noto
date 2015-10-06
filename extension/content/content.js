@@ -3,11 +3,13 @@ console.log("Content Script");
 var clickedEl = null;
 var offset = {};
 var pages;
+var team;
 
 chrome.runtime.sendMessage("newPage",function(backgroundPages){
     pages=backgroundPages;
     console.log(pages);
     pages.forEach(function(page){
+        team=page.team._id;
         page.notes.forEach(function(note){
             renderNote(note);
         });
@@ -26,7 +28,7 @@ document.addEventListener("mousedown", function(event){
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if(request == "getClickedEl") {
-        sendResponse({url:document.URL, x: offset.x,y: offset.y});
+        sendResponse({team:team,url:document.URL, x: offset.x,y: offset.y});
     }
 });
 
