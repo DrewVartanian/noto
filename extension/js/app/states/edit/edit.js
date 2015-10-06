@@ -1,22 +1,41 @@
-app.config(function($stateProvider) {
+app.config(function ($stateProvider) {
 
-    $stateProvider.state('team', {
-        url: '/team',
-        templateUrl: 'js/app/states/team/team.html',
-        controller: 'teamController',
+    $stateProvider.state('edit', {
+        url: '/edit/:id',
+        templateUrl: 'js/app/states/edit/edit.html',
+        controller: 'editController',
         resolve: {
             pages: function(ExtensionFactory) {
                 return ExtensionFactory.getPages()
+            },
+            users: function(TeamFactory, $stateParams) {
+                return TeamFactory.getTeamMembers($stateParams.id);
             }
         }
     });
 
 });
 
-app.controller('teamController', function($scope, BackgroundFactory, $state, $rootScope, pages) {
+app.controller('editController', function ($scope, BackgroundFactory, TeamFactory, $state, $rootScope, pages, $stateParams, users) {
 
     $scope.pages = pages;
+    $scope.teamId = $stateParams.id;
 
+    $scope.teamPages = pages.filter(function(page){
+        return (page.team._id === $scope.teamId)
+    })
+
+    $scope.team = users;
+
+
+    $scope.addNewTeamMember = function(teamId, userObj){
+        var email = userObj.email;
+        TeamFactory.updateTeam(teamId, {userEmail: email});
+    };
+
+    $scope.deleteMember = function(teamId, userId){
+        TeamFactory.deleteTeamMember(teamId, userId);
+    };
 
     // $scope.signup = {};
     // $scope.alerts = [];
@@ -56,3 +75,4 @@ app.controller('teamController', function($scope, BackgroundFactory, $state, $ro
     // };
 
 });
+

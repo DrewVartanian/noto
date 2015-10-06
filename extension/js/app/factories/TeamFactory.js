@@ -33,6 +33,13 @@ app.factory('TeamFactory', function ($http) {
             });
         },
 
+        deleteTeamMember: function(teamID, userID){
+            return $http(composeRequest('DELETE', '/api/team/' + teamID + '/users/' + userID))
+            .then(function (response){
+                return response.data;
+            });
+        },
+
         updateTeam: function(teamID, teamInfo) {
             return $http(composeRequest('PUT', '/api/team/' + teamID, teamInfo))
             .then(function (response){

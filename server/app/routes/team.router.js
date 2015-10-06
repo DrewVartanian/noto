@@ -45,19 +45,60 @@ router.post('/', function(req, res, next) {
 
 // PUT update team (name, users)
 router.put('/:id', function(req, res, next) {
-  _.extend(req.team, req.body);
-  req.team.save()
+  if(req.body.userEmail){
+    User.findOne({email: req.body.userEmail}).then(function(user){
+    if(user) req.team.users.push(user);
+     //if user does not exist, put invitation to email logic here.
+
+      req.team.save()
+      .then(function(team) {
+        res.status(200).json(team);
+      })
+      .then(null, next);
+    });
+  }
+  else{
+     _.extend(req.team, req.body);
+    req.team.save()
     .then(function(team) {
       res.status(200).json(team);
     })
     .then(null, next);
+  }
+
+     
 });
+  
+     
+  //})
+  //req.team.users.push(req.body.)
+  
 
 // DELETE specific team
 router.delete('/:id', function(req, res, next) {
   req.team.remove()
     .then(function() {
       res.sendStatus(204);
+    })
+    .then(null, next);
+});
+
+router.delete('/:id/users/:userId', function(req, res, next) {
+
+
+  var users = req.team.users;
+  console.log("what are the users", users);
+   console.log("params ", req.params.userId);
+  users = users.filter(function(user){
+    return user != req.params.userId;
+  });
+
+
+  console.log("what happened to the users after delete", users);
+  req.team.users = users;
+  req.team.save()
+    .then(function() {
+      res.status(204).json(req.team);
     })
     .then(null, next);
 });
