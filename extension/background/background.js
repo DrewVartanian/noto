@@ -41,9 +41,26 @@ function onClickHandler(info, tab) {
 function getPages(){
   Promise.resolve($.get('http://127.0.0.1:1337/api/page')).then(function(mongoPages){
     console.log('pages received',mongoPages);
-    mongoPages=pages;
+    pages=mongoPages;
   });
 }
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if(request==='newPage'){
+        if(pages.every(function(page){
+            console.log('checking: '+page.url);
+            if(page.url===sender.url){
+                console.log('Match: '+page.url);
+                sendResponse(page.notes);
+                return false;
+            }
+            return true;
+        })){
+            console.log('send empty');
+            sendResponse([]);
+        }
+    }
+});
 
 var user = new User();
 

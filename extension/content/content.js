@@ -1,6 +1,14 @@
 console.log("extension/content/content.js");
+// alert('New Page!');
 var clickedEl = null;
 var offset = {};
+
+chrome.runtime.sendMessage("newPage",function(notes){
+    notes.forEach(function(note){
+        renderNote(note);
+    });
+});
+// chrome.runtime.sendMessage({greeting: 'hello'});
 
 document.addEventListener("mousedown", function(event){
     //right click
@@ -51,7 +59,7 @@ function renderNote(note)
     thisNote.style.top = note.position.y+'px';
     thisNote.style.height = note.size.y + 'px';
     thisNote.style.width = note.size.x + 'px';
-    thisNote.style.zIndex = note.size.z;
+    thisNote.style.zIndex = note.position.z;
     thisNote.style.position = "absolute";
      this.note = thisNote;
  
