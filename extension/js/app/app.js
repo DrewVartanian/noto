@@ -11,8 +11,8 @@ app.config(function ($urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/');
 
     $urlRouterProvider.when('/auth/:provider', function () {
-   window.location.reload();
-});
+        window.location.reload();
+    });
 });
 
 // This app.run is for controlling access to specific states.
@@ -23,10 +23,10 @@ app.run(function ($rootScope, AuthService, $state, BackgroundFactory) {
         return state.data && state.data.authenticate;
     };
 
-        $rootScope.isLoggedIn = false;
+    $rootScope.isLoggedIn = false;
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-
+        // why is this empty?
     });
 
 });

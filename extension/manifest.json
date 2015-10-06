@@ -12,16 +12,18 @@
    // "scripts": ["/background/background.js"]
    "page": "/background/background.html"
   },
-  "permissions": ["tabs",
-    "contextMenus",
+  "permissions": [
+    "tabs",
     "activeTab",
+    "contextMenus",
     "background",
     "cookies",
     "*://*/*"
   ],
   "content_scripts": [{
+    "matches": [ "*://*/*"],
     "js": ["/js/dependencies/jquery-1.11.3.min.js", "/content/content.js"],
-    "matches": [ "*://*/*"]
+    "css": ["css/styles.css"]
   }],
   "browser_action": {
     "default_icon": {
@@ -33,6 +35,10 @@
   },
   "web_accessible_resources": [
     "/js/dependencies/externalMain.js"
-  ]
+  ],
+  "externally_connectable": {
+    "ids": ["*"],
+    "matches": ["*://127.0.0.1/*"]
+  }
 }
 
