@@ -1,4 +1,4 @@
-
+// what does this file do & why does it need to be included in web_accessible_resources?
 
 function refresh(f) {
   if( (/in/.test(document.readyState))) {
@@ -8,7 +8,7 @@ function refresh(f) {
   }
 }
 
-var main = function () {	
+var main = function () {
 	var userLoggedIn;
 
 	document.addEventListener('process-logout', function (e) {

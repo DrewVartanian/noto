@@ -9,13 +9,11 @@
         <a type="button" class="btn btn-default btn-md" ui-sref="account">
             <span class="glyphicon glyphicon-user"></span>
         </a>
-        <!--       <div class="btn-group pull-right">
- -->
-        <!--  <a type="button" style="text-decoration:none" class="btn btn-default btn-md"><span>{{ user.nickname }}</span></a>
- -->
+
         <div>This is the Nav!</div>
-        <a type="button" style="text-decoration:none" class="btn btn-default btn-md pull-right" data-ng-click="logout()"><span>{{ user.email }}&nbsp;&nbsp;</span><span class="glyphicon glyphicon-log-out"></span></a></div>
-    <!-- </div> -->
+        <a type="button" style="text-decoration:none" class="btn btn-default btn-md pull-right" data-ng-click="logout()"><span>{{ user.email }}&nbsp;&nbsp;</span><span class="glyphicon glyphicon-log-out"></span></a>
+    </div>
+
     <ul ng-repeat="page in pages">
         <li>Page {{page.team}}</li>
         <ul ng-repeat="note in page.notes">

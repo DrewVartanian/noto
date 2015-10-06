@@ -3,18 +3,13 @@ app.factory('BackgroundFactory', function ($http, $q) {
     var backgroundPage = chrome.extension.getBackgroundPage();
     var currentUser = backgroundPage.user;
     var server = 'http://127.0.0.1:1337';
-    
+
     var composeRequest = function (method, url, data) {
         return {
             method: method,
             url: server + url,
-            // headers: {
-            //   'Access-Control-Allow-Origin': '*',
-            //   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-            //   'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
-            // },
             data: data
-        }
+        };
     };
 
     var setUser = function(info) {
@@ -41,6 +36,7 @@ app.factory('BackgroundFactory', function ($http, $q) {
         logInUser: function(info) {
             return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
             .then(function (response) {
+                // is this mail.google section used`?
                 chrome.tabs.query({url: '*://mail.google.com/*'}, function (tabs) {
                     if (tabs) {
                         tabs.forEach(function(tab) {
@@ -73,14 +69,13 @@ app.factory('BackgroundFactory', function ($http, $q) {
                         });
                     };
                 });
-                
+
                 currentUser.setLogOutUser();
                 return response.status;
             });
         },
 
         checkLoggedIn: function() {
-
             return $http(composeRequest('GET', '/session'))
             .then(function (response) {
                 return response.data;
@@ -88,8 +83,7 @@ app.factory('BackgroundFactory', function ($http, $q) {
         },
 
         isLoggedIn: function () {
-
             return backgroundPage.user.isLoggedIn();
         }
-    }
+    };
 });

@@ -6,53 +6,28 @@ document.addEventListener("mousedown", function(event){
     //right click
     if(event.button == 2) {
         clickedEl = event.target;
-        //offset.x=event.offsetX;
-        //offset.y=event.offsetY;
         offset.x = event.x;
         offset.y = event.y;
     }
 }, true);
 
-// function Note(){
-//     var self = this;
- 
-//     var note = document.createElement('div');
-//     note.className = 'note-anywhere';
-//     // note.addEventListener('mousedown', function(e) { return self.onMouseDown(e) }, false);
-//     // note.addEventListener('click', function() { return self.onNoteClick() }, false);
-//     this.note = note;
- 
-//     document.body.appendChild(note);
-//     return this;
-// }
 
 function renderNote(note)
 {
     var self = this;
 
     var thisNote = document.createElement('div');
-    console.log(thisNote);
     thisNote.style.backgroundColor= note.color;
     thisNote.style.left = offset.x+'px';
     thisNote.style.top = offset.y+'px';
     thisNote.style.height = note.size.y + 'px';
     thisNote.style.width = note.size.x + 'px';
     thisNote.style.position = "absolute";
-     this.note = thisNote;
- 
+    this.note = thisNote;
+
     $("body").append(thisNote);
     console.log(this);
     return this;
-
-    // console.log("was i invoked?", note);
-    // thisNote.timestamp = new Date().getTime();
-    // thisNote.left = (window.pageXOffset + Math.round(Math.random() * (window.innerWidth - 150))) + 'px';
-    // thisNote.top = (window.pageYOffset + Math.round(Math.random() * (window.innerHeight - 200))) + 'px';
-    // thisNote.zIndex = ++highestZ;
-    // thisNote.saveAsNew();
-    // notes[notes.length] = thisNote.id;
-    //chrome.extension.sendRequest({command:"updateCount",data:notes.length});
-    //thisNote.editField.focus();
 }
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {

@@ -12,9 +12,10 @@
    // "scripts": ["/background/background.js"]
    "page": "/background/background.html"
   },
-  "permissions": ["tabs",
-    "contextMenus",
+  "permissions": [
+    "tabs",
     "activeTab",
+    "contextMenus",
     "background",
     "cookies",
     "*://*/*"
@@ -33,6 +34,10 @@
   },
   "web_accessible_resources": [
     "/js/dependencies/externalMain.js"
-  ]
+  ],
+  "externally_connectable": {
+    "ids": ["*"],
+    "matches": ["*://127.0.0.1/*"]
+  }
 }
 
