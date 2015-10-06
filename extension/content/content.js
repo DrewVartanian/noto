@@ -2,12 +2,15 @@ console.log("Content Script");
 
 var clickedEl = null;
 var offset = {};
-var pageNotes=[];
+var pages;
 
-chrome.runtime.sendMessage("newPage",function(notes){
-    notes.forEach(function(note){
-        renderNote(note);
-        pageNotes.push(note);
+chrome.runtime.sendMessage("newPage",function(backgroundPages){
+    pages=backgroundPages;
+    console.log(pages);
+    pages.forEach(function(page){
+        page.notes.forEach(function(note){
+            renderNote(note);
+        });
     });
 });
 // chrome.runtime.sendMessage({greeting: 'hello'});
@@ -84,7 +87,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     switch(request.title){
         case 'newNote':
             renderNote(request.note);
-            pageNotes.push(request.note);
             break;
     }
 });

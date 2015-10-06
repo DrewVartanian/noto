@@ -29,21 +29,16 @@ function onClickHandler(info, tab) {
 }
 
 function getPages(){
-  return Promise.resolve($.get('http://127.0.0.1:1337/api/page'));
+  return Promise.resolve($.get('http://127.0.0.1:1337/api/user/pages'));
 }
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if(request==='newPage'){
         pagesProm.then(function(pages){
-            if(pages.every(function(page){
-                if(page.url===sender.url){
-                    sendResponse(page.notes);
-                    return false;
-                }
-                return true;
-            })){
-                sendResponse([]);
-            }
+            var pageToContent=pages.filter(function(page){
+                return (page.url===sender.url);
+            });
+            sendResponse(pageToContent);
         });
         return true;
     }
