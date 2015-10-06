@@ -22,7 +22,7 @@
   ],
   "content_scripts": [{
     "matches": [ "*://*/*"],
-    "js": ["/js/dependencies/jquery-1.11.3.min.js", "/content/content.js"],
+    "js": ["/js/dependencies/jquery-1.11.3.min.js", "/content/note.js", "/content/content.js"],
     "css": ["css/styles.css"]
   }],
   "browser_action": {
