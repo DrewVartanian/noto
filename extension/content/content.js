@@ -12,16 +12,46 @@ document.addEventListener("mousedown", function(event){
 }, true);
 
 
+// function Note(){
+//     var self = this;
+
+//     var note = document.createElement('div');
+//     note.className = 'note-anywhere';
+//     // note.addEventListener('mousedown', function(e) { return self.onMouseDown(e) }, false);
+//     // note.addEventListener('click', function() { return self.onNoteClick() }, false);
+//     this.note = note;
+
+//     document.body.appendChild(note);
+//     return this;
+// }
+  function onNoteClick(e)
+    {
+        // this.editField.focus();
+        getSelection().collapseToEnd();
+    }
+
 function renderNote(note)
 {
     var self = this;
 
     var thisNote = document.createElement('div');
+
+    thisNote.addEventListener('click', function() { return self.onNoteClick() }, false);
+
+    var edit = document.createElement('div');
+    edit.className = 'edit';
+    edit.setAttribute('contenteditable', true);
+    edit.addEventListener('keyup', function() { return self.onKeyUp() }, false);
+    thisNote.appendChild(edit);
+    thisNote.editField = edit;
+
+    console.log(thisNote);
     thisNote.style.backgroundColor= note.color;
     thisNote.style.left = offset.x+'px';
     thisNote.style.top = offset.y+'px';
     thisNote.style.height = note.size.y + 'px';
     thisNote.style.width = note.size.x + 'px';
+    thisNote.style.zIndex = note.size.z;
     thisNote.style.position = "absolute";
     this.note = thisNote;
 
@@ -33,7 +63,7 @@ function renderNote(note)
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     var note = {
         color: "yellow",
-        size: {x: 50, y: 50}
+        size: {x: 50, y: 50, z: 100}
     }
 
     if(request == "getClickedEl") {

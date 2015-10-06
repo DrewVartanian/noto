@@ -20,7 +20,8 @@ router.get('/:userId', function (req, res, next){
         // res.status(200).json(teams);
         return teams;
     }).then(function(teams){
-    	Page.find({team: {$in: teams}}).exec().then(function(pages){
+    	Page.find({team: {$in: teams}}).populate('team notes').exec()
+    	.then(function(pages){
             res.status(200).json(pages);
         });
     }).then(null, next);
