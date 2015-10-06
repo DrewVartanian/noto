@@ -25,12 +25,26 @@ document.addEventListener("mousedown", function(event){
 //     document.body.appendChild(note);
 //     return this;
 // }
+  function onNoteClick(e)
+    {
+        // this.editField.focus();
+        getSelection().collapseToEnd();
+    }
 
 function renderNote(note)
 {
     var self = this;
 
     var thisNote = document.createElement('div');
+    thisNote.addEventListener('click', function() { return self.onNoteClick() }, false);
+
+    var edit = document.createElement('div');
+    edit.className = 'edit';
+    edit.setAttribute('contenteditable', true);
+    edit.addEventListener('keyup', function() { return self.onKeyUp() }, false);
+    thisNote.appendChild(edit);
+    thisNote.editField = edit;
+
     console.log(thisNote);
     thisNote.style.backgroundColor= note.color;
     thisNote.style.left = offset.x+'px';
