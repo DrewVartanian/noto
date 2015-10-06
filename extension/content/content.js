@@ -1,6 +1,16 @@
-console.log("content.js");
+console.log("Content Script");
+
 var clickedEl = null;
 var offset = {};
+var pageNotes=[];
+
+chrome.runtime.sendMessage("newPage",function(notes){
+    notes.forEach(function(note){
+        renderNote(note);
+        pageNotes.push(note);
+    });
+});
+// chrome.runtime.sendMessage({greeting: 'hello'});
 
 document.addEventListener("mousedown", function(event){
     //right click
@@ -45,18 +55,16 @@ function renderNote(note)
     thisNote.appendChild(edit);
     thisNote.editField = edit;
 
-    console.log(thisNote);
     thisNote.style.backgroundColor= note.color;
     thisNote.style.left = note.position.x+'px';
     thisNote.style.top = note.position.y+'px';
     thisNote.style.height = note.size.y + 'px';
     thisNote.style.width = note.size.x + 'px';
-    thisNote.style.zIndex = note.size.z;
+    thisNote.style.zIndex = note.position.z;
     thisNote.style.position = "absolute";
     this.note = thisNote;
 
     $("body").append(thisNote);
-    console.log(this);
     return this;
 }
 
@@ -68,19 +76,16 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     }
 
     if(request == "getClickedEl") {
-        console.dir(clickedEl);
-        // var div = document.createElement("div");
-        // var st = div.style;
-        // st.background = "black";
-        // st.color = "grey";
-        // st.position = "fixed";
-        // st.left = offset.x+'px';
-        // st.top = offset.y+'px';
-        //Do DOM calc here!!!!
-        // document.documentElement.appendChild(div);
-        // sendResponse({url:document.URL, x: clickedEl.x+offset.x,y: clickedEl.y+offset.y});
-        renderNote(note);
         sendResponse({url:document.URL, x: offset.x,y: offset.y});
+    }
+});
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    switch(request.title){
+        case 'newNote':
+            renderNote(request.note);
+            pageNotes.push(request.note);
+            break;
     }
 });
 
