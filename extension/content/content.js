@@ -47,8 +47,8 @@ function renderNote(note)
 
     console.log(thisNote);
     thisNote.style.backgroundColor= note.color;
-    thisNote.style.left = offset.x+'px';
-    thisNote.style.top = offset.y+'px';
+    thisNote.style.left = note.position.x+'px';
+    thisNote.style.top = note.position.y+'px';
     thisNote.style.height = note.size.y + 'px';
     thisNote.style.width = note.size.x + 'px';
     thisNote.style.zIndex = note.size.z;
@@ -63,7 +63,8 @@ function renderNote(note)
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     var note = {
         color: "yellow",
-        size: {x: 50, y: 50, z: 100}
+        size: {x: 50, y: 50, z: 100},
+        position: {x: offset.x, y: offset.y}
     }
 
     if(request == "getClickedEl") {
