@@ -1,6 +1,5 @@
 var toggle = false;
-var pages;
-getPages();
+var pagesProm=getPages();
 chrome.browserAction.onClicked.addListener(function(tab) {
   toggle = !toggle;
   if(toggle){
@@ -29,7 +28,7 @@ function onClickHandler(info, tab) {
         Promise.resolve($.post('http://127.0.0.1:1337/api/note',clickedEl)).then(function(res){
           console.log('response: ',res);
           //console.log('response data: ',res.data);
-          
+          chrome.runtime.sendMessage(tab.id, {title: "newNote", note: res});
         }).then(null,function(){});
         // console.dir(clickedEl);
     });
@@ -39,26 +38,32 @@ function onClickHandler(info, tab) {
 }
 
 function getPages(){
-  Promise.resolve($.get('http://127.0.0.1:1337/api/page')).then(function(mongoPages){
+  return Promise.resolve($.get('http://127.0.0.1:1337/api/page')).then(function(mongoPages){
     console.log('pages received',mongoPages);
-    pages=mongoPages;
+    return mongoPages;
   });
 }
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if(request==='newPage'){
-        if(pages.every(function(page){
-            console.log('checking: '+page.url);
-            if(page.url===sender.url){
-                console.log('Match: '+page.url);
-                sendResponse(page.notes);
-                return false;
+        console.log('loading notes');
+        pagesProm.then(function(pages){
+            console.log(pages);
+            if(pages.every(function(page){
+                console.log('checking: '+page.url);
+                if(page.url===sender.url){
+                    console.log('Match: '+page.url);
+                    console.log(page.notes);
+                    sendResponse(page.notes);
+                    return false;
+                }
+                return true;
+            })){
+                console.log('send empty');
+                sendResponse([]);
             }
-            return true;
-        })){
-            console.log('send empty');
-            sendResponse([]);
-        }
+        });
+        return true;
     }
 });
 

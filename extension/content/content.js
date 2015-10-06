@@ -2,10 +2,14 @@ console.log("extension/content/content.js");
 // alert('New Page!');
 var clickedEl = null;
 var offset = {};
+var pageNotes=[];
 
 chrome.runtime.sendMessage("newPage",function(notes){
+    console.log('response');
+    console.log('notes: ',notes);
     notes.forEach(function(note){
         renderNote(note);
+        pageNotes.push(note);
     });
 });
 // chrome.runtime.sendMessage({greeting: 'hello'});
