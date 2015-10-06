@@ -1,1 +1,12 @@
+<div class="container">
+    <div>
+<!--         {{user.email}} {{pages}} -->
+        <ul ng-repeat="page in pages">
+            <li ui-sref="edit({id: page.team._id})">{{page.team.name}}</li>
 
+<!--             <ul ng-repeat="note in page.notes">
+                <li>Note {{note}}</li>
+            </ul> -->
+        </ul>
+    </div>
+</div>

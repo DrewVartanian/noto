@@ -1,9 +1,9 @@
-app.config(function($stateProvider) {
+app.config(function ($stateProvider) {
 
-    $stateProvider.state('team', {
-        url: '/team',
-        templateUrl: 'js/app/states/team/team.html',
-        controller: 'teamController',
+    $stateProvider.state('edit', {
+        url: '/edit/:id',
+        templateUrl: 'js/app/states/edit/edit.html',
+        controller: 'editController',
         resolve: {
             pages: function(ExtensionFactory) {
                 return ExtensionFactory.getPages()
@@ -13,9 +13,16 @@ app.config(function($stateProvider) {
 
 });
 
-app.controller('teamController', function($scope, BackgroundFactory, $state, $rootScope, pages) {
+app.controller('editController', function ($scope, BackgroundFactory, $state, $rootScope, pages, $stateParams) {
 
     $scope.pages = pages;
+    $scope.teamId = $stateParams.id;
+
+    $scope.teams = pages.filter(function(page){
+        return (page.team._id===$scope.teamId)
+    })
+
+
 
 
     // $scope.signup = {};
@@ -56,3 +63,4 @@ app.controller('teamController', function($scope, BackgroundFactory, $state, $ro
     // };
 
 });
+
