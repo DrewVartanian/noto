@@ -75,6 +75,10 @@ app.factory('BackgroundFactory', function ($http, $q) {
 
         isLoggedIn: function () {
             return backgroundPage.user.isLoggedIn();
+        },
+
+        getLoggedInUser: function () {
+            return $q.when(currentUser.getLoggedInUser());
         }
     };
 });

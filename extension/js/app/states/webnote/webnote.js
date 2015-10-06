@@ -3,16 +3,22 @@ app.config(function ($stateProvider) {
     $stateProvider.state('webnote', {
         url: '/webnote',
         templateUrl: 'js/app/states/webnote/webnote.html',
-        controller: 'WebnoteCtrl'
+        controller: 'WebnoteCtrl',
+        resolve: {
+            theUser: function (BackgroundFactory) {
+              return BackgroundFactory.getLoggedInUser();
+            }
+        }
     });
 
 });
 
 
-app.controller('WebnoteCtrl', function ($scope, BackgroundFactory, $state, ExtensionFactory) {
+app.controller('WebnoteCtrl', function ($scope, BackgroundFactory, $state, ExtensionFactory, theUser) {
 
     // $scope.login = {};
     // $scope.error = null;
+    $scope.user = theUser;
 
     $scope.logout = function () {
         BackgroundFactory.logOutUser().then(function() {
@@ -21,22 +27,5 @@ app.controller('WebnoteCtrl', function ($scope, BackgroundFactory, $state, Exten
         });
         console.log("LOGGED ME OUT!");
     };
-
-    BackgroundFactory.checkLoggedIn().then(function(user){
-        $scope.user = user;
-        return user;
-    });
-
-    // $scope.sendLogin = function (loginInfo) {
-
-    //     $scope.error = null;
-
-    //     AuthService.login(loginInfo).then(function () {
-    //         $state.go('home');
-    //     }).catch(function () {
-    //         $scope.error = 'Invalid login credentials.';
-    //     });
-
-    // };
 
 });
