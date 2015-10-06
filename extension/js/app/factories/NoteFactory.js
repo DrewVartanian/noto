@@ -13,7 +13,8 @@ app.factory('NoteFactory', function ($http) {
     };
 
     return {
-        // note: this route uses req.user. need to re-wire to currentUser?
+        // note: this route uses req.user. re-wire to currentUser?
+        // notes written by current user
         getMyNotes: function() {
             return $http(composeRequest('GET', '/api/note/user'))
             .then(function (response){

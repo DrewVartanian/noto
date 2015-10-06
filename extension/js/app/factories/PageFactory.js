@@ -11,23 +11,13 @@ app.factory('TeamFactory', function ($http) {
     };
 
     return {
-        // note: this route uses req.user. need to re-wire to currentUser?
+        // note: this route uses req.user. re-wire to currentUser?
         getMyPages: function() {
             return $http(composeRequest('GET', '/api/page/user'))
             .then(function (response){
                 return response.data;
             });
-        },
-
-        // note: this route returns *pages* of current user with notes + team populated
-        // GET all notes on a specific page for current user
-        getMyNotesOnPage: function(pageURL) {
-            return $http(composeRequest('GET', '/api/page/user/' + pageURL))
-            .then(function (response){
-                return response.data;
-            });
-        },
-
+        }
     };
 
 });
