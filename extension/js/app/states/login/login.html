@@ -1,3 +1,4 @@
+<div class="container">
 <form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
 
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
@@ -17,3 +18,4 @@
         Not yet registered?<button class="btn btn-default btn-md" ui-sref="signup"> Sign up! </button>
     </div>
 </form>
+</div>
