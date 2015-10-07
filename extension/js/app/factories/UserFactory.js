@@ -1,9 +1,9 @@
 // this is a shell. no UserFactory methods yet
-app.factory('UserFactory', function ($http) {
+app.factory('UserFactory', function($http) {
 
     var server = 'http://127.0.0.1:1337';
 
-    var composeRequest = function (method, url, data) {
+    var composeRequest = function(method, url, data) {
         return {
             method: method,
             url: server + url,
@@ -15,5 +15,19 @@ app.factory('UserFactory', function ($http) {
     //     factorymethod: function() {
     //     },
     // }
+    return {
+        getPages: function() {
+            return $http(composeRequest('GET', '/api/user/page'))
+                .then(function(res) {
+                    return res.data;
+                });
+        },
+        getTeams: function() {
+            return $http(composeRequest('GET', '/api/user/team'))
+                .then(function(res) {
+                    return res.data
+                });
+        }
 
+    };
 });

@@ -5,11 +5,11 @@ app.config(function($stateProvider) {
         templateUrl: 'js/app/states/team/team.html',
         controller: 'teamController',
         resolve: {
-            pages: function(ExtensionFactory) {
-                return ExtensionFactory.getPages()
+            pages: function(UserFactory) {
+                return UserFactory.getPages()
             },
-            teams: function(ExtensionFactory) {
-                return ExtensionFactory.getTeams()
+            teams: function(UserFactory) {
+                return UserFactory.getTeams()
             }
         }
     });

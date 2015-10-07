@@ -5,8 +5,8 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/app/states/edit/edit.html',
         controller: 'editController',
         resolve: {
-            pages: function(ExtensionFactory) {
-                return ExtensionFactory.getPages();
+            pages: function(UserFactory) {
+                return UserFactory.getPages();
             },
             users: function(TeamFactory, $stateParams) {
                 return TeamFactory.getTeamMembers($stateParams.id);
