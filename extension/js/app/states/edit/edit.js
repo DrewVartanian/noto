@@ -1,3 +1,4 @@
+
 app.config(function ($stateProvider) {
 
     $stateProvider.state('edit', {
@@ -27,8 +28,12 @@ app.controller('editController', function ($scope, BackgroundFactory, TeamFactor
     });
 
 
-    $scope.addNewTeamMember = function(teamId, userObj){
-        var email = userObj.email;
+    $scope.addNewTeamMember = function(teamId, userObj, teamObj){
+        var userToPush =  _.cloneDeep(userObj);
+      var email;
+      var teamName;
+      if(userObj) email = userObj.email; else email = null;
+        if(teamObj) teamName = teamObj.name; else teamName = $scope.team.name;
         var isDuplicate = false;
         $scope.team.users.forEach(function(user){
             if(user.email === email){
@@ -40,11 +45,17 @@ app.controller('editController', function ($scope, BackgroundFactory, TeamFactor
             }
         })
         if(isDuplicate) return;
-        TeamFactory.updateTeam(teamId, {userEmail: email}).then(function(returnedTeam) {
-
+        TeamFactory.updateTeam(teamId, {name: teamName, userEmail: email }).then(function(returnedTeam) {
+              //$scope.team.name = returnedTeam.name;
             if(returnedTeam.users.length > $scope.team.users.length) { 
-                $scope.team.users.push(userObj);
-            }else {
+                console.log("what is userToPush", userToPush);
+                $scope.team.users.push(userToPush);
+                $scope.team.name = returnedTeam.name;
+            }
+            else if($scope.team.name !== returnedTeam.name){
+                $scope.team.name = returnedTeam.name;
+            }
+            else {
                 $scope.alerts.push({
                 msg: "User Not Found",
                 type: 'danger'
