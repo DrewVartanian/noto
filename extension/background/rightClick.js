@@ -8,21 +8,16 @@ chrome.contextMenus.create({
 // context menu onclick callback function
 function onClickHandler(info, tab) {
   chrome.tabs.sendRequest(tab.id, "newNoteClick", function(noteInfo) {
-        var team = noteInfo.team;
         Promise.resolve($.post('http://127.0.0.1:1337/api/note',noteInfo)).then(function(res){
-          console.log('res',res);
           pagesProm=pagesProm.then(function(pages){
             pages.some(function(page){
-              console.log('checking page '+page.url+' against '+ noteInfo.url);
-              console.log('checking team '+page.team._id+' against '+ team);
-              if(page.url===noteInfo.url&&(team==='personal'?page.team.name===team:page.team._id===team)){
-                console.log('match');
+              if(page.url===noteInfo.url&&(noteInfo.team==='personal'?page.team.name===noteInfo.team:page.team._id===noteInfo.team)){
                 page.notes.push(res);
                 return true;
               }
               return false;
             });
-            chrome.tabs.sendMessage(tab.id, {title: "newNote", note: res});
+            chrome.tabs.sendMessage(tab.id, {title: "newNote", note: res, team:noteInfo.team});
             return pages;
           });
         }).then(null,function(){});
