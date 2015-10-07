@@ -28,15 +28,15 @@ document.addEventListener("mousedown", function(event){
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if(request == "newNoteClick") {
-        renderNoteForm({position:{x: offset.x,y: offset.y}});
-        // sendResponse({team:team,url:document.URL, x: offset.x,y: offset.y});
+        // renderNoteForm({position:{x: offset.x,y: offset.y}});
+        sendResponse({team:'personal',url:document.URL, x: offset.x,y: offset.y});
     }
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     switch(request.title){
         case 'newNote':
-            renderNote(request.note);
+            renderNoteForm(request.note);
             break;
     }
 });

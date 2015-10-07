@@ -9,11 +9,14 @@ chrome.contextMenus.create({
 function onClickHandler(info, tab) {
   chrome.tabs.sendRequest(tab.id, "newNoteClick", function(noteInfo) {
         var team = noteInfo.team;
-        delete noteInfo.team;
         Promise.resolve($.post('http://127.0.0.1:1337/api/note',noteInfo)).then(function(res){
+          console.log('res',res);
           pagesProm=pagesProm.then(function(pages){
             pages.some(function(page){
-              if(page.url===noteInfo.url&&page.team._id===team){
+              console.log('checking page '+page.url+' against '+ noteInfo.url);
+              console.log('checking team '+page.team._id+' against '+ team);
+              if(page.url===noteInfo.url&&(team==='personal'?page.team.name===team:page.team._id===team)){
+                console.log('match');
                 page.notes.push(res);
                 return true;
               }
