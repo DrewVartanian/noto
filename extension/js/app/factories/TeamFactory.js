@@ -36,6 +36,7 @@ app.factory('TeamFactory', function ($http) {
         deleteTeamMember: function(teamID, userID){
             return $http(composeRequest('DELETE', '/api/team/' + teamID + '/users/' + userID))
             .then(function (response){
+                console.log("resdata", response.data);
                 return response.data;
             });
         },

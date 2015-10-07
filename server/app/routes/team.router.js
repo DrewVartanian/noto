@@ -47,7 +47,9 @@ router.post('/', function(req, res, next) {
 router.put('/:id', function(req, res, next) {
   if(req.body.userEmail){
     User.findOne({email: req.body.userEmail}).then(function(user){
-    if(user) req.team.users.push(user);
+      console.log(user);
+      console.log("second!", req.team.users);
+    if(user && req.team.users.indexOf(user) === -1) req.team.users.push(user);
      //if user does not exist, put invitation to email logic here.
 
       req.team.save()
