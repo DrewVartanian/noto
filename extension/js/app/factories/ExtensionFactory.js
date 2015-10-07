@@ -10,13 +10,13 @@ app.factory('ExtensionFactory', function ($http){
         };
     };
 
-	return {
-		getPages: function() {
-			return $http(composeRequest('GET', '/api/user/page'))
-			.then(function (res){
-				return res.data;
-			});
-		};
-	}
-});
+  return {
+    getPages: function() {
+      return $http(composeRequest('GET', '/api/user/page'))
+      .then(function (res){
+        return res.data;
+      });
+    }
+  };
 
+});
