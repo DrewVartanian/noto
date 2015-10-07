@@ -1,13 +1,22 @@
 app.factory('ExtensionFactory', function ($http){
 	
-	var getPages = function(user) {
-		return $http.get('http://127.0.0.1:1337/api/user/pages')
-		.then(function (res){
-			return res.data;
-		});
-	};
+	var server = 'http://127.0.0.1:1337';
 
-	return {
-		getPages: getPages
-	}
+	var composeRequest = function (method, url, data) {
+        return {
+            method: method,
+            url: server + url,
+            data: data
+        };
+    };
+
+  return {
+    getPages: function() {
+      return $http(composeRequest('GET', '/api/user/page'))
+      .then(function (res){
+        return res.data;
+      });
+    }
+  };
+
 });

@@ -12,7 +12,7 @@ var User = mongoose.model('User');
 
 // fsa-pre-built has: /login, /logout
 
-router.get('/pages/', function (req, res, next){
+router.get('/page/', function (req, res, next){
 
     var userId = req.user._id;
 
