@@ -1,6 +1,7 @@
 'use strict';
 var router = require('express').Router();
 var mongoose = require('mongoose');
+var bluebird = require('bluebird');
 var _ = require('lodash');
 module.exports = router;
 
@@ -58,13 +59,31 @@ router.post('/', function(req, res, next) {
 
   var currentPage;
   var retNote;
+  var teamFind;
+  var teamId;
 
   // look up current page by url
   // error note: multiple pages can have same URL
-  Page.findOne({url: req.body.url})
-  .then(function(page) {
+  console.log('note post');
+  if(req.body.team==='personal'){
+    console.log('personal');
+    teamFind = Team.findOne({name:'personal',users:[req.user._id]}).then(function(team){
+      return team?team:Team.create({name:'personal',users:[req.user._id]});
+    }).then(function(team){
+      teamId=team._id;
+    });
+  }else{
+    //ELSE STATMENT IS UNTESTED
+    console.log('team id provided: ',req.body.team);
+    teamId = req.body.team;
+    teamFind = Promise.resolve();
+  }
+
+  teamFind.then(function(){
+    return Page.findOne({url: req.body.url,team:teamId});
+  }).then(function(page) {
     // If page does not exist, create new page entry in database
-    return page?page:Page.create({url: req.body.url,team:'56129acb5fc3ffc54d05e202'});
+    return page?page:Page.create({url: req.body.url,team:teamId});
     })
   .then(function(page) {
     currentPage = page;
