@@ -27,8 +27,9 @@ document.addEventListener("mousedown", function(event){
 }, true);
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-    if(request == "getClickedEl") {
-        sendResponse({team:team,url:document.URL, x: offset.x,y: offset.y});
+    if(request == "newNoteClick") {
+        renderNoteForm({position:{x: offset.x,y: offset.y}});
+        // sendResponse({team:team,url:document.URL, x: offset.x,y: offset.y});
     }
 });
 

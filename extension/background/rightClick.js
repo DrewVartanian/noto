@@ -7,13 +7,13 @@ chrome.contextMenus.create({
 
 // context menu onclick callback function
 function onClickHandler(info, tab) {
-  chrome.tabs.sendRequest(tab.id, "getClickedEl", function(clickedEl) {
-        var team = clickedEl.team;
-        delete clickedEl.team;
-        Promise.resolve($.post('http://127.0.0.1:1337/api/note',clickedEl)).then(function(res){
+  chrome.tabs.sendRequest(tab.id, "newNoteClick", function(noteInfo) {
+        var team = noteInfo.team;
+        delete noteInfo.team;
+        Promise.resolve($.post('http://127.0.0.1:1337/api/note',noteInfo)).then(function(res){
           pagesProm=pagesProm.then(function(pages){
             pages.some(function(page){
-              if(page.url===clickedEl.url&&page.team._id===team){
+              if(page.url===noteInfo.url&&page.team._id===team){
                 page.notes.push(res);
                 return true;
               }

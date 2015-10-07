@@ -33,11 +33,11 @@ var schema = new mongoose.Schema({
   size: {
     x: {
       type: Number,
-      default: 250
+      default: 200
     },
     y: {
       type: Number,
-      default: 250
+      default: 200
     }
   },
   // DOM element association
