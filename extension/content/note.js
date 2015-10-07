@@ -1,18 +1,17 @@
 function renderNote(note)
 {
-    var self = this;
+    var thisNote = buildNote(note);
+    thisNote.addEventListener('click',function(){
+        console.log('note:',note);
+        unrenderNote(note._id);
+        renderNoteForm(note);
+    });
+}
 
+function buildNote(note){
     var thisNote = document.createElement('div');
 
-    thisNote.addEventListener('click', function() { return self.onNoteClick() }, false);
-
-    var edit = document.createElement('div');
-    edit.className = 'edit';
-    edit.setAttribute('contenteditable', true);
-    edit.addEventListener('keyup', function() { return self.onKeyUp() }, false);
-    thisNote.appendChild(edit);
-    thisNote.editField = edit;
-
+    thisNote.setAttribute('id',note._id);
     thisNote.style.backgroundColor= note.color;
     thisNote.style.left = note.position.x+'px';
     thisNote.style.top = note.position.y+'px';
@@ -20,34 +19,14 @@ function renderNote(note)
     thisNote.style.width = note.size.x + 'px';
     thisNote.style.zIndex = note.position.z;
     thisNote.style.position = "absolute";
-    this.note = thisNote;
 
     $("body").append(thisNote);
-    return this;
+    return thisNote;
 }
 
 function renderNoteForm(note)
 {
-    // var self = this;
-
-    var thisNote = document.createElement('div');
-
-    // thisNote.addEventListener('click', function() { return self.onNoteClick() }, false);
-
-    // var edit = document.createElement('div');
-    // edit.className = 'edit';
-    // edit.setAttribute('contenteditable', true);
-    // edit.addEventListener('keyup', function() { return self.onKeyUp() }, false);
-    // thisNote.appendChild(edit);
-    // thisNote.editField = edit;
-
-    thisNote.style.backgroundColor= note.color?note.color:'#FFFF00';
-    thisNote.style.left = note.position.x+'px';
-    thisNote.style.top = note.position.y+'px';
-    thisNote.style.height = (note.size?note.size.y:'200') + 'px';
-    thisNote.style.width = (note.size?note.size.x:'200') + 'px';
-    thisNote.style.zIndex = note.position.z?note.position.z:100;
-    thisNote.style.position = "absolute";
+    var thisNote = buildNote(note);
     thisNote.style.padding = "10px";
     thisNote.style['box-sizing'] = "border-box";
     var form = document.createElement('form');
@@ -62,18 +41,20 @@ function renderNoteForm(note)
     buttonSave.innerHTML='Save';
     var buttonCancel = document.createElement('button');
     buttonCancel.innerHTML='Cancel';
+    buttonCancel.addEventListener('click',function(){
+        unrenderNote(note._id);
+        renderNote(note);
+    },true);
+    var buttonDestroy = document.createElement('button');
+    buttonDestroy.innerHTML='Destroy';
     form.appendChild(messageInput);
     form.appendChild(buttonSave);
-    form.appendChild(buttonCancel);
+    thisNote.appendChild(buttonCancel);
+    thisNote.appendChild(buttonDestroy);
     thisNote.appendChild(form);
-    this.note = thisNote;
-
-    $("body").append(thisNote);
-    return this;
 }
 
-function onNoteClick(e)
-{
-    // this.editField.focus();
-    getSelection().collapseToEnd();
+function unrenderNote(noteId){
+    console.log('removing element')
+    $('#'+noteId).remove();
 }
