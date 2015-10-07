@@ -1,12 +1,24 @@
 <div class="container">
     <div>
-<!--         {{user.email}} {{pages}} -->
-        <ul ng-repeat="page in pages">
-            <li ui-sref="edit({id: page.team._id})">{{page.team.name}}</li>
-
-<!--             <ul ng-repeat="note in page.notes">
+        <!--         {{user.email}} {{pages}} -->
+        <ul ng-repeat="team in teams">
+            <li ui-sref="edit({id: team._id})">{{team.name}}</li>
+            <!--             <ul ng-repeat="note in page.notes">
                 <li>Note {{note}}</li>
             </ul> -->
         </ul>
+        <div>
+            <button type="button" class="btn btn-success" ng-click="toggleCreate = !toggleCreate">Create New Team</button>
+            <div class="container" ng-show="toggleCreate">
+                <form id="login-form" name="loginForm" ng-submit="loginForm.$valid && createNewTeam(teamObject)">
+                    <div class="form-group">
+                        <label for="teamName">Team Name</label>
+                        <input type="teamName" ng-model="teamObject.name" class="form-control" placeholder="Team Name">
+                    </div>
+                    <button type="submit" class="btn btn-default">Save</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
+<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>

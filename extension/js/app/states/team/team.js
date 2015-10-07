@@ -7,15 +7,37 @@ app.config(function($stateProvider) {
         resolve: {
             pages: function(ExtensionFactory) {
                 return ExtensionFactory.getPages()
+            },
+            teams: function(ExtensionFactory) {
+                return ExtensionFactory.getTeams()
             }
         }
     });
 
 });
 
-app.controller('teamController', function($scope, BackgroundFactory, $state, $rootScope, pages) {
-
+app.controller('teamController', function($scope, BackgroundFactory, $state, $rootScope, pages, teams, TeamFactory) {
+    $scope.alerts = [];
     $scope.pages = pages;
+    $scope.teams = teams;
+
+    $scope.createNewTeam = function(teamObject) {
+
+        if (teamObject.name === "personal") {
+            $scope.alerts.push({
+                msg: "personal is a reserved team name, please choose another",
+                type: 'danger'
+            });
+        } else {
+            TeamFactory.createNewTeam(teamObject.name).then(function(team) {
+                $scope.teams.push(team);
+            });
+        }
+    };
+
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
+    };
 
 
     // $scope.signup = {};
