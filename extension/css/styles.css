@@ -1,7 +1,7 @@
 #mainWindow {
   /*background-color: black;
   color: white;*/
-    height: 600px;
+    height: 520px;
     width: 400px;
 }
 
@@ -20,4 +20,14 @@ a {
 	margin-right: 20px;
 	position: absolute;
 	color: rgba(255, 255, 255, 1);
+	z-index: -1;
+	top: 0px;
+	padding-top: 50px;
+}
+
+#logotext {
+	color: black;
+	font-family: cursive;
+	margin-left: 40px;
+	margin-top: 80px;
 }

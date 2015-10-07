@@ -30,9 +30,15 @@
 </head>
 
 <body ng-app="WebNotes">
-    <nav-bar></nav-bar>
+    <nav-bar ng-show="isLoggedIn"></nav-bar>
     <div ui-view></div>
-    <i id="logo" class="fa fa-sticky-note"></i>
+    <div ng-show="!isLoggedIn"> 
+        <h1 id="logotext"> Welcome to WebNotes! </h1>
+        <i id="logo" class="fa fa-sticky-note"></i>
+        <p> already using WebNotes to make your life easier? </p> <a ui-sref="login">Log in here!</a>
+        <div></div>
+        <p> want to start ^ ? </p> <a ui-sref="signup">Sign up!</a>
+    </div>
 </body>
 
 </html>
