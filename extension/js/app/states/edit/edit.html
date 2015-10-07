@@ -11,10 +11,12 @@
         <div>
             <button type="button" class="btn btn-success" ng-click="toggleEdit = !toggleEdit">Edit This Team</button>
             <div class="container" ng-show="toggleEdit">
-                <form id="login-form" name="loginForm" ng-submit="loginForm.$valid && addNewTeamMember(team._id, userObject)">
+                <form id="login-form" name="loginForm" ng-submit="addNewTeamMember(team._id, userObject, teamObject)">
                     <div class="form-group">
+                        <label for="teamName">Team Name</label>
+                        <input type="name" ng-model="teamObject.name" class="form-control">
                         <label for="email">Add Members</label>
-                        <input type="email" ng-model="userObject.email" class="form-control" placeholder="email">
+                        <input type="email" ng-model="userObject.email" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-default">Save</button>
                 </form>
