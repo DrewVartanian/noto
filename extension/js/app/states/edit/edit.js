@@ -29,16 +29,17 @@ app.controller('editController', function ($scope, BackgroundFactory, TeamFactor
 
     $scope.addNewTeamMember = function(teamId, userObj){
         var email = userObj.email;
+        var isDuplicate = false;
         $scope.team.users.forEach(function(user){
             if(user.email === email){
                 $scope.alerts.push({
                     msg: "User is already part of the team",
                     type: 'danger'
                 });
-                return;
+                isDuplicate = true;
             }
         })
-
+        if(isDuplicate) return;
         TeamFactory.updateTeam(teamId, {userEmail: email}).then(function(returnedTeam) {
 
             if(returnedTeam.users.length > $scope.team.users.length) { 
