@@ -12,3 +12,12 @@ a {
 #teamGroup{
 	display: inline;
 }
+
+#logo {
+	font-size: 30em;
+	text-align: center;
+	margin-left: 20px;
+	margin-right: 20px;
+	position: absolute;
+	color: rgba(255, 255, 255, 1);
+}
