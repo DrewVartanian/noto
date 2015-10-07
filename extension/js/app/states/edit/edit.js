@@ -6,7 +6,7 @@ app.config(function ($stateProvider) {
         controller: 'editController',
         resolve: {
             pages: function(ExtensionFactory) {
-                return ExtensionFactory.getPages()
+                return ExtensionFactory.getPages();
             },
             users: function(TeamFactory, $stateParams) {
                 return TeamFactory.getTeamMembers($stateParams.id);
@@ -17,62 +17,61 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('editController', function ($scope, BackgroundFactory, TeamFactory, $state, $rootScope, pages, $stateParams, users) {
-
+    $scope.alerts = [];
     $scope.pages = pages;
     $scope.teamId = $stateParams.id;
-
-    $scope.teamPages = pages.filter(function(page){
-        return (page.team._id === $scope.teamId)
-    })
-
     $scope.team = users;
+    
+    $scope.teamPages = pages.filter(function(page){
+        return (page.team._id === $scope.teamId);
+    });
 
 
     $scope.addNewTeamMember = function(teamId, userObj){
         var email = userObj.email;
-        TeamFactory.updateTeam(teamId, {userEmail: email});
+        var isDuplicate = false;
+        $scope.team.users.forEach(function(user){
+            if(user.email === email){
+                $scope.alerts.push({
+                    msg: "User is already part of the team",
+                    type: 'danger'
+                });
+                isDuplicate = true;
+            }
+        })
+        if(isDuplicate) return;
+        TeamFactory.updateTeam(teamId, {userEmail: email}).then(function(returnedTeam) {
+
+            if(returnedTeam.users.length > $scope.team.users.length) { 
+                $scope.team.users.push(userObj);
+            }else {
+                $scope.alerts.push({
+                msg: "User Not Found",
+                type: 'danger'
+            });
+            }
+        }).then($scope.checktoggle());
     };
 
     $scope.deleteMember = function(teamId, userId){
-        TeamFactory.deleteTeamMember(teamId, userId);
+        TeamFactory.deleteTeamMember(teamId, userId).then(function (team) {
+            console.log("this is the team", team);
+        })
+        .then(function() {
+            $scope.team.users = $scope.team.users.filter(function (user) {
+               return user._id !== userId;
+            });
+        });
     };
 
-    // $scope.signup = {};
-    // $scope.alerts = [];
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
+    };
 
-    // var backgroundPage = BackgroundFactory.getBackgroundPage();
-    // var currentUser = backgroundPage.user;
-
-    // // function validateEmail(email) {
-    // //     var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-    // //     return re.test(email);
-    // // }
-
-    // $scope.sendSignup = function (signupInfo) {
-    //     if(signupInfo.password !== signupInfo.emailvalid) {
-    //         $scope.alerts.push({
-    //             msg: "Passwords do not match",
-    //             type: 'danger'
-    //         });
-    //     }
-
-    //     BackgroundFactory.registerUser(signupInfo)
-    //     .then(function (userInfo) {
-    //         currentUser.setLoggedInUser(userInfo);
-    //         $rootScope.isLoggedIn = true;
-    //         $state.go('webnote');
-    //     })
-    //     .catch(function (err) {
-    //         $scope.alerts.push({
-    //             msg: err.data || 'no err msg',
-    //             type: 'danger'
-    //         });
-    //     });
-    // };
-
-    // $scope.closeAlert = function(index) {
-    //     $scope.alerts.splice(index, 1);
-    // };
-
+    $scope.checktoggle = function() {
+        if($scope.alerts[0] === undefined) {
+            $scope.toggleEdit = !$scope.toggleEdit;
+        }
+    };
 });
 
