@@ -1,13 +1,12 @@
 console.log("Content Script");
 
-var clickedEl = null;
-var offset = {};
-var pages;
-var team;
+// var clickedEl = null;
+// var offset = {};
+// var pages;
+// var team;
 
-chrome.runtime.sendMessage("newPage",function(backgroundPages){
+chrome.runtime.sendMessage({title: "newPage"},function(backgroundPages){
     pages=backgroundPages;
-    console.log(pages);
     pages.forEach(function(page){
         team=page.team._id;
         page.notes.forEach(function(note){
@@ -28,7 +27,6 @@ document.addEventListener("mousedown", function(event){
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if(request == "newNoteClick") {
-        // renderNoteForm({position:{x: offset.x,y: offset.y}});
         sendResponse({team:'personal',url:document.URL, x: offset.x,y: offset.y});
     }
 });
@@ -36,6 +34,13 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     switch(request.title){
         case 'newNote':
+            pages.some(function(page){
+              if(request.team==='personal'?page.team.name===request.team:page.team._id===request.team){
+                page.notes.push(request.note);
+                return true;
+              }
+              return false;
+            });
             renderNoteForm(request.note);
             break;
     }

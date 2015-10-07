@@ -2,7 +2,6 @@ function renderNote(note)
 {
     var thisNote = buildNote(note);
     thisNote.addEventListener('click',function(){
-        console.log('note:',note);
         unrenderNote(note._id);
         renderNoteForm(note);
     });
@@ -47,6 +46,10 @@ function renderNoteForm(note)
     },true);
     var buttonDestroy = document.createElement('button');
     buttonDestroy.innerHTML='Destroy';
+    buttonDestroy.addEventListener('click',function(){
+        destroyNote(note._id);
+        // unrenderNote(note._id);
+    },true);
     form.appendChild(messageInput);
     form.appendChild(buttonSave);
     thisNote.appendChild(buttonCancel);
@@ -55,6 +58,24 @@ function renderNoteForm(note)
 }
 
 function unrenderNote(noteId){
-    console.log('removing element')
+    console.log('removing element');
     $('#'+noteId).remove();
+}
+
+function destroyNote(noteId){
+    console.log('destroying element');
+    chrome.runtime.sendMessage({title: "destroyNote",noteId: noteId},function(confirmation){
+        if(confirmation==='deleted'){
+            pages.some(function(page){
+                return page.notes.some(function(note,index){
+                    if(note._id===noteId){
+                        page.notes.splice(index,1);
+                        return true;
+                    }
+                    return false;
+                });
+            });
+            unrenderNote(noteId);
+        }
+    });
 }

@@ -155,10 +155,17 @@ router.put('/:id', function(req, res, next) {
 // DELETE specific note
 // TODO: only owner can delete note
 router.delete('/:id', function(req, res, next) {
-  req.note.remove()
-    .then(function() {
-      res.sendStatus(204);
-    })
-    .then(null, next);
+  var pageSaves=[];
+  Page.find({notes: req.note._id}).then(function(pages){
+    pages.forEach(function(page){
+      page.notes.splice(page.notes.indexOf(req.note._id),1);
+      pageSaves.push(page.save());
+    });
+    return Promise.all(pageSaves);
+  }).then(function(){
+    return req.note.remove();
+  }).then(function(){
+    res.sendStatus(204);
+  }).then(null, next);
 });
 
