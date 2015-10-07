@@ -35,18 +35,15 @@ app.controller('editController', function ($scope, BackgroundFactory, TeamFactor
                     msg: "User is already part of the team",
                     type: 'danger'
                 });
+                return;
             }
         })
 
         TeamFactory.updateTeam(teamId, {userEmail: email}).then(function(returnedTeam) {
-            if(returnedTeam) { 
-                if(returnedTeam.users.length > $scope.team.users.length){
-                    $scope.team.users.push(userObj);
-                }
-            }
 
-            else {
-
+            if(returnedTeam.users.length > $scope.team.users.length) { 
+                $scope.team.users.push(userObj);
+            }else {
                 $scope.alerts.push({
                 msg: "User Not Found",
                 type: 'danger'

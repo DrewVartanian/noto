@@ -50,6 +50,8 @@ router.put('/:id', function(req, res, next) {
       console.log(user);
       console.log("second!", req.team.users);
     if(user && req.team.users.indexOf(user._id) === -1) req.team.users.push(user._id);
+
+
      //if user does not exist, put invitation to email logic here.
 
       req.team.save()
