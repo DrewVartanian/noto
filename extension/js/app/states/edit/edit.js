@@ -30,7 +30,7 @@ app.controller('editController', function ($scope, BackgroundFactory, TeamFactor
     $scope.addNewTeamMember = function(teamId, userObj){
         var email = userObj.email;
         TeamFactory.updateTeam(teamId, {userEmail: email}).then(function(returnedTeam) {
-            if(returnedTeam) { 
+            if(returnedTeam.users.length > $scope.team.users.length) { 
             $scope.team.users.push(userObj);
             }else {
                 $scope.alerts.push({
