@@ -16,7 +16,14 @@ app.factory('ExtensionFactory', function ($http){
       .then(function (res){
         return res.data;
       });
+    },
+    getTeams: function() {
+      return $http(composeRequest('GET', '/api/user/team'))
+      .then(function (res){
+        return res.data
+      });
     }
+
   };
 
 });

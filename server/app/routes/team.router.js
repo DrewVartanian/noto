@@ -36,9 +36,9 @@ router.get('/:id/users', function(req, res, next) {
 // POST new team
 router.post('/', function(req, res, next) {
   console.log("what is post team req body ", req.body);
-  Team.create(req.body)
+  Team.create({name: req.body.teamName, users: [req.user._id]})
     .then(function(team) {
-      res.status(201).json(team);
+        res.status(201).json(team);
     })
     .then(null, next);
 });

@@ -46,6 +46,13 @@ app.factory('TeamFactory', function ($http) {
             .then(function (response){
                 return response.data;
             });
+        },
+
+        createNewTeam: function(teamName) {
+            return $http(composeRequest('POST', '/api/team/', {teamName: teamName}))
+            .then(function (response){
+                return response.data;
+            });
         }
     };
 
