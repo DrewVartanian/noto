@@ -1,4 +1,4 @@
-app.factory('TeamFactory', function ($http) {
+app.factory('PageFactory', function ($http) {
 
     var server = 'http://127.0.0.1:1337';
 
