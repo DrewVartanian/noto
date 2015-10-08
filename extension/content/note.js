@@ -63,6 +63,7 @@ function unrenderNote(noteId){
 }
 
 function destroyNote(noteId){
+    
     console.log('destroying element');
     chrome.runtime.sendMessage({title: "destroyNote",noteId: noteId},function(confirmation){
         if(confirmation==='deleted'){
