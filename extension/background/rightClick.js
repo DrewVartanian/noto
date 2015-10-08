@@ -29,7 +29,7 @@
                 res.page.notes[0] = res.note;
                 pages.push(res.page);
               }
-              chrome.tabs.sendMessage(tab.id, {title: "newNote", note: res.note, team:noteInfo.team});
+              chrome.tabs.sendMessage(tab.id, {title: "newNote", note: res.note, teamId:res.teamId});
               return pages;
             });
           }).then(null,function(){});
