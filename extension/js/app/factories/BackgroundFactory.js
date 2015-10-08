@@ -29,6 +29,7 @@ app.factory('BackgroundFactory', function ($http, $q) {
             .then(function (response) {
                 var registeredUser = response.data.user;
                 setUser(registeredUser);
+                console.log("this is the user u get back!", registeredUser)
                 return registeredUser;
             });
         },

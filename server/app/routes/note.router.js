@@ -61,6 +61,7 @@ router.post('/', function(req, res, next) {
   var retNote;
   var teamFind;
   var teamId;
+  var newPageNeeded=false;
 
   // look up current page by url
   // error note: multiple pages can have same URL
@@ -83,7 +84,10 @@ router.post('/', function(req, res, next) {
     return Page.findOne({url: req.body.url,team:teamId});
   }).then(function(page) {
     // If page does not exist, create new page entry in database
-    return page?page:Page.create({url: req.body.url,team:teamId});
+    if(page) return page;
+    newPageNeeded=true;
+    return Page.create({url: req.body.url,team:teamId});
+    // return page?page:Page.create({url: req.body.url,team:teamId});
     })
   .then(function(page) {
     currentPage = page;
@@ -95,8 +99,10 @@ router.post('/', function(req, res, next) {
     return currentPage.save();
   })
   .then(function(page){
+    return newPageNeeded?(page.populate('team').execPopulate()):page;
+  }).then(function(page){
     console.log('new posted note: ', retNote);
-    res.json(retNote);
+    res.json({page: newPageNeeded?page:false, note: retNote});
   })
   .then(null,next);
 

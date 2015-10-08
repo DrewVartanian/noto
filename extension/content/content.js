@@ -12,6 +12,9 @@ chrome.runtime.sendMessage({title: "newPage"},function(pages){
         });
     });
 });
+
+
+
 // chrome.runtime.sendMessage({greeting: 'hello'});
 
 document.addEventListener("mousedown", function(event){
