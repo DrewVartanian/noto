@@ -8,10 +8,13 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('pagesController', function ($scope) {
+app.controller('pagesController', function ($scope, PageFactory) {
    
     console.log("are those rootscope pages?", pages);
-      $scope.pages = pages;
+      $scope.pages = PageFactory.getMyPages().then(function(pages){
+        $scope.pages = pages;
+        
+      })
       // pages.forEach(function(page){
       //   $scope.pages.push(page);
       // })

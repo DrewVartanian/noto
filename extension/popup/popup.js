@@ -1,5 +1,6 @@
   var pages, teams;
 
+  
   chrome.runtime.sendMessage({title: "newPopup"},function(backgroundPages){
     pages=backgroundPages;
     // pages.forEach(function(page){
