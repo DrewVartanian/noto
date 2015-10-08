@@ -35,12 +35,14 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note)
     var messageInput= document.createElement('textarea');
     messageInput.setAttribute('rows','10');
     messageInput.style.width='100%';
+    messageInput.style.height='134px';
     messageInput.style.resize='none';
     messageInput.style.backgroundColor = thisNote.style.backgroundColor;
     messageInput.style['border-style'] = 'none';
     messageInput.style['box-sizing'] = "border-box";
     messageInput.innerHTML = note.message?note.message:"";
     var buttonSave = document.createElement('button');
+    buttonSave.style['-webkit-appearance'] = 'push-button';
     buttonSave.setAttribute('type','submit');
     buttonSave.innerHTML='Save';
     form.addEventListener('submit', function(e){
@@ -51,12 +53,14 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note)
 
 
     var buttonCancel = document.createElement('button');
+    buttonCancel.style['-webkit-appearance'] = 'push-button';
     buttonCancel.innerHTML='Cancel';
     buttonCancel.addEventListener('click',function(){
         self.unrenderNote(note._id);
         self.renderNote(note);
     },true);
     var buttonDestroy = document.createElement('button');
+    buttonDestroy.style['-webkit-appearance'] = 'push-button';
     buttonDestroy.innerHTML='Destroy';
     buttonDestroy.addEventListener('click',function(){
         self.destroyNote(note._id);

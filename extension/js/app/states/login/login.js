@@ -27,7 +27,7 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
             } else {
                 currentUser.setLogOutUser();
                 $rootScope.isLoggedIn = false;
-                $state.go('login');
+                $state.go('webnote');
             }
         })
         .catch(function (err) {
