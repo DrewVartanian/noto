@@ -1,6 +1,7 @@
+(function (){
 // Cryptoveil modified copypasta below
 /////////////////////  USER STATE  /////////////////////
-var user = new User();
+GLOBALS.user = new User();
 
 function User (userInfo) {
 
@@ -62,3 +63,4 @@ function sendToContentScript (command, payload) {
         chrome.tabs.sendMessage(tab.id, {command: command, payload: payload});
     });
 }
+})();

@@ -1,3 +1,4 @@
+(function(){
 var toggle = false;
 chrome.browserAction.onClicked.addListener(function(tab) {
   toggle = !toggle;
@@ -9,3 +10,4 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     chrome.tabs.executeScript(tab.id, {code:"alert()"});
   }
 });
+})();
