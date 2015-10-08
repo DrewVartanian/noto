@@ -1,6 +1,7 @@
+// NOTE: this file to be deleted
   var pages, teams;
 
-  
+
   chrome.runtime.sendMessage({title: "newPopup"},function(backgroundPages){
     pages=backgroundPages;
     // pages.forEach(function(page){
@@ -20,7 +21,7 @@
     teams = teams.filter(function(team){
       return teams_name.indexOf(team.name) === teams.indexOf(team);
     })
-    
+
 
     teams.forEach(function(team){
       team.pages = [];
@@ -30,7 +31,7 @@
         }
       })
     })
-    
+
   	console.log("what are the pages?", pages);
     console.log("what are the teams", teams);
    // });

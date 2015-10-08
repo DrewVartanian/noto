@@ -8,19 +8,24 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('pagesController', function ($scope, PageFactory) {
-   
-    console.log("are those rootscope pages?", pages);
-      $scope.pages = PageFactory.getMyPages().then(function(pages){
-        $scope.pages = pages;
-        
-      })
-      // pages.forEach(function(page){
-      //   $scope.pages.push(page);
-      // })
-      $scope.teams = teams;
+app.controller('pagesController', function ($scope, PageFactory, TeamFactory) {
 
- console.log($scope.pages);
- console.log($scope.teams);
+      PageFactory.getMyPages().then(function(pages){
+        $scope.pages = pages;
+      });
+
+      TeamFactory.getMyTeams().then(function(teams){
+        // note: assumes the promise above returns array of unique teams
+        $scope.teams = teams;
+        //populate team with array of pages
+        $scope.pages.forEach(function(page){
+            $scope.teams.forEach(function(team) {
+              team.pages = [];
+              if(page.team._id === team._id){
+                team.pages.push(page);
+              }
+            });
+        });
+
 
 });

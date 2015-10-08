@@ -11,7 +11,6 @@ app.factory('PageFactory', function ($http, BackgroundFactory) {
     };
 
     return {
-        // note: this route uses req.user. re-wire to currentUser?
         getMyPages: function() {
             return BackgroundFactory.getBackgroundPage().pagesProm;
         }

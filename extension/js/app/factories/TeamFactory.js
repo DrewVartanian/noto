@@ -1,4 +1,4 @@
-app.factory('TeamFactory', function ($http) {
+app.factory('TeamFactory', function ($http, BackgroundFactory) {
 
     var server = 'http://127.0.0.1:1337';
 
@@ -11,6 +11,10 @@ app.factory('TeamFactory', function ($http) {
     };
 
     return {
+
+        getMyTeams: function() {
+            return BackgroundFactory.getBackgroundPage().getTeams;
+        },
 
         createTeam: function(teamInfo) {
             return $http(composeRequest('POST', '/api/team', teamInfo))
