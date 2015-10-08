@@ -7,6 +7,9 @@ console.log("Content Script");
 
 chrome.runtime.sendMessage({title: "newPage"},function(backgroundPages){
     pages=backgroundPages;
+
+    console.log("Background pages: ", pages);
+    
     pages.forEach(function(page){
         team=page.team._id;
         page.notes.forEach(function(note){

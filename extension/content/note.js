@@ -1,6 +1,7 @@
 function renderNote(note)
 {
     var thisNote = buildNote(note);
+    thisNote.innerHTML = note.message?note.message:"";
     thisNote.addEventListener('click',function(){
         unrenderNote(note._id);
         renderNoteForm(note);
@@ -11,6 +12,7 @@ function buildNote(note){
     var thisNote = document.createElement('div');
 
     thisNote.setAttribute('id',note._id);
+    thisNote.style.padding = "10px";
     thisNote.style.backgroundColor= note.color;
     thisNote.style.left = note.position.x+'px';
     thisNote.style.top = note.position.y+'px';
@@ -26,7 +28,6 @@ function buildNote(note){
 function renderNoteForm(note)
 {
     var thisNote = buildNote(note);
-    thisNote.style.padding = "10px";
     thisNote.style['box-sizing'] = "border-box";
     var form = document.createElement('form');
     var messageInput= document.createElement('textarea');
@@ -36,8 +37,17 @@ function renderNoteForm(note)
     messageInput.style.backgroundColor = thisNote.style.backgroundColor;
     messageInput.style['border-style'] = 'none';
     messageInput.style['box-sizing'] = "border-box";
+    messageInput.innerHTML = note.message?note.message:"";
     var buttonSave = document.createElement('button');
+    buttonSave.setAttribute('type','submit');
     buttonSave.innerHTML='Save';
+    form.addEventListener('submit', function(e){
+        e.preventDefault();
+        saveNote(note._id, messageInput.value);
+
+    });
+
+
     var buttonCancel = document.createElement('button');
     buttonCancel.innerHTML='Cancel';
     buttonCancel.addEventListener('click',function(){
@@ -54,16 +64,16 @@ function renderNoteForm(note)
     form.appendChild(buttonSave);
     thisNote.appendChild(buttonCancel);
     thisNote.appendChild(buttonDestroy);
+
+
     thisNote.appendChild(form);
 }
 
 function unrenderNote(noteId){
-    console.log('removing element');
     $('#'+noteId).remove();
 }
 
 function destroyNote(noteId){
-    console.log('destroying element');
     chrome.runtime.sendMessage({title: "destroyNote",noteId: noteId},function(confirmation){
         if(confirmation==='deleted'){
             pages.some(function(page){
@@ -77,5 +87,22 @@ function destroyNote(noteId){
             });
             unrenderNote(noteId);
         }
+    });
+}
+
+
+function saveNote(noteId, message){
+    chrome.runtime.sendMessage({title: "saveNote", noteId: noteId, message: message},function(changedNote){
+        pages.some(function(page){
+            return page.notes.some(function(note,index){
+                if(note._id===noteId){
+                    page.notes[index] = changedNote;
+                    return true;
+                }
+                return false;
+            });
+        });
+        unrenderNote(noteId);
+        renderNote(changedNote);
     });
 }
