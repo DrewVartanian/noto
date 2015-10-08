@@ -1,9 +1,9 @@
 app.config(function ($stateProvider) {
 
     $stateProvider.state('webnote', {
-        url: '/webnote',
+        url: '/',
         templateUrl: 'js/app/states/webnote/webnote.html',
-        controller: 'WebnoteCtrl',
+        controller: 'loginController',
         resolve: {
             theUser: function (BackgroundFactory) {
               return BackgroundFactory.getLoggedInUser();
@@ -14,25 +14,27 @@ app.config(function ($stateProvider) {
 });
 
 
-app.controller('WebnoteCtrl', function ($scope, BackgroundFactory, $state, ExtensionFactory, theUser) {
+// app.controller('WebnoteCtrl', function ($scope, BackgroundFactory, $state, ExtensionFactory, theUser) {
 
-    // $scope.login = {};
-    // $scope.error = null;
-    $scope.user = theUser;
+//     // $scope.login = {};
+//     // $scope.error = null;
+//     $scope.user = theUser;
 
-    $scope.logout = function () {
-        BackgroundFactory.logOutUser().then(function() {
-            $scope.user = '';
-            $state.go('login');
-        });
-        console.log("LOGGED ME OUT!");
-    };
-    $scope.gotoLogIn = function(){
-        $state.go("login");
-    };
+//     $scope.logout = function () {
+//         BackgroundFactory.logOutUser().then(function() {
+//             $scope.user = '';
+//             $state.go('login');
+//         });
+//         console.log("LOGGED ME OUT!");
+//     };
+//     $scope.gotoLogIn = function(){
+//         $state.go("login");
+//     };
 
-     $scope.gotoSignUp = function(){
-        $state.go("signup");
-    };
+//      $scope.gotoSignUp = function(){
+//         $state.go("signup");
+//     };
 
-});
+// });
+
+
