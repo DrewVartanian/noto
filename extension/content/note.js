@@ -16,7 +16,7 @@ function buildNote(note){
     thisNote.style.top = note.position.y+'px';
     thisNote.style.height = note.size.y + 'px';
     thisNote.style.width = note.size.x + 'px';
-    thisNote.style.zIndex = note.position.z;
+    thisNote.style.zIndex = 2147483647;//note.position.z+highestZ;
     thisNote.style.position = "absolute";
 
     $("body").append(thisNote);
