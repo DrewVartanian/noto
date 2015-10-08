@@ -6,6 +6,11 @@ function getPages(){
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     switch(request.title){
+        case 'newPopup': pagesProm.then(function(pages){
+            console.log("newPopup", pages);
+            sendResponse(pages);
+        });
+            return true;
         case 'newPage':
             pagesProm.then(function(pages){
                 var pageToContent=pages.filter(function(page){
