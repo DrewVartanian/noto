@@ -9,8 +9,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         case 'newPage':
             pagesProm.then(function(pages){
                 var pageToContent=pages.filter(function(page){
+                    console.log('page url: ',page.url);
+                    console.log('sender url: ',sender.url);
                     return (page.url===sender.url);
                 });
+                console.log('page matches',pageToContent);
                 sendResponse(pageToContent);
             });
             return true;
@@ -37,7 +40,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                 }
             });
             return true;
-            
         // saveNote
         case 'saveNote':
             console.log('saveNote');
