@@ -1,42 +1,33 @@
-console.log("Content Script");
-
-// var clickedEl = null;
-// var offset = {};
-// var pages;
-// var team;
-
 chrome.runtime.sendMessage({title: "newPage"},function(pages){
     pages.forEach(function(page){
         page.notes.forEach(function(note){
-            renderNote(note);
+            GLOBALS_WEB_NOTES.renderNote(note);
         });
     });
 });
 
-
-
-// chrome.runtime.sendMessage({greeting: 'hello'});
-
 document.addEventListener("mousedown", function(event){
-    //right click
+    //right clickteam
     if(event.button == 2) {
-        clickedEl = event.target;
-        offset.x = event.x;
-        offset.y = event.y;
+        GLOBALS_WEB_NOTES.clickedEl = event.target;
+        GLOBALS_WEB_NOTES.offset.x = event.x;
+        GLOBALS_WEB_NOTES.offset.y = event.y;
     }
 }, true);
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if(request == "newNoteClick") {
-        sendResponse({team:team,url:document.URL, x: offset.x,y: offset.y});
+        sendResponse({team: GLOBALS_WEB_NOTES.team,
+            url:document.URL,
+            x: GLOBALS_WEB_NOTES.offset.x,
+            y: GLOBALS_WEB_NOTES.offset.y});
     }
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     switch(request.title){
         case 'newNote':
-            renderNoteForm(request.note);
+            GLOBALS_WEB_NOTES.renderNoteForm(request.note);
             break;
     }
 });
-
