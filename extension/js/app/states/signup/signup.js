@@ -16,15 +16,21 @@ app.controller('signupController', function ($scope, BackgroundFactory, $state, 
     var backgroundPage = BackgroundFactory.getBackgroundPage();
     var currentUser = backgroundPage.user;
 
-    // function validateEmail(email) {
-    //     var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-    //     return re.test(email);
-    // }
+    function validateEmail(email) {
+        var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+        return re.test(email);
+    }
 
     $scope.sendSignup = function (signupInfo) {
         if(signupInfo.password !== signupInfo.emailvalid) {
             $scope.alerts.push({
                 msg: "Passwords do not match",
+                type: 'danger'
+            });
+            return;
+        }else if(!validateEmail(signupInfo.email)) {
+            $scope.alerts.push({
+                msg: "Please enter a valid email address",
                 type: 'danger'
             });
         }
