@@ -102,7 +102,7 @@ router.post('/', function(req, res, next) {
     return newPageNeeded?(page.populate('team').execPopulate()):page;
   }).then(function(page){
     console.log('new posted note: ', retNote);
-    res.json({page: newPageNeeded?page:false, note: retNote});
+    res.json({page: newPageNeeded?page:false, note: retNote, teamId: teamId});
   })
   .then(null,next);
 
@@ -151,11 +151,45 @@ router.post('/', function(req, res, next) {
 // TODO: only owner can edit note
 router.put('/:id', function(req, res, next) {
   _.extend(req.note, req.body);
-  req.note.save()
-    .then(function(note) {
-      res.status(200).json(note);
-    })
-    .then(null, next);
+  var retNote;
+  var newPageNeeded = true;
+  req.note.save().then(function(note) {
+      retNote=note;
+      if(req.body.oldTeam===req.body.newTeam) return ['stay'];
+      return Page.find({
+        $and: [
+            {url: req.body.url},
+            {$or: [{team: req.body.oldTeam}, {team: req.body.newTeam}]}
+        ]
+      });
+  }).then(function(pages){
+    console.log(pages);
+    if(pages[0]==='stay'){
+      newPageNeeded=false;
+      return;
+    }
+    var pageSaves=pages.map(function(page){
+      if(page.team.toString()===req.body.oldTeam){
+        page.notes.splice(page.notes.indexOf(req.note._id),1);
+      }else if(page.team.toString()===req.body.newTeam){
+        newPageNeeded = false;
+        page.notes.push(req.note._id);
+      }
+      return page.save();
+    });
+    return Promise.all(pageSaves);
+  }).then(function(){
+    if(newPageNeeded){
+      return Page.create({
+        url: req.body.url,
+        team: req.body.newTeam,
+        notes: [req.note._id]
+      });
+    }
+    return;
+  }).then(function(){
+    res.status(200).json(retNote);
+  }).then(null, next);
 });
 
 // DELETE specific note
