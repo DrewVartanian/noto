@@ -1,8 +1,13 @@
 app.factory('BackgroundFactory', function ($http, $q) {
 
-    var backgroundPage = chrome.extension.getBackgroundPage();
-    var currentUser = backgroundPage.user;
     var server = 'http://127.0.0.1:1337';
+
+    var getBackgroundPage = function () {
+        return chrome.extension.getBackgroundPage().GLOBALS;
+    };
+
+    var backgroundPage = getBackgroundPage();
+    var currentUser = backgroundPage.user;
 
     var composeRequest = function (method, url, data) {
         return {
@@ -19,9 +24,7 @@ app.factory('BackgroundFactory', function ($http, $q) {
 
     return {
 
-        getBackgroundPage: function () {
-            return chrome.extension.getBackgroundPage();
-        },
+        getBackgroundPage: getBackgroundPage,
 
 
         registerUser: function(signUpInfo) {

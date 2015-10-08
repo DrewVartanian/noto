@@ -1,6 +1,6 @@
-app.factory('NoteFactory', function ($http) {
+app.factory('NoteFactory', function ($http,BackgroundFactory) {
 
-    var backgroundPage = chrome.extension.getBackgroundPage();
+    var backgroundPage = BackgroundFactory.getBackgroundPage();
     var currentUser = backgroundPage.user;
     var server = 'http://127.0.0.1:1337';
 

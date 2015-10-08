@@ -1,3 +1,4 @@
+(function(){
 // create rightclick context menu "Add New Note" option
 chrome.contextMenus.create({
     "title": "Add New Note",
@@ -15,7 +16,7 @@ function findPageMatch(page, url, team){
 function onClickHandler(info, tab) {
   chrome.tabs.sendRequest(tab.id, "newNoteClick", function(noteInfo) {
         Promise.resolve($.post('http://127.0.0.1:1337/api/note',noteInfo)).then(function(res){
-          pagesProm=pagesProm.then(function(pages){
+          GLOBALS.pagesProm.then(function(pages){
             if(!res.page){
               pages.some(function(page){
                 if(findPageMatch(page,noteInfo.url,noteInfo.team)){
@@ -34,3 +35,4 @@ function onClickHandler(info, tab) {
         }).then(null,function(){});
     });
 }
+})();
