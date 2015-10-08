@@ -1,7 +1,7 @@
 app.config(function ($stateProvider) {
 
     $stateProvider.state('pages', {
-        url: '/pages',
+        url: '/',
         templateUrl: 'js/app/states/pages/pages.html',
         controller: 'pagesController'
     });
@@ -15,8 +15,9 @@ app.controller('pagesController', function ($scope) {
       // pages.forEach(function(page){
       //   $scope.pages.push(page);
       // })
+      $scope.teams = teams;
 
  console.log($scope.pages);
-
+ console.log($scope.teams);
 
 });

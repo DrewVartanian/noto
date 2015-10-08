@@ -1,14 +1,4 @@
-function renderNote(note)
-{
-    var thisNote = buildNote(note);
-    thisNote.innerHTML = note.message?note.message:"";
-    thisNote.addEventListener('click',function(){
-        unrenderNote(note._id);
-        renderNoteForm(note);
-    });
-}
-
-function buildNote(note){
+GLOBALS_WEB_NOTES.buildNote = function(note){
     var thisNote = document.createElement('div');
 
     thisNote.setAttribute('id',note._id);
@@ -18,47 +8,62 @@ function buildNote(note){
     thisNote.style.top = note.position.y+'px';
     thisNote.style.height = note.size.y + 'px';
     thisNote.style.width = note.size.x + 'px';
-    thisNote.style.zIndex = note.position.z;
+    thisNote.style.zIndex = 2147483647;//note.position.z+highestZ;
     thisNote.style.position = "absolute";
 
     $("body").append(thisNote);
     return thisNote;
-}
+};
 
-function renderNoteForm(note)
+GLOBALS_WEB_NOTES.renderNote = function(note)
 {
-    var thisNote = buildNote(note);
+    var self = this;
+    var thisNote = this.buildNote(note);
+    thisNote.innerHTML = note.message?note.message:"";
+    thisNote.addEventListener('click',function(){
+        self.unrenderNote(note._id);
+        self.renderNoteForm(note);
+    });
+};
+
+GLOBALS_WEB_NOTES.renderNoteForm = function(note)
+{
+    var self = this;
+    var thisNote = this.buildNote(note);
     thisNote.style['box-sizing'] = "border-box";
     var form = document.createElement('form');
     var messageInput= document.createElement('textarea');
     messageInput.setAttribute('rows','10');
     messageInput.style.width='100%';
+    messageInput.style.height='134px';
     messageInput.style.resize='none';
     messageInput.style.backgroundColor = thisNote.style.backgroundColor;
     messageInput.style['border-style'] = 'none';
     messageInput.style['box-sizing'] = "border-box";
     messageInput.innerHTML = note.message?note.message:"";
     var buttonSave = document.createElement('button');
+    buttonSave.style['-webkit-appearance'] = 'push-button';
     buttonSave.setAttribute('type','submit');
     buttonSave.innerHTML='Save';
     form.addEventListener('submit', function(e){
         e.preventDefault();
-        saveNote(note._id, messageInput.value);
+        self.saveNote(note._id, messageInput.value);
 
     });
 
 
     var buttonCancel = document.createElement('button');
+    buttonCancel.style['-webkit-appearance'] = 'push-button';
     buttonCancel.innerHTML='Cancel';
     buttonCancel.addEventListener('click',function(){
-        unrenderNote(note._id);
-        renderNote(note);
+        self.unrenderNote(note._id);
+        self.renderNote(note);
     },true);
     var buttonDestroy = document.createElement('button');
+    buttonDestroy.style['-webkit-appearance'] = 'push-button';
     buttonDestroy.innerHTML='Destroy';
     buttonDestroy.addEventListener('click',function(){
-        destroyNote(note._id);
-        // unrenderNote(note._id);
+        self.destroyNote(note._id);
     },true);
     form.appendChild(messageInput);
     form.appendChild(buttonSave);
@@ -67,24 +72,26 @@ function renderNoteForm(note)
 
 
     thisNote.appendChild(form);
-}
+};
 
-function unrenderNote(noteId){
+GLOBALS_WEB_NOTES.unrenderNote = function(noteId){
     $('#'+noteId).remove();
-}
+};
 
-function destroyNote(noteId){
+GLOBALS_WEB_NOTES.destroyNote = function(noteId){
+    var self = this;
     chrome.runtime.sendMessage({title: "destroyNote",noteId: noteId},function(confirmation){
         if(confirmation==='deleted'){
-            unrenderNote(noteId);
+            self.unrenderNote(noteId);
         }
     });
-}
+};
 
 
-function saveNote(noteId, message){
+GLOBALS_WEB_NOTES.saveNote = function(noteId, message){
+    var self = this;
     chrome.runtime.sendMessage({title: "saveNote", noteId: noteId, message: message},function(changedNote){
-        unrenderNote(noteId);
-        renderNote(changedNote);
+        self.unrenderNote(noteId);
+        self.renderNote(changedNote);
     });
-}
+};

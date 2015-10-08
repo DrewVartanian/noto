@@ -1,64 +1,66 @@
-// Cryptoveil modified copypasta below
-/////////////////////  USER STATE  /////////////////////
-var user = new User();
+(function (){
+    // Cryptoveil modified copypasta below
+    /////////////////////  USER STATE  /////////////////////
+    GLOBALS.user = new User();
 
-function User (userInfo) {
+    function User (userInfo) {
 
-    var email = "",
-        name = "";
+        var email = "",
+            name = "";
 
-    this.setLogOutUser = function () {
-        email = "",
-        name = "";
-        processLogout();
-    };
-
-    this.setLoggedInUser = function (user) {
-        email = user.email;
-        name = user.name;
-
-        processLogin(user);
-    };
-
-    this.getLoggedInUser = function () {
-        return {
-            email: email,
-            name: name
+        this.setLogOutUser = function () {
+            email = "",
+            name = "";
+            processLogout();
         };
-    };
 
-    this.isLoggedIn = function () {
-        return !!email;
-    };
-} // END OF USER
+        this.setLoggedInUser = function (user) {
+            email = user.email;
+            name = user.name;
+
+            processLogin(user);
+        };
+
+        this.getLoggedInUser = function () {
+            return {
+                email: email,
+                name: name
+            };
+        };
+
+        this.isLoggedIn = function () {
+            return !!email;
+        };
+    } // END OF USER
 
 
-/////////////////////  Content Script Message Handling  /////////////////////
+    /////////////////////  Content Script Message Handling  /////////////////////
 
-chrome.runtime.onMessage.addListener(function (message, sender) {
-    if (message.message === 'get-extension-session-status') {
-        updateExtScriptState();
-    }
-});
-
-/////////////////////  HELPER FUNCTIONS  /////////////////////
-function processLogout () {
-    sendToContentScript('process-logout');
-}
-
-function updateExtScriptState () {
-    var payload = {
-        isLoggedIn: user.isLoggedIn()
-    };
-    sendToContentScript('update-state', payload);
-}
-
-function processLogin () {
-    sendToContentScript('process-login');
-}
-
-function sendToContentScript (command, payload) {
-    chrome.tabs.getSelected(null, function (tab) {
-        chrome.tabs.sendMessage(tab.id, {command: command, payload: payload});
+    chrome.runtime.onMessage.addListener(function (message, sender) {
+        if (message.message === 'get-extension-session-status') {
+            updateExtScriptState();
+        }
     });
-}
+
+    /////////////////////  HELPER FUNCTIONS  /////////////////////
+    function processLogout () {
+        sendToContentScript('process-logout');
+    }
+
+    function updateExtScriptState () {
+        var payload = {
+            isLoggedIn: user.isLoggedIn()
+        };
+        sendToContentScript('update-state', payload);
+    }
+
+    function processLogin () {
+        sendToContentScript('process-login');
+    }
+
+    function sendToContentScript (command, payload) {
+        chrome.tabs.getSelected(null, function (tab) {
+            chrome.tabs.sendMessage(tab.id, {command: command, payload: payload});
+        });
+    }
+})();

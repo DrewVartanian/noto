@@ -23,11 +23,11 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
             var userLoggedIn = response.user;
                 currentUser.setLoggedInUser(userLoggedIn);
                 $rootScope.isLoggedIn = true;
-                $state.go('webnote');
+                $state.go('pages');
             } else {
                 currentUser.setLogOutUser();
                 $rootScope.isLoggedIn = false;
-                $state.go('login');
+                $state.go('webnote');
             }
         })
         .catch(function (err) {
@@ -36,17 +36,15 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
     };
 
     checkUserLoggedIn();
+    $rootScope.hidelanding = false;
 
     $scope.sendLogin = function (loginInfo) {
-
         $scope.error = null;
 
         BackgroundFactory.logInUser(loginInfo)
-        // is AuthService used?
-        // .then(AuthService.onSuccessfulLogin)
         .then(function (userInfo) {
             $rootScope.isLoggedIn = true;
-            $state.go('webnote');
+            $state.go('pages');
         })
         .catch(function (err) {
             $scope.alerts.push({

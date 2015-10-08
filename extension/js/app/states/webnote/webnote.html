@@ -1,13 +1,10 @@
 
-<!-- <div>
-{{user.email}}
-{{pages}}
-
-<ul ng-repeat="page in pages">
-	<li>Page {{page.team}}</li>
-	<ul ng-repeat="note in page.notes">
-		<li>Note {{note}}</li>
-	</ul>
-</ul>
-</div> 
- -->
+<div ng-hide="hidelanding || isLoggedIn">
+    <h1 id="logotext"> Welcome to WebNotes! </h1>
+    <i id="logo" class="fa fa-sticky-note"></i>
+    <div id="loginsignup">
+        <p> Already using WebNotes to make your life easier? </p> <a ng-click="hidelanding = !hidelanding" ui-sref='login'>Log in here!</a>
+        <div></div>
+        <p> want to start? </p> <a ng-click="hidelanding = !hidelanding" ui-sref="signup">Sign up!</a>
+    </div>
+</div>

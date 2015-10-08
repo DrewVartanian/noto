@@ -1,7 +1,13 @@
 
+<p>Team</p>
+<ul ng-repeat="team in teams">
+<li>{{team.name}}</li>
 <ul>
-
-<li ng-repeat="page in pages"><a target="_blank" href="{{page.url}}">{{page.url}}</a></li>
+<li ng-repeat="page in team.pages">
+<a target="_blank" href="{{page.url}}">{{page.url}}</a>
+</li>
 </ul>
+</ul>
+
 
 
