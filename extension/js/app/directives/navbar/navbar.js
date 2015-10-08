@@ -11,9 +11,10 @@ app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log) {
             scope.logout = function() {
                 BackgroundFactory.logOutUser()
                     .then(function(statusCode) {
-                        $state.go('webnote');
                         $rootScope.isLoggedIn = false;
-                        scope.user = null;
+                        $rootScope.hidelanding = false;
+                        $rootScope.user = null;
+                        $state.go('webnote');
                     })
                     .catch(function(err) {
                         $log.warn(err);
