@@ -35,10 +35,10 @@
 </head>
 
 <body ng-app="WebNotes">
-    <div ng-controller="loginController">
+<!--     <div ng-controller="loginController"> -->
         <nav-bar ng-show="isLoggedIn"></nav-bar>
         <div ui-view></div>
-        <div ng-hide="hidelanding || isLoggedIn"> 
+        <!-- <div ng-hide="hidelanding || isLoggedIn"> 
             <h1 id="logotext"> Welcome to WebNotes! </h1>
             <i id="logo" class="fa fa-sticky-note"></i>
             <div id="loginsignup">
@@ -46,8 +46,8 @@
                 <div></div>
                 <p> want to start? </p> <a ng-click="hidelanding = !hidelanding" ui-sref="signup">Sign up!</a>
             </div>
-        </div>
-    </div>
+        </div> -->
+<!--     </div> -->
 
 
 </body>
