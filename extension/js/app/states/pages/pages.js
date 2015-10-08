@@ -15,8 +15,9 @@ app.controller('pagesController', function ($scope) {
       // pages.forEach(function(page){
       //   $scope.pages.push(page);
       // })
+      $scope.teams = teams;
 
  console.log($scope.pages);
-
+ console.log($scope.teams);
 
 });
