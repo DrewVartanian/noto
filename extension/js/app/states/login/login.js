@@ -36,14 +36,12 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
     };
 
     checkUserLoggedIn();
+    $rootScope.hidelanding = false;
 
     $scope.sendLogin = function (loginInfo) {
-
         $scope.error = null;
 
         BackgroundFactory.logInUser(loginInfo)
-        // is AuthService used?
-        // .then(AuthService.onSuccessfulLogin)
         .then(function (userInfo) {
             $rootScope.isLoggedIn = true;
             $state.go('webnote');

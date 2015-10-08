@@ -33,6 +33,7 @@ app.controller('signupController', function ($scope, BackgroundFactory, $state, 
                 msg: "Please enter a valid email address",
                 type: 'danger'
             });
+            return;
         }
 
         BackgroundFactory.registerUser(signupInfo)
