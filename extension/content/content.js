@@ -14,6 +14,9 @@ chrome.runtime.sendMessage({title: "newPage"},function(backgroundPages){
         });
     });
 });
+
+
+
 // chrome.runtime.sendMessage({greeting: 'hello'});
 
 document.addEventListener("mousedown", function(event){
