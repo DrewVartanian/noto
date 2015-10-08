@@ -27,5 +27,12 @@ app.controller('WebnoteCtrl', function ($scope, BackgroundFactory, $state, Exten
         });
         console.log("LOGGED ME OUT!");
     };
+    $scope.gotoLogIn = function(){
+        $state.go("login");
+    };
+
+     $scope.gotoSignUp = function(){
+        $state.go("signup");
+    };
 
 });
