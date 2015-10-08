@@ -76,15 +76,6 @@ function unrenderNote(noteId){
 function destroyNote(noteId){
     chrome.runtime.sendMessage({title: "destroyNote",noteId: noteId},function(confirmation){
         if(confirmation==='deleted'){
-            pages.some(function(page){
-                return page.notes.some(function(note,index){
-                    if(note._id===noteId){
-                        page.notes.splice(index,1);
-                        return true;
-                    }
-                    return false;
-                });
-            });
             unrenderNote(noteId);
         }
     });
@@ -93,15 +84,6 @@ function destroyNote(noteId){
 
 function saveNote(noteId, message){
     chrome.runtime.sendMessage({title: "saveNote", noteId: noteId, message: message},function(changedNote){
-        pages.some(function(page){
-            return page.notes.some(function(note,index){
-                if(note._id===noteId){
-                    page.notes[index] = changedNote;
-                    return true;
-                }
-                return false;
-            });
-        });
         unrenderNote(noteId);
         renderNote(changedNote);
     });
