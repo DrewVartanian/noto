@@ -49,3 +49,44 @@ a {
 	margin: 0;
 	padding: 0;
 }
+
+section .wrap.reverse .insert.large {
+    left: -13%;
+}
+section .wrap.reverse .insert {
+    right: auto;
+    left: 0%;
+}
+section .wrap .insert.large {
+    top: 40px;
+    right: -12.5%;
+    width: 40%;
+    max-width: 400px;
+}
+section .wrap .insert {
+    position: absolute;
+    top: 60px;
+    right: 0%;
+    width: 33%;
+    max-width: 250px;
+}
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-text-size-adjust: none;
+}
+svg[Attributes Style] {
+    x: 0px;
+    y: 0px;
+    width: 468px;
+    height: 450px;
+}
+user agent stylesheethtml|* > svg {
+    transform-origin: 50% 50% 0px;
+}
+user agent stylesheetsvg:not(:root), symbol, image, marker, pattern, foreignObject {
+    overflow: hidden;
+}
+user agent stylesheet* {
+    transform-origin: 0px 0px 0px;
+}
