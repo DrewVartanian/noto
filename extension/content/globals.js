@@ -1,3 +1,5 @@
-var clickedEl = null;
-var offset = {};
-var team="personal";
+var GLOBALS_WEB_NOTES={
+  team:"personal",
+  clickedEl: null,
+  offset: {}
+};

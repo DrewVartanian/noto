@@ -5,6 +5,12 @@ chrome.contextMenus.create({
     "onclick": onClickHandler
 });
 
+function findPageMatch(page, url, team){
+  if(page.url!==url) return false;
+  if(team==='personal'&&page.team.name===team) return true;
+  return (page.team._id===team);
+}
+
 // context menu onclick callback function
 function onClickHandler(info, tab) {
   chrome.tabs.sendRequest(tab.id, "newNoteClick", function(noteInfo) {
@@ -12,7 +18,7 @@ function onClickHandler(info, tab) {
           pagesProm=pagesProm.then(function(pages){
             if(!res.page){
               pages.some(function(page){
-                if(page.url===noteInfo.url&&(noteInfo.team==='personal'?page.team.name===noteInfo.team:page.team._id===noteInfo.team)){
+                if(findPageMatch(page,noteInfo.url,noteInfo.team)){
                   page.notes.push(res.note);
                   return true;
                 }
