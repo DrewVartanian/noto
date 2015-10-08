@@ -1,7 +1,8 @@
-chrome.runtime.sendMessage({title: "newPage"},function(pages){
-    pages.forEach(function(page){
+chrome.runtime.sendMessage({title: "newPage"},function(dbInfo){
+    GLOBALS_WEB_NOTES.teamList = dbInfo.teams;
+    dbInfo.pages.forEach(function(page){
         page.notes.forEach(function(note){
-            GLOBALS_WEB_NOTES.renderNote(note);
+            GLOBALS_WEB_NOTES.renderNote(note,page.team);
         });
     });
 });
@@ -17,7 +18,7 @@ document.addEventListener("mousedown", function(event){
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if(request == "newNoteClick") {
-        sendResponse({team: GLOBALS_WEB_NOTES.team,
+        sendResponse({team: GLOBALS_WEB_NOTES.team._id?GLOBALS_WEB_NOTES.team._id:GLOBALS_WEB_NOTES.team.name,
             url:document.URL,
             x: GLOBALS_WEB_NOTES.offset.x,
             y: GLOBALS_WEB_NOTES.offset.y});
@@ -27,7 +28,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     switch(request.title){
         case 'newNote':
-            GLOBALS_WEB_NOTES.renderNoteForm(request.note);
+            GLOBALS_WEB_NOTES.team._id = request.teamId;
+            GLOBALS_WEB_NOTES.renderNoteForm(request.note,GLOBALS_WEB_NOTES.team);
             break;
     }
 });

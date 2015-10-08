@@ -1,5 +1,6 @@
 var GLOBALS_WEB_NOTES={
-  team:"personal",
+  team:{name:"personal"},
   clickedEl: null,
-  offset: {}
+  offset: {},
+  teamList:[]
 };
