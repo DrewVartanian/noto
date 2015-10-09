@@ -13,7 +13,7 @@ app.factory('TeamFactory', function ($http, BackgroundFactory) {
     return {
 
         getMyTeams: function() {
-            return BackgroundFactory.getBackgroundPage().getTeams;
+            return BackgroundFactory.getBackgroundPage().teamsProm;
         },
 
         createTeam: function(teamInfo) {

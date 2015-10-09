@@ -1,7 +1,7 @@
 app.config(function ($stateProvider) {
 
     $stateProvider.state('pages', {
-        url: '/',
+        url: '/pages',
         templateUrl: 'js/app/states/pages/pages.html',
         controller: 'pagesController'
     });
@@ -17,16 +17,30 @@ app.controller('pagesController', function ($scope, PageFactory, TeamFactory) {
       TeamFactory.getMyTeams().then(function(teams){
         // note: assumes the promise above returns array of unique teams
         $scope.teams = teams;
-        //populate team with array of pages
-        $scope.pages.forEach(function(page){
-            $scope.teams.forEach(function(team) {
-              team.pages = [];
+        console.log("before adding the pages for teams ", $scope.teams);
+
+        $scope.teams.forEach(function(team){
+            team.pages = [];
+            $scope.pages.forEach(function(page){
               if(page.team._id === team._id){
                 team.pages.push(page);
               }
             });
+
         });
-console.log("what are pages in page controller?", $scope.pages);
-console.log("what are teams in page controller?", $scope.teams);
+        console.log("after ",$scope.teams);
+        //populate team with array of pages
+      //   $scope.pages.forEach(function(page){
+      //     console.log("before adding pages, the original pages ",page);
+      //       $scope.teams.forEach(function(team) {
+      //         team.pages = [];
+      //         if(page.team._id === team._id){
+      //           team.pages.push(page);
+      //         }
+      //       });
+      //   });
+      //   console.log("after ",$scope.teams);
+      });
+
 
 });
