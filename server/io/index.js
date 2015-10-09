@@ -18,8 +18,24 @@ module.exports = function (server) {
 
        socket.on('changeNote', function(data){
           console.log(socket.id);
-          console.log('send to team: ',data.team);
-          socket.broadcast.to(data.team).emit('noteChanged',data);
+          if(data.oper==="put"){
+            socket.broadcast.to(data.newTeam).emit('noteChanged',{
+              "url": data.url,
+              "team": data.newTeam,
+              "note": data.note,
+              "oper": data.oper
+            });
+            if(data.newTeam!==data.oldTeam){
+              data.team = data.oldTeam;
+              data.oper = "delete";
+              data.note = data.note._id;
+              delete data.newTeam;
+              delete data.oldTeam;
+            }
+          }
+          if(data.oper==="delete"){
+            socket.broadcast.to(data.team).emit('noteChanged',data);
+          }
         });
     });
 
