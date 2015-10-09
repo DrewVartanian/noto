@@ -32,7 +32,16 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             GLOBALS_WEB_NOTES.renderNoteForm(request.note,GLOBALS_WEB_NOTES.team);
             break;
         case 'noteChangedOnBackground':
-            GLOBALS_WEB_NOTES.unrenderNote(request.data.note);
+            switch(request.data.oper){
+                case 'delete':
+                    GLOBALS_WEB_NOTES.unrenderNote(request.data.note);
+                    break;
+                case 'put':
+                    console.log('socket put');
+                    GLOBALS_WEB_NOTES.unrenderNote(request.data.note._id);
+                    GLOBALS_WEB_NOTES.renderNote(request.data.note,request.data.team);
+                    break;
+            }
             break;
     }
 });
