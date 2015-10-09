@@ -5,6 +5,18 @@ chrome.runtime.sendMessage({title: "newPage"},function(dbInfo){
             GLOBALS_WEB_NOTES.renderNote(note,page.team);
         });
     });
+    if(dbInfo.teamSelected==='All Teams'){
+        GLOBALS_WEB_NOTES.team={name:"All Teams"};
+    }else{
+        if(!dbInfo.teams.some(function(team){
+            if(team.name===dbInfo.teamSelected){
+                GLOBALS_WEB_NOTES.team=team;
+                return true;
+            }
+        })){
+            GLOBALS_WEB_NOTES.team={name:"personal"};
+        }
+    }
 });
 
 document.addEventListener("mousedown", function(event){
@@ -18,7 +30,8 @@ document.addEventListener("mousedown", function(event){
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if(request == "newNoteClick") {
-        sendResponse({team: GLOBALS_WEB_NOTES.team._id?GLOBALS_WEB_NOTES.team._id:GLOBALS_WEB_NOTES.team.name,
+        var team;
+        sendResponse({team: GLOBALS_WEB_NOTES.team._id?GLOBALS_WEB_NOTES.team._id:"personal",
             url:document.URL,
             x: GLOBALS_WEB_NOTES.offset.x,
             y: GLOBALS_WEB_NOTES.offset.y});
@@ -28,8 +41,15 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     switch(request.title){
         case 'newNote':
-            GLOBALS_WEB_NOTES.team._id = request.teamId;
-            GLOBALS_WEB_NOTES.renderNoteForm(request.note,GLOBALS_WEB_NOTES.team);
+            var team={};
+            if(GLOBALS_WEB_NOTES.team._id){
+                team.name=GLOBALS_WEB_NOTES.team.name;
+            }else{
+                team.name="personal";
+                GLOBALS_WEB_NOTES.team._id = request.teamId;
+            }
+            team._id=request.teamId;
+            GLOBALS_WEB_NOTES.renderNoteForm(request.note,team);
             break;
         case 'noteChangedOnBackground':
             switch(request.data.oper){
@@ -37,9 +57,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                     GLOBALS_WEB_NOTES.unrenderNote(request.data.note);
                     break;
                 case 'put':
-                    console.log('socket put');
                     GLOBALS_WEB_NOTES.unrenderNote(request.data.note._id);
-                    console.dir(request.data);
                     GLOBALS_WEB_NOTES.teamList.some(function(team){
                         if(request.data.team===team._id){
                             request.data.team=team;

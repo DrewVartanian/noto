@@ -15,9 +15,13 @@
             case 'newPage':
                 Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
                     var pageToContent=dbInfo[0].filter(function(page){
-                        return (page.url===sender.url);
+                        if(page.url===sender.url){
+                            if(GLOBALS.teamSelected==="All Teams") return true;
+                            return(GLOBALS.teamSelected===page.team.name);
+                        }
+                        return false;
                     });
-                    sendResponse({pages: pageToContent,teams: dbInfo[1]});
+                    sendResponse({pages: pageToContent,teams: dbInfo[1], teamSelected:GLOBALS.teamSelected});
                 });
                 return true;
             case 'destroyNote':
