@@ -1,6 +1,8 @@
 GLOBALS_WEB_NOTES.buildNote = function(note,team){
     var thisNote = document.createElement('div');
 
+    thisNote.className = 'webnote';
+
     thisNote.setAttribute('id',note._id);
     thisNote.setAttribute('data-team-name',team.name);
     thisNote.setAttribute('data-team-id',team._id);
@@ -34,7 +36,13 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     var thisNote = this.buildNote(note,team);
     thisNote.style['box-sizing'] = "border-box";
     var form = document.createElement('form');
+
+    form.className = 'webnote';
+
     var messageInput= document.createElement('textarea');
+
+    messageInput.className = 'webnote';
+
     messageInput.setAttribute('rows','10');
     messageInput.style.width='100%';
     messageInput.style.height='134px';
@@ -44,18 +52,30 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     messageInput.style['box-sizing'] = "border-box";
     messageInput.innerHTML = note.message?note.message:"";
     var teamSelect = document.createElement('select');
+
+    teamSelect.className = 'webnote';
+
     var optionCurrent = document.createElement('option');
+
+    optionCurrent.className = 'webnote';
+
     optionCurrent.setAttribute('value',team._id);
     optionCurrent.innerHTML=team.name;
     teamSelect.appendChild(optionCurrent);
     GLOBALS_WEB_NOTES.teamList.forEach(function(teamOp){
         if(teamOp._id===team._id) return;
         var option = document.createElement('option');
+
+        option.className = 'webnote';
+
         option.setAttribute('value',teamOp._id);
         option.innerHTML = teamOp.name;
         teamSelect.appendChild(option);
     });
     var buttonSave = document.createElement('button');
+
+    buttonSave.className = 'webnote';
+
     buttonSave.style['-webkit-appearance'] = 'push-button';
     buttonSave.setAttribute('type','submit');
     buttonSave.innerHTML='Save';
@@ -72,6 +92,9 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 
 
     var buttonCancel = document.createElement('button');
+
+    buttonCancel.className = 'webnote';
+
     buttonCancel.style['-webkit-appearance'] = 'push-button';
     buttonCancel.innerHTML='Cancel';
     buttonCancel.addEventListener('click',function(){
@@ -79,6 +102,9 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         self.renderNote(note,team);
     },true);
     var buttonDestroy = document.createElement('button');
+
+    buttonDestroy.className = 'webnote';
+
     buttonDestroy.style['-webkit-appearance'] = 'push-button';
     buttonDestroy.innerHTML='Destroy';
     buttonDestroy.addEventListener('click',function(){
