@@ -9,7 +9,7 @@ module.exports = function (server) {
     io = socketio(server);
 
     io.on('connection', function () {
-        // Now have access to socket, wowzers!
+       console.log("New socket connection!")
     });
     
     return io;
