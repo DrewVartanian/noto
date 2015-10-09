@@ -1,4 +1,4 @@
-app.factory('PageFactory', function ($http) {
+app.factory('PageFactory', function ($http, BackgroundFactory) {
 
     var server = 'http://127.0.0.1:1337';
 
@@ -11,12 +11,8 @@ app.factory('PageFactory', function ($http) {
     };
 
     return {
-        // note: this route uses req.user. re-wire to currentUser?
         getMyPages: function() {
-            return $http(composeRequest('GET', '/api/page/user'))
-            .then(function (response){
-                return response.data;
-            });
+            return BackgroundFactory.getBackgroundPage().pagesProm;
         }
     };
 
