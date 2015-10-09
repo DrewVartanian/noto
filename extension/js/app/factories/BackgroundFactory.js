@@ -6,6 +6,7 @@ app.factory('BackgroundFactory', function ($http, $q) {
         return chrome.extension.getBackgroundPage().GLOBALS;
     };
 
+
     var backgroundPage = getBackgroundPage();
     var currentUser = backgroundPage.user;
 
@@ -50,6 +51,7 @@ app.factory('BackgroundFactory', function ($http, $q) {
 
                 var returnedUser = response.data.user;
                 setUser(returnedUser);
+                chrome.runtime.sendMessage({title: "login"},function(){});
                 return returnedUser;
             });
         },
@@ -64,10 +66,13 @@ app.factory('BackgroundFactory', function ($http, $q) {
                         });
                     };
                 });
-
+                console.log("before sendMessage");
+                chrome.runtime.sendMessage({title: "logout"},function(){});
+                 console.log("after sendMessage");
                 currentUser.setLogOutUser();
                 return response.status;
             });
+
         },
 
         checkLoggedIn: function() {

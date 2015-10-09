@@ -105,45 +105,6 @@ router.post('/', function(req, res, next) {
     res.json({page: newPageNeeded?page:false, note: retNote, teamId: teamId});
   })
   .then(null,next);
-
-  //         var newPage = page;
-  //         // create note
-  //         Note.create({
-  //           owner: req.user._id,
-  //         })
-  //         .then(function(note) {
-  //           // add req.body properties to new note
-  //           _.extend(note, req.body);
-  //           note.save()
-  //           .then(function(note) {
-  //             // add note to new page's notes array
-  //             newPage.notes.push(note);
-  //             res.status(201).json(note);
-  //           });
-  //         });
-  //       });
-  //   }
-  //   // END if
-
-  //   // If page exists, add note to page's notes array
-  //   else {
-  //     var currentPage = page;
-  //     // create note
-  //     Note.create({
-  //       owner: req.user._id,
-  //     })
-  //     // add req.body properties to new note
-  //     .then(function(note) {
-  //       _.extend(note, req.body);
-  //       note.save()
-  //       .then(function(note) {
-  //         currentPage.notes.push(note);
-  //         res.status(201).json(note);
-  //       });
-  //     });
-  //   }
-  //   // END else
-
 });
 
 
@@ -186,9 +147,9 @@ router.put('/:id', function(req, res, next) {
         notes: [req.note._id]
       });
     }
-    return;
-  }).then(function(){
-    res.status(200).json(retNote);
+    return false;
+  }).then(function(page){
+    res.status(200).json({note: retNote,page: newPageNeeded?page:false});
   }).then(null, next);
 });
 
