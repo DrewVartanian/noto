@@ -42,7 +42,6 @@ app.controller('pagesController', function ($scope, PageFactory, TeamFactory) {
       //   console.log("after ",$scope.teams);
       });
 
-angular.module('ui.bootstrap.demo').controller('AccordionDemoCtrl', function ($scope) {
   $scope.oneAtATime = true;
 
   $scope.groups = [
@@ -67,5 +66,4 @@ angular.module('ui.bootstrap.demo').controller('AccordionDemoCtrl', function ($s
     isFirstOpen: true,
     isFirstDisabled: false
   };
-})
 });
