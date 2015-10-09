@@ -26,6 +26,7 @@ app.controller('pagesController', function ($scope, PageFactory, TeamFactory) {
               }
             });
         });
-
+console.log("what are pages in page controller?", $scope.pages);
+console.log("what are teams in page controller?", $scope.teams);
 
 });
