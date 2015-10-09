@@ -1,11 +1,24 @@
 (function(){
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         switch(request.title){
-            case 'newPopup': GLOBALS.pagesProm.then(function(pages){
-                console.log("newPopup", pages);
-                sendResponse(pages);
-            });
-                return true;
+            case 'logout' :
+                console.log("i got the message");
+                GLOBALS.pagesProm.then(function(pages){
+                    console.log("logout", pages);
+                    GLOBALS.pagesProm = Promise.resolve([]);
+                });
+                GLOBALS.teamsProm.then(function(teams){
+                    console.log("logout", teams);
+                    GLOBALS.teamsProm = Promise.resolve([]);
+                });
+                break;
+                // return true;
+            // case 'newPopup': 
+            //     GLOBALS.pagesProm.then(function(pages){
+            //         console.log("newPopup", pages);
+            //         sendResponse(pages);
+            // });
+                // return true;
             case 'newPage':
                 Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
                     var pageToContent=dbInfo[0].filter(function(page){
