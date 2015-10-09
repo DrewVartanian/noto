@@ -19,6 +19,7 @@ app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log) {
                     .catch(function(err) {
                         $log.warn(err);
                     });
+                
             };
 
             var showUserOnNavbar = function() {
