@@ -1,11 +1,15 @@
 GLOBALS_WEB_NOTES.buildNote = function(note,team){
     var $thisNote = $('<div></div>');
+    $thisNote.draggable({
+        
+    });
 
     $thisNote.attr({
         'id': note._id,
         'data-team-name': team.name,
         'data-team-id': team._id
     });
+
 
     $thisNote.css({
         'padding': '10px',
@@ -31,6 +35,7 @@ GLOBALS_WEB_NOTES.renderNote = function(note,team)
     $thisNote.html(message);
     $thisNote.click(function(){
         console.log("clicked renderNote");
+        $('#'+note._id).draggable();
         self.unrenderNote(note._id);
         self.renderNoteForm(note,team);
     });
