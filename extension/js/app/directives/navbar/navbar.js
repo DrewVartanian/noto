@@ -22,6 +22,11 @@ app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log) {
                 
             };
 
+            scope.refresh = function() {
+                console.log("Inside refresh function")
+                chrome.runtime.sendMessage({title: "login"},function(){});
+            };
+
             var showUserOnNavbar = function() {
                 BackgroundFactory.checkLoggedIn()
                     .then(function(response) {
@@ -34,6 +39,7 @@ app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log) {
             };
 
             showUserOnNavbar();
+
         }
     };
 });
