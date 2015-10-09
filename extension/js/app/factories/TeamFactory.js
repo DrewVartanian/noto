@@ -1,14 +1,4 @@
-app.factory('TeamFactory', function ($http, BackgroundFactory) {
-
-    var server = 'http://127.0.0.1:1337';
-
-    var composeRequest = function (method, url, data) {
-        return {
-            method: method,
-            url: server + url,
-            data: data
-        };
-    };
+app.factory('TeamFactory', function ($http, BackgroundFactory, RequestFactory) {
 
     return {
 
@@ -17,28 +7,28 @@ app.factory('TeamFactory', function ($http, BackgroundFactory) {
         },
 
         createTeam: function(teamInfo) {
-            return $http(composeRequest('POST', '/api/team', teamInfo))
+            return $http(RequestFactory.composeRequest('POST', '/api/team', teamInfo))
             .then(function (response){
                 return response.data;
             });
         },
 
         deleteTeam: function(teamID) {
-            return $http(composeRequest('DELETE', '/api/team/' + teamID))
+            return $http(RequestFactory.composeRequest('DELETE', '/api/team/' + teamID))
             .then(function (response) {
               return response.data;
             });
         },
 
         getTeamMembers: function(teamID) {
-            return $http(composeRequest('GET', '/api/team/' + teamID + '/users'))
+            return $http(RequestFactory.composeRequest('GET', '/api/team/' + teamID + '/users'))
             .then(function (response){
                 return response.data;
             });
         },
 
         deleteTeamMember: function(teamID, userID){
-            return $http(composeRequest('DELETE', '/api/team/' + teamID + '/users/' + userID))
+            return $http(RequestFactory.composeRequest('DELETE', '/api/team/' + teamID + '/users/' + userID))
             .then(function (response){
                 console.log("resdata", response.data);
                 return response.data;
@@ -46,14 +36,14 @@ app.factory('TeamFactory', function ($http, BackgroundFactory) {
         },
 
         updateTeam: function(teamID, teamInfo) {
-            return $http(composeRequest('PUT', '/api/team/' + teamID, teamInfo))
+            return $http(RequestFactory.composeRequest('PUT', '/api/team/' + teamID, teamInfo))
             .then(function (response){
                 return response.data;
             });
         },
 
         createNewTeam: function(teamName) {
-            return $http(composeRequest('POST', '/api/team/', {teamName: teamName}))
+            return $http(RequestFactory.composeRequest('POST', '/api/team/', {teamName: teamName}))
             .then(function (response){
                 return response.data;
             });

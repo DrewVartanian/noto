@@ -1,6 +1,4 @@
-app.factory('BackgroundFactory', function ($http, $q) {
-
-    var server = 'http://127.0.0.1:1337';
+app.factory('BackgroundFactory', function ($http, $q, RequestFactory) {
 
     var getBackgroundPage = function () {
         return chrome.extension.getBackgroundPage().GLOBALS;
@@ -9,14 +7,6 @@ app.factory('BackgroundFactory', function ($http, $q) {
 
     var backgroundPage = getBackgroundPage();
     var currentUser = backgroundPage.user;
-
-    var composeRequest = function (method, url, data) {
-        return {
-            method: method,
-            url: server + url,
-            data: data
-        };
-    };
 
     var setUser = function(info) {
         currentUser.setLoggedInUser(info);
@@ -29,7 +19,7 @@ app.factory('BackgroundFactory', function ($http, $q) {
 
 
         registerUser: function(signUpInfo) {
-            return $http(composeRequest('POST','/signup', { name: signUpInfo.name, email: signUpInfo.email, password: signUpInfo.password }))
+            return $http(RequestFactory.composeRequest('POST','/signup', { name: signUpInfo.name, email: signUpInfo.email, password: signUpInfo.password }))
             .then(function (response) {
                 var registeredUser = response.data.user;
                 setUser(registeredUser);
@@ -39,7 +29,7 @@ app.factory('BackgroundFactory', function ($http, $q) {
         },
 
         logInUser: function(info) {
-            return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
+            return $http(RequestFactory.composeRequest('POST', '/login', { email: info.email, password: info.password }))
             .then(function (response) {
                 chrome.tabs.query({title: 'WebNotes'}, function (tabs) {
                     if (tabs.length) {
@@ -57,7 +47,7 @@ app.factory('BackgroundFactory', function ($http, $q) {
         },
 
         logOutUser: function() {
-            return $http(composeRequest('GET', '/logout'))
+            return $http(RequestFactory.composeRequest('GET', '/logout'))
             .then(function (response) {
                 chrome.tabs.query({title: 'WebNotes'}, function (tabs) {
                     if (tabs) {
@@ -76,7 +66,7 @@ app.factory('BackgroundFactory', function ($http, $q) {
         },
 
         checkLoggedIn: function() {
-            return $http(composeRequest('GET', '/session'))
+            return $http(RequestFactory.composeRequest('GET', '/session'))
             .then(function (response) {
                 return response.data;
             });

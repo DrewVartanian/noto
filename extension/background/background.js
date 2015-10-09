@@ -22,7 +22,7 @@
                 return true;
             case 'destroyNote':
                 $.ajax({
-                    url:'http://127.0.0.1:1337/api/note/'+request.noteId,
+                    url:GLOBALS.serverUrl+'/api/note/'+request.noteId,
                     type:'DELETE',
                     success: function(){
                         GLOBALS.pagesProm.then(function(pages){
@@ -30,6 +30,12 @@
                                 if(page.url!==sender.url) return false;
                                 return page.notes.some(function(note,index){
                                     if(note._id===request.noteId){
+                                        GLOBALS.socket.emit('changeNote', {
+                                          "url": sender.url,
+                                          "team": page.team._id,
+                                          "note": request.noteId,
+                                          "oper": "delete"
+                                        });
                                         page.notes.splice(index,1);
                                         return true;
                                     }
@@ -44,7 +50,7 @@
             // saveNote
             case 'saveNote':
                 $.ajax({
-                    url:'http://127.0.0.1:1337/api/note/'+request.noteId,
+                    url:GLOBALS.serverUrl+'/api/note/'+request.noteId,
                     type:'PUT',
                     contentType: 'application/json',
                     dataType: 'json',
@@ -104,7 +110,6 @@
 
                 });
                 return true;
-
         }
     });
 })();
