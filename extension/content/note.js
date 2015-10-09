@@ -1,10 +1,12 @@
 GLOBALS_WEB_NOTES.buildNote = function(note,team){
+
     var $thisNote = $('<div></div>');
     $thisNote.draggable({
         
     });
 
     $thisNote.attr({
+        'class': 'webnote',
         'id': note._id,
         'data-team-name': team.name,
         'data-team-id': team._id
@@ -47,8 +49,11 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     var self = this;
     var $thisNote = this.buildNote(note,team);
     var $form = $('<form></form>');
+    $form.attr({
+        'class': 'webnote'
+    })
     var $messageInput = $('<textarea></textarea>');
-    $messageInput.attr('rows','10');
+    $messageInput.attr('rows','10',"'class':'webnote'");
     $messageInput.css({
         'width': '100%',
         'height': '134px',
@@ -61,14 +66,20 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     var message = note.message ? note.message : "";
     $messageInput.html(message);
     var $teamSelect = $('<select></select>');
-    $teamSelect.attr("id", "selectTeam");
+    $teamSelect.css({
+        'class': 'webnote'
+    })
+    $teamSelect.attr("id", "selectTeam", "'class': 'webnote'");
     var $optionCurrent = $('<option></option>');
-    $optionCurrent.attr('value', team._id);
+    $optionCurrent.attr('value', team._id, "'class': 'webnote'");
     $optionCurrent.html(team.name);
     $teamSelect.append($optionCurrent);
     GLOBALS_WEB_NOTES.teamList.forEach(function(teamOp){
         if(teamOp._id===team._id) return;
         var $option = $('<option></option>');
+        $option.css({
+            'class': 'webnote'
+        })
         $option.attr('value', teamOp._id);
         $option.html(teamOp.name);
         $teamSelect.append($option);
@@ -76,7 +87,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 
     var $buttonSave = $('<button></button>');
     $buttonSave.css('-webkit-appearance', 'push-button');
-    $buttonSave.attr('type', 'submit');
+    $buttonSave.attr('type', 'submit', "'class': 'webnote'");
     $buttonSave.text('Save');
     $form.submit(function(e){
         e.preventDefault();
@@ -93,7 +104,9 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 //$teamSelect.option($teamSelect.selectedIndex).html()
 
 
+
     var $buttonCancel = $('<button></button>');
+    $buttonCancel.attr("'class': 'webnote'");
     $buttonCancel.css('-webkit-appearance','push-$button');
     $buttonCancel.html('Cancel');
     $buttonCancel.click(function(){
@@ -101,6 +114,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         self.renderNote(note,team);
     });
     var $buttonDestroy = $('<button></button>');
+    $buttonDestroy.attr("'class': 'webnote'");
     $buttonDestroy.css('-webkit-appearance','push-$button');
     $buttonDestroy.html('Destroy');
     $buttonDestroy.click(function(){
