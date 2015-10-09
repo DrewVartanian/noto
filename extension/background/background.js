@@ -1,10 +1,4 @@
 (function(){
-    GLOBALS.pagesProm=getPages();
-
-    function getPages(){
-      return Promise.resolve($.get('http://127.0.0.1:1337/api/user/page'));
-    }
-
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         switch(request.title){
             case 'newPopup': GLOBALS.pagesProm.then(function(pages){
@@ -13,14 +7,14 @@
             });
                 return true;
             case 'newPage':
-                GLOBALS.pagesProm.then(function(pages){
-                    var pageToContent=pages.filter(function(page){
+                Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
+                    var pageToContent=dbInfo[0].filter(function(page){
                         console.log('page url: ',page.url);
                         console.log('sender url: ',sender.url);
                         return (page.url===sender.url);
                     });
                     console.log('page matches',pageToContent);
-                    sendResponse(pageToContent);
+                    sendResponse({pages: pageToContent,teams: dbInfo[1]});
                 });
                 return true;
             case 'destroyNote':
@@ -54,7 +48,12 @@
                     type:'PUT',
                     contentType: 'application/json',
                     dataType: 'json',
-                    data: JSON.stringify({message: request.message}),
+                    data: JSON.stringify({
+                        message: request.message,
+                        newTeam: request.newTeam,
+                        oldTeam: request.oldTeam,
+                        url: sender.url
+                    }),
                     success: function(res){
                         console.log('save confirmed');
                         GLOBALS.pagesProm.then(function(pages){
