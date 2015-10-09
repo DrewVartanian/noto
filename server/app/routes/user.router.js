@@ -2,6 +2,7 @@
 var router = require('express').Router();
 var mongoose = require('mongoose');
 var _ = require('lodash');
+var nodemailer = require('nodemailer');
 module.exports = router;
 
 var Note = mongoose.model('Note');

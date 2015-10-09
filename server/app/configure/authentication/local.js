@@ -60,6 +60,18 @@ module.exports = function (app) {
         delete req.body.emailvalid;
         User.findOne({email: req.body.email})
         .then(function(user){
+            if(user && user.isPending) {
+                console.log("hit if we just made")
+                user.password = req.body.password;
+                user.isPending = false;
+                user.save().then(function() {
+                    res.status(201).send({
+                    user: _.omit(user.toJSON(), ['password', 'salt'])
+                });
+            });
+                return;
+            }
+
             if(user) res.status(500).send("User Already Exists!");
             else User.create(req.body)
                 .then(function (user) {

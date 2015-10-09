@@ -29,6 +29,10 @@ var schema = new mongoose.Schema({
   },
   google: {
     id: String
+  },
+  isPending: {
+    type: Boolean,
+    default: false
   }
 });
 
