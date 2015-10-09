@@ -80,6 +80,7 @@
                 });
                 return true;
             case 'saveNote':
+                console.log('request',request);
                 $.ajax({
                     url:GLOBALS.serverUrl+'/api/note/'+request.noteId,
                     type:'PUT',
@@ -92,6 +93,7 @@
                         url: sender.url
                     }),
                     success: function(res){
+                        console.log('res',res);
                         GLOBALS.pagesProm.then(function(pages){
                             GLOBALS.socket.emit('changeNote', {
                                           "url": sender.url,

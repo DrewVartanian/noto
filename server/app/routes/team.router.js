@@ -2,6 +2,7 @@
 var router = require('express').Router();
 var mongoose = require('mongoose');
 var _ = require('lodash');
+var nodemailer = require('nodemailer');
 module.exports = router;
 
 var Note = mongoose.model('Note');
@@ -49,8 +50,35 @@ router.put('/:id', function(req, res, next) {
   console.log("what is the request body", req.body);
   if(req.body.userEmail){
     User.findOne({email: req.body.userEmail}).then(function(user){
-      // console.log(user);
-      // console.log("second!", req.team.users);
+    if(!user) {
+        console.log('req.body.email:',req.body.userEmail);
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'websharepostit@gmail.com',
+                pass: 'capstone'
+            }
+        });
+        transporter.sendMail({
+            from: 'do-not-reply@webshare.com',
+            to: req.body.userEmail,
+            subject: req.user.email + ' has added you to team '+ req.body.name + ' on WebShare!',
+            html: '<p>Hello '+req.body.userEmail +',</p><p>Have you heard about webShare yet? get the wonderful extension today!</p><p><a href="">insert link to extension here!</a></p>'
+        });
+        User.create({
+          email: req.body.userEmail,
+          password: 'default',
+          isPending: true
+        })
+        .then(function(user){
+           req.team.users.push(user._id);
+           req.team.save()
+        .then(function() {
+        res.status(201).send("user emailed and created!");
+        });
+        });
+        return;
+      } 
     if(user && req.team.users.indexOf(user._id) === -1) req.team.users.push(user._id);
     if(req.body.name) req.team.name = req.body.name;
 

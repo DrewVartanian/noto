@@ -8,6 +8,7 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         'data-team-name': team.name,
         'data-team-id': team._id
     });
+    $thisNote.addClass( "web-notes-id-class" );
 
     $thisNote.css({
         'padding': '10px',
@@ -20,6 +21,7 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         'position': "absolute",
         'box-sizing': "border-box"
     });
+
 
     $thisNote.draggable({
         cursor: 'move'
@@ -40,7 +42,6 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         note.position.y = $(this).position().top;
         self.saveNotePosition(note, team);
     });
-
 
     $('body').append($thisNote);
     return $thisNote;
@@ -188,4 +189,8 @@ GLOBALS_WEB_NOTES.saveNote = function(noteId, message, newTeam, oldTeam){
         self.unrenderNote(noteId);
         self.renderNote(changedNote,newTeam);
     });
+};
+
+GLOBALS_WEB_NOTES.clearNotes = function(noteId){
+    $('.web-notes-id-class').remove();
 };
