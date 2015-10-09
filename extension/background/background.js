@@ -30,6 +30,12 @@
                                 if(page.url!==sender.url) return false;
                                 return page.notes.some(function(note,index){
                                     if(note._id===request.noteId){
+                                        GLOBALS.socket.emit('changeNote', {
+                                          "url": sender.url,
+                                          "team": page.team._id,
+                                          "note": request.noteId,
+                                          "oper": "delete"
+                                        });
                                         page.notes.splice(index,1);
                                         return true;
                                     }
@@ -104,7 +110,6 @@
 
                 });
                 return true;
-
         }
     });
 })();
