@@ -8,10 +8,14 @@ module.exports = function (server) {
 
     io = socketio(server);
 
-    io.on('connection', function () {
-       console.log("New socket connection!")
+    io.on('connection', function (socket) {
+       socket.on('setupTeams', function(data){
+          data.teams.forEach(function(team){
+            socket.join(team._id);
+          });
+        });
     });
-    
+
     return io;
 
 };
