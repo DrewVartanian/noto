@@ -58,7 +58,8 @@
                     contentType: 'application/json',
                     dataType: 'json',
                     data: JSON.stringify({
-                        position: request.position
+                        position: request.position,
+                        url: sender.url
                     }),
                     success: function(res){
                        GLOBALS.pagesProm.then(function(pages){
@@ -66,7 +67,7 @@
                                 if(page.url!==sender.url) return false;
                                 if(page.team._id!==request.team) return false;
                                 return page.notes.some(function(note,index){
-                                    if(note._id===request.note._id){
+                                    if(note._id===request.noteId){
                                         page.notes[index] = res.note;
                                         console.log(res.note);
                                         return true;

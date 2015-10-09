@@ -170,6 +170,7 @@ GLOBALS_WEB_NOTES.saveNotePosition = function(note, team){
         title: "saveNotePosition",
         noteId: note._id,
         position: note.position,
+        team: team._id
     });
 
 };
