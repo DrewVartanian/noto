@@ -3,7 +3,40 @@
   chrome.contextMenus.create({
       "title": "Add New Note",
       "contexts":["all"],
-      "onclick": onClickHandler
+      "onclick": addNoteOnClickHandler
+  });
+
+  chrome.contextMenus.create({
+      "type":"separator"
+  });
+
+  chrome.contextMenus.create({
+      "title": "All Teams",
+      "contexts":["all"],
+      "onclick": function(info, tab){
+        changeTeamClickHandler(info,tab,'All Teams');
+      }
+  });
+
+  chrome.contextMenus.create({
+      "title": "personal",
+      "contexts":["all"],
+      "onclick": function(info, tab){
+        changeTeamClickHandler(info,tab,'personal');
+      }
+  });
+
+  GLOBALS.teamsProm.then(function(teams){
+    teams.forEach(function(team){
+      if(team.name==='personal') return;
+      chrome.contextMenus.create({
+          "title": team.name,
+          "contexts":["all"],
+          "onclick": function(info, tab){
+            changeTeamClickHandler(info,tab,team.name);
+          }
+      });
+    });
   });
 
   function findPageMatch(page, url, team){
@@ -13,7 +46,7 @@
   }
 
   // context menu onclick callback function
-  function onClickHandler(info, tab) {
+  function addNoteOnClickHandler(info, tab) {
     chrome.tabs.sendRequest(tab.id, "newNoteClick", function(noteInfo) {
           Promise.resolve($.post(GLOBALS.serverUrl+'/api/note',noteInfo)).then(function(res){
             GLOBALS.pagesProm.then(function(pages){
@@ -34,5 +67,9 @@
             });
           }).then(null,function(){});
       });
+  }
+
+  function changeTeamClickHandler(info, tab, team) {
+    GLOBALS.teamSelected = team;
   }
 })();
