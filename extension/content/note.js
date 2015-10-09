@@ -1,11 +1,6 @@
 GLOBALS_WEB_NOTES.buildNote = function(note,team){
     var self = this;
     var $thisNote = $('<div></div>');
-    $thisNote.draggable({
-        
-    });
-
-
 
     $thisNote.attr({
         'class': 'webnote',
@@ -13,7 +8,6 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         'data-team-name': team.name,
         'data-team-id': team._id
     });
-
 
     $thisNote.css({
         'padding': '10px',
@@ -27,18 +21,23 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         'box-sizing': "border-box"
     });
 
-     $thisNote.mouseup(function() {
+    $thisNote.draggable({
+        cursor: 'move'
+    })
+    .mouseup(function() {
         //save position here
+
+        console.log("this.position() ", $(this).position());
         console.log("original note position", note.position);
         console.log("attempting to save the position");
-        console.log("event.x and event.y", event.x, event.y);
+        // console.log("event.x and event.y", event.x, event.y);
         // $thisNote.css({
         //     'offset.left':  event.x + "px",
         //     'offset.top': event.y+'px'
         // });
-        console.log("what is note?", note);
-        note.position.x = event.x;
-        note.position.y = event.y;
+        // console.log("what is note?", note);
+        note.position.x = $(this).position().left;
+        note.position.y = $(this).position().top;
         self.saveNotePosition(note, team);
     });
 
@@ -56,11 +55,10 @@ GLOBALS_WEB_NOTES.renderNote = function(note,team)
     $thisNote.html(message);
     $thisNote.click(function(){
         console.log("clicked renderNote");
-        $('#'+note._id).draggable();
         self.unrenderNote(note._id);
         self.renderNoteForm(note,team);
     });
-   
+
 };
 
 GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
@@ -82,7 +80,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'border-style': 'none',
         'box-sizing': "border-box",
     });
-    
+
     var message = note.message ? note.message : "";
     $messageInput.html(message);
     var $teamSelect = $('<select></select>');
@@ -112,7 +110,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $form.submit(function(e){
         e.preventDefault();
         self.saveNote(note._id,
-            $messageInput.html(),
+            $messageInput.val(),
             {
                 _id: $teamSelect.val(),
                 // to debug
@@ -167,7 +165,8 @@ GLOBALS_WEB_NOTES.destroyNote = function(noteId){
 
 GLOBALS_WEB_NOTES.saveNotePosition = function(note, team){
     var self = this;
-        chrome.runtime.sendMessage({
+    console.log("note.position saveNotePosition ", note.position);
+    chrome.runtime.sendMessage({
         title: "saveNotePosition",
         noteId: note._id,
         position: note.position,

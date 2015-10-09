@@ -116,7 +116,7 @@ router.put('/:id', function(req, res, next) {
   var newPageNeeded = true;
   if(req.body.position){
     req.note.save().then(function(note){
-      console.log(note);
+      console.log("put with req.body.position ", note);
       res.status(200).json({note: note});
 
     });
@@ -160,7 +160,7 @@ router.put('/:id', function(req, res, next) {
     res.status(200).json({note: retNote,page: newPageNeeded?page:false});
   }).then(null, next);
   }
-  
+
 });
 
 // DELETE specific note
