@@ -10,6 +10,7 @@
 
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         if (request.title === "login") {
+            console.log("hitting teams.js")
             GLOBALS.teamsProm = getTeams();
         }
     });
