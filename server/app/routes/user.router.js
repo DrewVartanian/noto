@@ -16,6 +16,7 @@ var User = mongoose.model('User');
 //Get all pages that a user should be able to see/edit
 router.get('/page/', function (req, res, next){
 
+    if(!req.user) return res.status(200).json([]);
     var userId = req.user._id;
 
     Team.find({users: userId}).exec().then(function(teams){
@@ -35,7 +36,7 @@ router.get('/page/', function (req, res, next){
 
 //Get all teams that a user is on
 router.get('/team/', function (req,res,next){
-
+    if(!req.user) return res.status(200).json([]);
     var userId = req.user._id;
 
     Team.find({users: userId}).exec().then(function(teams){
