@@ -21,6 +21,8 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         'box-sizing': "border-box"
     });
 
+    $thisNote.addClass( "web-notes-id-class" );
+
     $('body').append($thisNote);
     return $thisNote;
 };
@@ -87,7 +89,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $form.submit(function(e){
         e.preventDefault();
         self.saveNote(note._id,
-            $messageInput.html(),
+            $messageInput.val(),
             {
                 _id: $teamSelect.val(),
                 // to debug
@@ -153,4 +155,8 @@ GLOBALS_WEB_NOTES.saveNote = function(noteId, message, newTeam, oldTeam){
         self.unrenderNote(noteId);
         self.renderNote(changedNote,newTeam);
     });
+};
+
+GLOBALS_WEB_NOTES.clearNotes = function(noteId){
+    $('.web-notes-id-class').remove();
 };
