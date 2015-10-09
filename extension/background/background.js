@@ -63,6 +63,13 @@
                     }),
                     success: function(res){
                        GLOBALS.pagesProm.then(function(pages){
+                            GLOBALS.socket.emit('changeNote', {
+                                          "url": sender.url,
+                                          "newTeam": request.team,
+                                          "oldTeam": request.team,
+                                          "note": res.note,
+                                          "oper": "put"
+                            });
                             pages.some(function(page){
                                 if(page.url!==sender.url) return false;
                                 if(page.team._id!==request.team) return false;
