@@ -1,28 +1,36 @@
 GLOBALS_WEB_NOTES.buildNote = function(note,team){
-    var thisNote = document.createElement('div');
+    var $thisNote = $('<div></div>');
 
-    thisNote.setAttribute('id',note._id);
-    thisNote.setAttribute('data-team-name',team.name);
-    thisNote.setAttribute('data-team-id',team._id);
-    thisNote.style.padding = "10px";
-    thisNote.style.backgroundColor= note.color;
-    thisNote.style.left = note.position.x+'px';
-    thisNote.style.top = note.position.y+'px';
-    thisNote.style.height = note.size.y + 'px';
-    thisNote.style.width = note.size.x + 'px';
-    thisNote.style.zIndex = 2147483647;//note.position.z+highestZ;
-    thisNote.style.position = "absolute";
+    $thisNote.attr({
+        'id': note._id,
+        'data-team-name': team.name,
+        'data-team-id': team._id
+    });
 
-    $("body").append(thisNote);
-    return thisNote;
+    $thisNote.css({
+        'padding': '10px',
+        'background-color': note.color,
+        'left': note.position.x+'px',
+        'top': note.position.y+'px',
+        'height': note.size.y+'px',
+        'width': note.size.x + 'px',
+        'zIndex': 2147483647,
+        'position': "absolute",
+        'box-sizing': "border-box"
+    });
+
+    $('body').append($thisNote);
+    return $thisNote;
 };
 
 GLOBALS_WEB_NOTES.renderNote = function(note,team)
 {
     var self = this;
-    var thisNote = this.buildNote(note,team);
-    thisNote.innerHTML = note.message?note.message:"";
-    thisNote.addEventListener('click',function(){
+    var $thisNote = this.buildNote(note,team);
+    var message = note.message ? note.message : "";
+    $thisNote.html(message);
+    $thisNote.click(function(){
+        console.log("clicked renderNote");
         self.unrenderNote(note._id);
         self.renderNoteForm(note,team);
     });
@@ -30,71 +38,82 @@ GLOBALS_WEB_NOTES.renderNote = function(note,team)
 
 GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 {
+    console.log("renderNoteForm");
     var self = this;
-    var thisNote = this.buildNote(note,team);
-    thisNote.style['box-sizing'] = "border-box";
-    var form = document.createElement('form');
-    var messageInput= document.createElement('textarea');
-    messageInput.setAttribute('rows','10');
-    messageInput.style.width='100%';
-    messageInput.style.height='134px';
-    messageInput.style.resize='none';
-    messageInput.style.backgroundColor = thisNote.style.backgroundColor;
-    messageInput.style['border-style'] = 'none';
-    messageInput.style['box-sizing'] = "border-box";
-    messageInput.innerHTML = note.message?note.message:"";
-    var teamSelect = document.createElement('select');
-    var optionCurrent = document.createElement('option');
-    optionCurrent.setAttribute('value',team._id);
-    optionCurrent.innerHTML=team.name;
-    teamSelect.appendChild(optionCurrent);
+    var $thisNote = this.buildNote(note,team);
+    var $form = $('<form></form>');
+    var $messageInput = $('<textarea></textarea>');
+    $messageInput.attr('rows','10');
+    $messageInput.css({
+        'width': '100%',
+        'height': '134px',
+        'resize': 'none',
+        'backgroundColor': $thisNote.css('backgroundColor'),
+        'border-style': 'none',
+        'box-sizing': "border-box",
+    });
+    
+    var message = note.message ? note.message : "";
+    $messageInput.html(message);
+    var $teamSelect = $('<select></select>');
+    $teamSelect.attr("id", "selectTeam");
+    var $optionCurrent = $('<option></option>');
+    $optionCurrent.attr('value', team._id);
+    $optionCurrent.html(team.name);
+    $teamSelect.append($optionCurrent);
     GLOBALS_WEB_NOTES.teamList.forEach(function(teamOp){
         if(teamOp._id===team._id) return;
-        var option = document.createElement('option');
-        option.setAttribute('value',teamOp._id);
-        option.innerHTML = teamOp.name;
-        teamSelect.appendChild(option);
+        var $option = $('<option></option>');
+        $option.attr('value', teamOp._id);
+        $option.html(teamOp.name);
+        $teamSelect.append($option);
     });
-    var buttonSave = document.createElement('button');
-    buttonSave.style['-webkit-appearance'] = 'push-button';
-    buttonSave.setAttribute('type','submit');
-    buttonSave.innerHTML='Save';
-    form.addEventListener('submit', function(e){
+
+    var $buttonSave = $('<button></button>');
+    $buttonSave.css('-webkit-appearance', 'push-button');
+    $buttonSave.attr('type', 'submit');
+    $buttonSave.text('Save');
+    $form.submit(function(e){
         e.preventDefault();
         self.saveNote(note._id,
-            messageInput.value,
+            $messageInput.html(),
             {
-                _id: teamSelect.value,
-                name:teamSelect.options[teamSelect.selectedIndex].innerHTML
+                _id: $teamSelect.val(),
+                // to debug
+                name: $("#selectTeam option:selected").html()
             },
             team);
     });
 
+//$teamSelect.option($teamSelect.selectedIndex).html()
 
-    var buttonCancel = document.createElement('button');
-    buttonCancel.style['-webkit-appearance'] = 'push-button';
-    buttonCancel.innerHTML='Cancel';
-    buttonCancel.addEventListener('click',function(){
+
+    var $buttonCancel = $('<button></button>');
+    $buttonCancel.css('-webkit-appearance','push-$button');
+    $buttonCancel.html('Cancel');
+    $buttonCancel.click(function(){
         self.unrenderNote(note._id);
         self.renderNote(note,team);
-    },true);
-    var buttonDestroy = document.createElement('button');
-    buttonDestroy.style['-webkit-appearance'] = 'push-button';
-    buttonDestroy.innerHTML='Destroy';
-    buttonDestroy.addEventListener('click',function(){
+    });
+    var $buttonDestroy = $('<button></button>');
+    $buttonDestroy.css('-webkit-appearance','push-$button');
+    $buttonDestroy.html('Destroy');
+    $buttonDestroy.click(function(){
         self.destroyNote(note._id);
-    },true);
-    form.appendChild(messageInput);
-    form.appendChild(teamSelect);
-    form.appendChild(buttonSave);
-    thisNote.appendChild(buttonCancel);
-    thisNote.appendChild(buttonDestroy);
+    });
+    $form.append($messageInput);
+    $form.append($teamSelect);
+    $form.append($buttonSave);
+    $thisNote.append($buttonCancel);
+    $thisNote.append($buttonDestroy);
 
 
-    thisNote.appendChild(form);
+    $thisNote.append($form);
 };
 
 GLOBALS_WEB_NOTES.unrenderNote = function(noteId){
+    console.log("unrenderNote");
+
     $('#'+noteId).remove();
 };
 
