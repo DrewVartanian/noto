@@ -2,23 +2,18 @@
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         switch(request.title){
             case 'newPopup': GLOBALS.pagesProm.then(function(pages){
-                console.log("newPopup", pages);
                 sendResponse(pages);
             });
                 return true;
             case 'newPage':
                 Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
                     var pageToContent=dbInfo[0].filter(function(page){
-                        console.log('page url: ',page.url);
-                        console.log('sender url: ',sender.url);
                         return (page.url===sender.url);
                     });
-                    console.log('page matches',pageToContent);
                     sendResponse({pages: pageToContent,teams: dbInfo[1]});
                 });
                 return true;
             case 'destroyNote':
-                console.log('destroyNote');
                 $.ajax({
                     url:'http://127.0.0.1:1337/api/note/'+request.noteId,
                     type:'DELETE',
@@ -42,7 +37,6 @@
                 return true;
             // saveNote
             case 'saveNote':
-                console.log('saveNote');
                 $.ajax({
                     url:'http://127.0.0.1:1337/api/note/'+request.noteId,
                     type:'PUT',
@@ -55,19 +49,50 @@
                         url: sender.url
                     }),
                     success: function(res){
-                        console.log('save confirmed');
                         GLOBALS.pagesProm.then(function(pages){
-                            pages.some(function(page){
-                                if(page.url!==sender.url) return false;
-                                return page.notes.some(function(note,index){
-                                    if(note._id===request.noteId){
-                                        page.notes[index] = res;
-                                        return true;
+                            if(request.newTeam===request.oldTeam){
+                                pages.some(function(page){
+                                    if(page.url!==sender.url) return false;
+                                    if(page.team._id===request.oldTeam){
+                                        return page.notes.some(function(note,index){
+                                            if(note._id===request.noteId){
+                                                page.notes[index] = res.note;
+                                                return true;
+                                            }
+                                            return false;
+                                        });
                                     }
                                     return false;
                                 });
-                            });
-                            sendResponse(res);
+                            }else{
+                                pages.some(function(page){
+                                    if(page.url!==sender.url) return false;
+                                    if(page.team._id===request.oldTeam){
+                                        return page.notes.some(function(note,index){
+                                            if(note._id===request.noteId){
+                                                page.notes.splice(index,1);
+                                                return true;
+                                            }
+                                            return false;
+                                        });
+                                    }
+                                    return false;
+                                });
+                                if(!res.page){
+                                    pages.some(function(page){
+                                        if(page.url!==sender.url) return false;
+                                        if(page.team._id===request.newTeam){
+                                            page.notes.push(res.note);
+                                            return true;
+                                        }
+                                        return false;
+                                    });
+                                }else{
+                                    res.page.notes[0] = res.note;
+                                    pages.push(res.page);
+                                }
+                            }
+                            sendResponse(res.note);
                         });
                     }
 

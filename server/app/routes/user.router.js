@@ -43,7 +43,7 @@ router.get('/team/', function (req,res,next){
         res.status(200).json(teams);
     }).then(null, next);
 
-})
+});
 
 
 
