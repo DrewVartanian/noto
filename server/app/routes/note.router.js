@@ -114,7 +114,15 @@ router.put('/:id', function(req, res, next) {
   _.extend(req.note, req.body);
   var retNote;
   var newPageNeeded = true;
-  req.note.save().then(function(note) {
+  if(req.body.position){
+    req.note.save().then(function(note){
+      console.log("put with req.body.position ", note);
+      res.status(200).json({note: note});
+
+    });
+  }
+  else{
+    req.note.save().then(function(note) {
       retNote=note;
       if(req.body.oldTeam===req.body.newTeam) return ['stay'];
       return Page.find({
@@ -151,6 +159,8 @@ router.put('/:id', function(req, res, next) {
   }).then(function(page){
     res.status(200).json({note: retNote,page: newPageNeeded?page:false});
   }).then(null, next);
+  }
+
 });
 
 // DELETE specific note

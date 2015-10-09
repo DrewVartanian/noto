@@ -32,15 +32,17 @@
         }
     }, true);
 
-    chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-        if(request == "newNoteClick") {
-            var team;
-            sendResponse({team: GLOBALS_WEB_NOTES.team._id?GLOBALS_WEB_NOTES.team._id:"personal",
-                url:document.URL,
-                x: GLOBALS_WEB_NOTES.offset.x,
-                y: GLOBALS_WEB_NOTES.offset.y});
-        }
-    });
+
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+    if(request == "newNoteClick") {
+        var team;
+        sendResponse({team: GLOBALS_WEB_NOTES.team._id?GLOBALS_WEB_NOTES.team._id:"personal",
+            url:document.URL,
+            x: GLOBALS_WEB_NOTES.offset.x,
+            y: GLOBALS_WEB_NOTES.offset.y});
+    }
+});
+
 
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         switch(request.title){
