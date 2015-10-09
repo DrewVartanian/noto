@@ -39,6 +39,7 @@
   "externally_connectable": {
     "ids": ["*"],
     "matches": ["*://127.0.0.1/*"]
-  }
+  },
+  "incognito": "split"
 }
 

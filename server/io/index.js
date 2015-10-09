@@ -11,14 +11,15 @@ module.exports = function (server) {
     io.on('connection', function (socket) {
        socket.on('setupTeams', function(data){
           data.teams.forEach(function(team){
-            console.log(team._id);
+            console.log('joined: ', team._id);
             socket.join(team._id);
           });
         });
 
        socket.on('changeNote', function(data){
           console.log(socket.id);
-          socket.broadcast.to(data.team).emit('noteChanged');
+          console.log('send to team: ',data.team);
+          socket.broadcast.to(data.team).emit('noteChanged',data);
         });
     });
 

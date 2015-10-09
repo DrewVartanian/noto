@@ -7,12 +7,16 @@
   });
 
   GLOBALS.socket.on('noteChanged',function(data){
+    console.log('note changed');
     GLOBALS.pagesProm.then(function(pages){
       pages.some(function(page){
+        console.log('searching page');
         if(page.url!==data.url||page.team._id!==data.team) return false;
-        pages.notes.some(function(note,index){
+        console.log('page match');
+        page.notes.some(function(note,index){
           if(note._id===data.note){
-            notes.splice(index,1);
+            console.log('note match');
+            page.notes.splice(index,1);
             return true;
           }
           return false;
