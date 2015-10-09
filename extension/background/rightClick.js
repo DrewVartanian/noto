@@ -71,5 +71,10 @@
 
   function changeTeamClickHandler(info, tab, team) {
     GLOBALS.teamSelected = team;
+    chrome.tabs.getAllInWindow(null, function(tabs){
+        for (var i = 0; i < tabs.length; i++) {
+            chrome.tabs.sendMessage(tabs[i].id, {title: "changeTeam"});
+        }
+    });
   }
 })();
