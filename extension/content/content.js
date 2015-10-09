@@ -39,6 +39,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                 case 'put':
                     console.log('socket put');
                     GLOBALS_WEB_NOTES.unrenderNote(request.data.note._id);
+                    console.dir(request.data);
+                    GLOBALS_WEB_NOTES.teamList.some(function(team){
+                        if(request.data.team===team._id){
+                            request.data.team=team;
+                            return true;
+                        }
+                    });
                     GLOBALS_WEB_NOTES.renderNote(request.data.note,request.data.team);
                     break;
             }
