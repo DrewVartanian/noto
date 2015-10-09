@@ -1,5 +1,6 @@
 chrome.runtime.sendMessage({title: "newPage"},function(dbInfo){
     GLOBALS_WEB_NOTES.teamList = dbInfo.teams;
+    console.log('pages');
     dbInfo.pages.forEach(function(page){
         page.notes.forEach(function(note){
             GLOBALS_WEB_NOTES.renderNote(note,page.team);

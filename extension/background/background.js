@@ -7,6 +7,7 @@
             });
                 return true;
             case 'newPage':
+                console.log('background');
                 Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
                     var pageToContent=dbInfo[0].filter(function(page){
                         console.log('page url: ',page.url);
