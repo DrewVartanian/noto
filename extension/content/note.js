@@ -44,14 +44,15 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     messageInput.style['box-sizing'] = "border-box";
     messageInput.innerHTML = note.message?note.message:"";
     var teamSelect = document.createElement('select');
-    // var optionCurrent = document.createElement('option');
-    // optionCurrent.setAttribute('value',note._id);
-    // optionCurrent.innerHTML="personal";
-    // teamSelect.appendChild(optionCurrent);
-    GLOBALS_WEB_NOTES.teamList.forEach(function(team){
+    var optionCurrent = document.createElement('option');
+    optionCurrent.setAttribute('value',team._id);
+    optionCurrent.innerHTML=team.name;
+    teamSelect.appendChild(optionCurrent);
+    GLOBALS_WEB_NOTES.teamList.forEach(function(teamOp){
+        if(teamOp._id===team._id) return;
         var option = document.createElement('option');
-        option.setAttribute('value',team._id);
-        option.innerHTML = team.name;
+        option.setAttribute('value',teamOp._id);
+        option.innerHTML = teamOp.name;
         teamSelect.appendChild(option);
     });
     var buttonSave = document.createElement('button');
@@ -62,7 +63,10 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         e.preventDefault();
         self.saveNote(note._id,
             messageInput.value,
-            {_id: teamSelect.value, name:teamSelect.innerHTML},
+            {
+                _id: teamSelect.value,
+                name:teamSelect.options[teamSelect.selectedIndex].innerHTML
+            },
             team);
     });
 
@@ -72,7 +76,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     buttonCancel.innerHTML='Cancel';
     buttonCancel.addEventListener('click',function(){
         self.unrenderNote(note._id);
-        self.renderNote(note);
+        self.renderNote(note,team);
     },true);
     var buttonDestroy = document.createElement('button');
     buttonDestroy.style['-webkit-appearance'] = 'push-button';
