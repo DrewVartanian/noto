@@ -1,5 +1,5 @@
 (function () {
-  GLOBALS.socket = io('http://127.0.0.1:1337');
+  GLOBALS.socket = io(GLOBALS.serverUrl);
   GLOBALS.teamsProm.then(function(teams){
     GLOBALS.socket.emit('setupTeams', {
       "teams": teams

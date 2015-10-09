@@ -15,7 +15,7 @@
   // context menu onclick callback function
   function onClickHandler(info, tab) {
     chrome.tabs.sendRequest(tab.id, "newNoteClick", function(noteInfo) {
-          Promise.resolve($.post('http://127.0.0.1:1337/api/note',noteInfo)).then(function(res){
+          Promise.resolve($.post(GLOBALS.serverUrl+'/api/note',noteInfo)).then(function(res){
             GLOBALS.pagesProm.then(function(pages){
               if(!res.page){
                 pages.some(function(page){
