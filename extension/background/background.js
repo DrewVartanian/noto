@@ -18,7 +18,6 @@
                     url:'http://127.0.0.1:1337/api/note/'+request.noteId,
                     type:'DELETE',
                     success: function(){
-                        console.log('delete Confrimed');
                         GLOBALS.pagesProm.then(function(pages){
                             pages.some(function(page){
                                 if(page.url!==sender.url) return false;
