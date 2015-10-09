@@ -1,9 +1,11 @@
 GLOBALS_WEB_NOTES.buildNote = function(note,team){
-
+    var self = this;
     var $thisNote = $('<div></div>');
     $thisNote.draggable({
         
     });
+
+
 
     $thisNote.attr({
         'class': 'webnote',
@@ -25,12 +27,29 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         'box-sizing': "border-box"
     });
 
+     $thisNote.mouseup(function() {
+        //save position here
+        console.log("original note position", note.position);
+        console.log("attempting to save the position");
+        console.log("event.x and event.y", event.x, event.y);
+        // $thisNote.css({
+        //     'offset.left':  event.x + "px",
+        //     'offset.top': event.y+'px'
+        // });
+        console.log("what is note?", note);
+        note.position.x = event.x;
+        note.position.y = event.y;
+        self.saveNotePosition(note, team);
+    });
+
+
     $('body').append($thisNote);
     return $thisNote;
 };
 
 GLOBALS_WEB_NOTES.renderNote = function(note,team)
 {
+    console.log("renderNote", note, team);
     var self = this;
     var $thisNote = this.buildNote(note,team);
     var message = note.message ? note.message : "";
@@ -41,6 +60,7 @@ GLOBALS_WEB_NOTES.renderNote = function(note,team)
         self.unrenderNote(note._id);
         self.renderNoteForm(note,team);
     });
+   
 };
 
 GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
@@ -143,6 +163,16 @@ GLOBALS_WEB_NOTES.destroyNote = function(noteId){
             self.unrenderNote(noteId);
         }
     });
+};
+
+GLOBALS_WEB_NOTES.saveNotePosition = function(note, team){
+    var self = this;
+        chrome.runtime.sendMessage({
+        title: "saveNotePosition",
+        noteId: note._id,
+        position: note.position,
+    });
+
 };
 
 
