@@ -31,5 +31,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             GLOBALS_WEB_NOTES.team._id = request.teamId;
             GLOBALS_WEB_NOTES.renderNoteForm(request.note,GLOBALS_WEB_NOTES.team);
             break;
+        case 'noteChangedOnBackground':
+            GLOBALS_WEB_NOTES.unrenderNote(request.data.note);
+            break;
     }
 });
