@@ -1,13 +1,16 @@
 GLOBALS_WEB_NOTES.buildNote = function(note,team){
-
+    var self = this;
     var $thisNote = $('<div></div>');
 
+    var colors = ['yellow','red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
     $thisNote.attr({
         'class': 'webnote',
         'id': note._id,
         'data-team-name': team.name,
-        'data-team-id': team._id
+        'data-team-id': team._id,
+        'color': colors
     });
+    $thisNote.addClass( "web-notes-id-class" );
 
     $thisNote.css({
         'padding': '10px',
@@ -21,7 +24,26 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         'box-sizing': "border-box"
     });
 
-    $thisNote.addClass( "web-notes-id-class" );
+
+    $thisNote.draggable({
+        cursor: 'move'
+    })
+    .mouseup(function() {
+        //save position here
+
+        console.log("this.position() ", $(this).position());
+        console.log("original note position", note.position);
+        console.log("attempting to save the position");
+        // console.log("event.x and event.y", event.x, event.y);
+        // $thisNote.css({
+        //     'offset.left':  event.x + "px",
+        //     'offset.top': event.y+'px'
+        // });
+        // console.log("what is note?", note);
+        note.position.x = $(this).position().left;
+        note.position.y = $(this).position().top;
+        self.saveNotePosition(note, team);
+    });
 
     $('body').append($thisNote);
     return $thisNote;
@@ -29,6 +51,7 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
 
 GLOBALS_WEB_NOTES.renderNote = function(note,team)
 {
+    console.log("renderNote", note, team);
     var self = this;
     var $thisNote = this.buildNote(note,team);
     var message = note.message ? note.message : "";
@@ -38,6 +61,7 @@ GLOBALS_WEB_NOTES.renderNote = function(note,team)
         self.unrenderNote(note._id);
         self.renderNoteForm(note,team);
     });
+
 };
 
 GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
@@ -47,10 +71,11 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     var $thisNote = this.buildNote(note,team);
     var $form = $('<form></form>');
     $form.attr({
-        'class': 'webnote'
-    })
+        'class': 'webnote colors'
+    });
     var $messageInput = $('<textarea></textarea>');
     $messageInput.attr('rows','10',"'class':'webnote'");
+    $messageInput.attr('rows','10',"'class':'colors'");
     $messageInput.css({
         'width': '100%',
         'height': '134px',
@@ -59,13 +84,13 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'border-style': 'none',
         'box-sizing': "border-box",
     });
-    
+
     var message = note.message ? note.message : "";
     $messageInput.html(message);
     var $teamSelect = $('<select></select>');
     $teamSelect.css({
         'class': 'webnote'
-    })
+    });
     $teamSelect.attr("id", "selectTeam", "'class': 'webnote'");
     var $optionCurrent = $('<option></option>');
     $optionCurrent.attr('value', team._id, "'class': 'webnote'");
@@ -76,11 +101,28 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         var $option = $('<option></option>');
         $option.css({
             'class': 'webnote'
-        })
+        });
         $option.attr('value', teamOp._id);
         $option.html(teamOp.name);
         $teamSelect.append($option);
     });
+   //color
+   var colors = ['yellow','red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
+    var $colorSelect = $('<select></select>');
+    $colorSelect.css({
+        'class': 'colors'
+    });
+    $colorSelect.attr("id", "selectColor", "'class': 'colors'");
+    colors.forEach(function(color){
+        var $optionColor = $('<option></option>');
+        $optionColor.css({
+            'class': 'colors'
+        });
+        $optionColor.attr('value', color);
+        $optionColor.html(color);
+        $colorSelect.append($optionColor);
+    });
+    
 
     var $buttonSave = $('<button></button>');
     $buttonSave.css('-webkit-appearance', 'push-button');
@@ -90,6 +132,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         e.preventDefault();
         self.saveNote(note._id,
             $messageInput.val(),
+             $("#selectColor option:selected").html(),
             {
                 _id: $teamSelect.val(),
                 // to debug
@@ -119,6 +162,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     });
     $form.append($messageInput);
     $form.append($teamSelect);
+    $form.append($colorSelect);
     $form.append($buttonSave);
     $thisNote.append($buttonCancel);
     $thisNote.append($buttonDestroy);
@@ -142,16 +186,30 @@ GLOBALS_WEB_NOTES.destroyNote = function(noteId){
     });
 };
 
+GLOBALS_WEB_NOTES.saveNotePosition = function(note, team){
+    var self = this;
+    console.log("note.position saveNotePosition ", note.position);
+    chrome.runtime.sendMessage({
+        title: "saveNotePosition",
+        noteId: note._id,
+        position: note.position,
+        team: team._id
+    });
 
-GLOBALS_WEB_NOTES.saveNote = function(noteId, message, newTeam, oldTeam){
+};
+
+
+GLOBALS_WEB_NOTES.saveNote = function(noteId, message, color, newTeam, oldTeam){
     var self = this;
     chrome.runtime.sendMessage({
         title: "saveNote",
         noteId: noteId,
+        color: color,
         message: message,
         newTeam: newTeam._id,
         oldTeam: oldTeam._id
     },function(changedNote){
+        console.log(changedNote);
         self.unrenderNote(noteId);
         self.renderNote(changedNote,newTeam);
     });

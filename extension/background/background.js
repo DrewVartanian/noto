@@ -51,7 +51,41 @@
                     }
                 });
                 return true;
-            // saveNote
+            case 'saveNotePosition':
+             $.ajax({
+                    url:GLOBALS.serverUrl+'/api/note/'+request.noteId,
+                    type:'PUT',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        position: request.position,
+                        url: sender.url
+                    }),
+                    success: function(res){
+                       GLOBALS.pagesProm.then(function(pages){
+                            GLOBALS.socket.emit('changeNote', {
+                                          "url": sender.url,
+                                          "newTeam": request.team,
+                                          "oldTeam": request.team,
+                                          "note": res.note,
+                                          "oper": "put"
+                            });
+                            pages.some(function(page){
+                                if(page.url!==sender.url) return false;
+                                if(page.team._id!==request.team) return false;
+                                return page.notes.some(function(note,index){
+                                    if(note._id===request.noteId){
+                                        page.notes[index] = res.note;
+                                        console.log(res.note);
+                                        return true;
+                                    }
+                                    return false;
+                                });
+                            });
+                        });
+                    }
+                });
+                return true;
             case 'saveNote':
                 console.log('request',request);
                 $.ajax({
@@ -60,9 +94,10 @@
                     contentType: 'application/json',
                     dataType: 'json',
                     data: JSON.stringify({
-                        message: request.message,
-                        newTeam: request.newTeam,
-                        oldTeam: request.oldTeam,
+                        message: request.message, //? request.message : undefined,
+                        color: request.color,
+                        newTeam: request.newTeam, //? request.newTeam : request.team,
+                        oldTeam: request.oldTeam, //? request.oldTeam : request.team,
                         url: sender.url
                     }),
                     success: function(res){
