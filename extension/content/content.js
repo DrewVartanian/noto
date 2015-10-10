@@ -88,6 +88,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
                 break;
             case 'login content':
                 console.log('login test');
+                GLOBALS_WEB_NOTES.clearNotes();
                 GLOBALS_WEB_NOTES.team={name:"All Teams"};
                 GLOBALS_WEB_NOTES.clickedEl= null;
                 GLOBALS_WEB_NOTES.offset= {};
