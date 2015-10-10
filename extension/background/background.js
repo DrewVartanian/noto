@@ -11,6 +11,7 @@
                     console.log("logout", teams);
                     GLOBALS.teamsProm = Promise.resolve([]);
                 });
+                GLOBALS.socket.emit('logout', {});
                 break;
             case 'newPage':
                 Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){

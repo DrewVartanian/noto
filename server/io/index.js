@@ -15,18 +15,21 @@ module.exports = function (server) {
     });
 
     io.on('connection', function (socket) {
-        var user=undefined;
-        console.log(socket.request.session.passport.user);
+        var user = require('./user.js');
+        var userExists = socket.request&&
+                          socket.request.session&&
+                          socket.request.session.passport&&
+                          socket.request.session.passport.user;
+        if(userExists){
+          user._id = socket.request.session.passport.user,socket;
+          console.log('connecting',user._id);
+          socketLedger.addUser(user._id,socket);
+        }
         socket.on('setupTeams', function(data){
           data.teams.forEach(function(team){
             console.log('joined: ', team._id);
             socket.join(team._id);
           });
-        });
-
-        socket.on('addSelf', function(data){
-          user = data.userId;
-          socketLedger.addUser(user,socket);
         });
 
         socket.on('changeNote', function(data){
@@ -51,9 +54,25 @@ module.exports = function (server) {
           }
         });
 
+        socket.on('login', function () {
+          console.log('login');
+          if(user._id){
+            socketLedger.addUser(user._id,socket);
+          }
+        });
+
+        socket.on('logout', function () {
+          console.log('logout');
+          if(user._id){
+            socketLedger.removeUser(user._id);
+            user._id=null;
+          }
+        });
+
         socket.on('disconnect', function () {
-          if(user){
-            socketLedger.removeUser(user);
+          if(user._id){
+            socketLedger.removeUser(user._id);
+            user._id=null;
           }
         });
     });
