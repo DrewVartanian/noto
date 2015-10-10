@@ -95,6 +95,7 @@
                     dataType: 'json',
                     data: JSON.stringify({
                         message: request.message, //? request.message : undefined,
+                        color: request.color,
                         newTeam: request.newTeam, //? request.newTeam : request.team,
                         oldTeam: request.oldTeam, //? request.oldTeam : request.team,
                         url: sender.url
