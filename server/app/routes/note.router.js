@@ -157,8 +157,20 @@ router.put('/:id', function(req, res, next) {
     }
     return false;
   }).then(function(page){
+    console.log("New Team on team change: ",req.body.newTeam);
+    Team.findOne({_id: req.body.newTeam}).populate('users')
+    .then(function (team){
+      team.users.forEach(function(user){
+        user.unreadPages.push(page);
+        user.save()
+      })
+    })
+
+    return page;
+  }).then(function(page){
     res.status(200).json({note: retNote,page: newPageNeeded?page:false});
-  }).then(null, next);
+  })
+  .then(null, next);
   }
 
 });

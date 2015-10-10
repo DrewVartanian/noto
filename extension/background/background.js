@@ -24,6 +24,17 @@
                     sendResponse({pages: pageToContent,teams: dbInfo[1], teamSelected:GLOBALS.teamSelected});
                 });
                 return true;
+            case 'unreadPage':
+                $.ajax({
+                    url: GLOBALS.serverUrl+'/api/user/unreadPage',
+                    type:'PUT',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        url: sender.url
+                    })
+                });
+                break;
             case 'destroyNote':
                 $.ajax({
                     url:GLOBALS.serverUrl+'/api/note/'+request.noteId,

@@ -13,6 +13,13 @@ app.factory('UserFactory', function ($http, RequestFactory) {
                 .then(function(res) {
                     return res.data
                 });
+        },
+        getUnreadPages: function() {
+            return $http(RequestFactory.composeRequest('GET', '/api/user/unreadpage'))
+                .then(function(res) {
+                    console.log("Data coming back from route: ", res.data)
+                    return res.data
+                });
         }
 
     };

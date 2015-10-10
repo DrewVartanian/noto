@@ -20,6 +20,7 @@
                 }
             }
         });
+        chrome.runtime.sendMessage({title: "unreadPage"});
     }
     getDbInfo();
 
