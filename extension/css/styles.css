@@ -1,53 +1,53 @@
 #mainWindow {
-  /*background-color: black;
+    /*background-color: black;
   color: white;*/
     height: 550px;
     width: 400px;
 }
 
 a {
-  color: black;
+    color: black;
 }
 
-#teamGroup{
-	display: inline;
+#teamGroup {
+    display: inline;
 }
 
 #logo {
-	font-size: 30em;
-	text-align: center;
-	margin-left: 20px;
-	margin-right: 20px;
-	position: absolute;
-	color: rgba(255, 255, 255, 1.0);
-	z-index: -1;
-	top: 0px;
-	padding-top: 50px;
+    font-size: 30em;
+    text-align: center;
+    margin-left: 20px;
+    margin-right: 20px;
+    position: absolute;
+    color: rgba(255, 255, 255, 1.0);
+    z-index: -1;
+    top: 0px;
+    padding-top: 50px;
 }
 
 #logotext {
-	color: black;
-	font-family: cursive;
-	margin-left: 40px;
-	margin-top: 100px;
+    color: black;
+    font-family: cursive;
+    margin-left: 40px;
+    margin-top: 100px;
 }
 
 #loginsignup {
-	text-align: center;
-	margin-top: 220px;
-	padding: 0px;
+    text-align: center;
+    margin-top: 220px;
+    padding: 0px;
 }
 
 #loginsignup a {
-	color: white;
-	font-weight: 900;
-	margin: 0;
-	padding: 0;
+    color: white;
+    font-weight: 900;
+    margin: 0;
+    padding: 0;
 }
 
 #loginsignup p {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .webnote button {
@@ -72,22 +72,22 @@ a {
     border: 1px solid transparent;
     border-radius: 4px;
     background-color: white;
-    height: 15px;
-    width: 50px;
+    height: 10px;
+    width: 20%;
 }
 
-.webnote form {
+.webnote form {}
 
-}
+.webnote select {}
 
-.webnote select {
+.webnote textarea {}
 
-}
+.webnote option {}
 
-.webnote textarea {
 
-}
+/*select {
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+}*/
 
-.webnote option {
-	
-}

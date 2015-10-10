@@ -20,8 +20,20 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         'height': note.size.y+'px',
         'width': note.size.x + 'px',
         'zIndex': 2147483647,
-        'position': "absolute",
-        'box-sizing': "border-box"
+        'position': 'absolute',
+        'box-sizing': "border-box",
+         'padding': '15px',
+        'font-family': 'Gloria Hallelujah',
+        'font-size': '15px',
+         '-moz-transform': 'rotate(4deg)',
+          '-webkit-transform': 'rotate(4deg)',
+         '-o-transform': 'rotate(4deg)',
+         '-ms-transform': 'rotate(4deg)',
+          'transform': 'rotate(4deg)',
+           'box-shadow': '0px 4px 6px #333',
+            '-moz-box-shadow': '0px 4px 6px #333',
+             '-webkit-box-shadow': '0px 4px 6px #333',
+             'opacity': '0.8'
     });
 
 
@@ -78,7 +90,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $messageInput.attr('rows','10',"'class':'colors'");
     $messageInput.css({
         'width': '100%',
-        'height': '134px',
+        'height': '124px',
         'resize': 'none',
         'backgroundColor': $thisNote.css('backgroundColor'),
         'border-style': 'none',
@@ -89,7 +101,19 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $messageInput.html(message);
     var $teamSelect = $('<select></select>');
     $teamSelect.css({
-        'class': 'webnote'
+        'class': 'webnote',
+        //'padding': '5px 8px',
+        'width': '40%',
+        'border': 'none',
+        'box-shadow': 'none',
+        'background': 'transparent',
+        '-webkit-appearance': 'none',
+        'text-align': 'center'
+        // 'border': '2px solid purple', 
+        //  'width': '200px;',
+        // '-webkit-border-radius': '5px',
+        // '-moz-border-radius': '5px',
+        // 'border-radius': '5px'
     });
     $teamSelect.attr("id", "selectTeam", "'class': 'webnote'");
     var $optionCurrent = $('<option></option>');
@@ -110,7 +134,13 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
    var colors = ['yellow','red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
     var $colorSelect = $('<select></select>');
     $colorSelect.css({
-        'class': 'colors'
+        'class': 'colors',
+        'width': '40%',
+        'border': 'none',
+        'box-shadow': 'none',
+        'background': 'transparent',
+        '-webkit-appearance': 'none',
+        'text-align': 'center'
     });
     $colorSelect.attr("id", "selectColor", "'class': 'colors'");
     colors.forEach(function(color){
