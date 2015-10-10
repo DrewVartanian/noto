@@ -38,7 +38,16 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
 
 
     $thisNote.draggable({
-        cursor: 'move'
+        cursor: 'move',
+        type: 'rotation',
+        drag: function(event, ui){
+        var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
+
+        $(this).css({
+         '-moz-transform': rotateCSS,
+        '-webkit-transform': rotateCSS
+        });
+        }
     })
     .mouseup(function() {
         //save position here
