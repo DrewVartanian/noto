@@ -12,6 +12,11 @@
                     GLOBALS.teamsProm = Promise.resolve([]);
                 });
                 GLOBALS.socket.emit('logout', {});
+                chrome.tabs.getAllInWindow(null, function(tabs){
+                    for (var i = 0; i < tabs.length; i++) {
+                        chrome.tabs.sendMessage(tabs[i].id, {title: "logout content"});
+                    }
+                });
                 break;
             case 'newPage':
                 Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
