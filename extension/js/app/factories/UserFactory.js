@@ -15,7 +15,11 @@ app.factory('UserFactory', function ($http, RequestFactory) {
                 });
         },
         getAllUsers: function() {
-            return $http(composeRequest('GET', '/api/user/allUsers'));
+            return $http(RequestFactory.composeRequest('GET', '/api/user/allUsers'))
+                .then(function(res) {
+                    console.log(res.data)
+                    return res.data;
+                });
         }
 
     };

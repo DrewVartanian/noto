@@ -13,7 +13,7 @@ app.config(function ($stateProvider) {
                 return TeamFactory.getTeamMembers($stateParams.id);
             },
             allusers: function(UserFactory) {
-                return UserFactory.getAllUsers()
+                return UserFactory.getAllUsers();
             }
         }
     });
