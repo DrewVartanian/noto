@@ -48,8 +48,10 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         '-webkit-transform': rotateCSS
         });
         }
-    })
-    .mouseup(function() {
+    });
+    $thisNote.resizable();
+
+    $thisNote.mouseup(function() {
         //save position here
 
         console.log("this.position() ", $(this).position());
@@ -145,7 +147,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $colorSelect.css({
         'class': 'colors',
         'width': '40%',
-        'border': 'none',
+        // 'border-style': 'solid',
+        // 'border-color': 'black',
         'box-shadow': 'none',
         'background': 'transparent',
         '-webkit-appearance': 'none',
@@ -155,7 +158,9 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     colors.forEach(function(color){
         var $optionColor = $('<option></option>');
         $optionColor.css({
-            'class': 'colors'
+            'class': 'colors',
+             'value': note.color,
+             'selected': note.color
         });
         $optionColor.attr('value', color);
         $optionColor.html(color);
@@ -172,6 +177,10 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         self.saveNote(note._id,
             $messageInput.val(),
              $("#selectColor option:selected").html(),
+             {
+                x: $thisNote.width(),
+                y: $thisNote.height()
+             },
             {
                 _id: $teamSelect.val(),
                 // to debug
@@ -238,11 +247,12 @@ GLOBALS_WEB_NOTES.saveNotePosition = function(note, team){
 };
 
 
-GLOBALS_WEB_NOTES.saveNote = function(noteId, message, color, newTeam, oldTeam){
+GLOBALS_WEB_NOTES.saveNote = function(noteId, message, size, color, newTeam, oldTeam){
     var self = this;
     chrome.runtime.sendMessage({
         title: "saveNote",
         noteId: noteId,
+        size: size,
         color: color,
         message: message,
         newTeam: newTeam._id,

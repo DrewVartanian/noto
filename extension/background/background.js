@@ -101,6 +101,7 @@
                     dataType: 'json',
                     data: JSON.stringify({
                         message: request.message, //? request.message : undefined,
+                        size: request.size,
                         color: request.color,
                         newTeam: request.newTeam, //? request.newTeam : request.team,
                         oldTeam: request.oldTeam, //? request.oldTeam : request.team,
