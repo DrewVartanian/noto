@@ -46,15 +46,16 @@ router.get('/team/', function (req,res,next){
 
 });
 
-router.get('/allUsers', function (req,res,next) {
+router.get('/allUsers/', function (req,res,next) {
     var allUserEmails = [];
     console.log("hit all users route!");
     User.find({}).exec()
     .then(function(allUsers) {
         allUsers.forEach(function(user) {
          allUserEmails.push(user.email);
-        });
+        }).then(function() {
         res.status(200).json(allUserEmails);
+        });
     });
 });
 
