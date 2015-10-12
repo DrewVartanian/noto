@@ -62,9 +62,6 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
 //     'background-image': `url("${iconURL}")`
 //     });
 
-//     // var imgURL = chrome.extension.getURL("http://www.fontsaddict.com/images/icons/png/5002.png");
-//     // document.getElementById("handle").src = imgURL;
-
 //     $rotateSym.draggable({
 //     handle: '#handle',
 //     opacity: 0.01,
@@ -143,7 +140,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'width': '100%',
         'height': '80%',
         'resize': 'none',
-        'backgroundColor': $thisNote.css('backgroundColor'),
+        'background-color': $thisNote.css('background-color'),
         'border-style': 'none',
         'box-sizing': "border-box",
     });
@@ -229,7 +226,6 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $buttonSave.attr('type', 'submit');
     $buttonSave.text('Save');
     $form.submit(function(e){
-        console.log("height and weight is",$thisNote.height(),$thisNote.width());
         e.preventDefault();
         self.saveNote(note._id,
             $messageInput.val(),
@@ -252,19 +248,41 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 
     var $buttonCancel = $('<button></button>');
     // $buttonCancel.attr("'class': 'webnote'");
-    $buttonCancel.css('-webkit-appearance','push-$button');
+    $buttonCancel.css({'-webkit-appearance': 'push-$button'});
     $buttonCancel.html('Cancel');
     $buttonCancel.click(function(){
         self.unrenderNote(note._id);
         self.renderNote(note,team);
     });
-    var $buttonDestroy = $('<button></button>');
+
+    var deleteIcon = chrome.extension.getURL("/icons/delete.png");
+
+
+    var $buttonDestroy = $('<div></div>');
     // $buttonDestroy.attr("'class': 'webnote'");
-    $buttonDestroy.css('-webkit-appearance','push-$button');
-    $buttonDestroy.html('Destroy');
+    $buttonDestroy.css({
+        // '-webkit-appearance': 'push-$button',
+        'height': '30px',
+        'width': '30px',
+        'cursor': 'pointer',
+        'background-image': 'url('+deleteIcon+')',
+        'position': 'absolute',
+        'right': '-15px',
+        'top': '-15px',
+        'display': 'none'
+    });
+
+    // $buttonDestroy.html('Destroy');
     $buttonDestroy.click(function(){
         self.destroyNote(note._id);
     });
+
+    $thisNote.hover(function() {
+        $buttonDestroy.css({'display': 'block'});
+    }, function() {
+        $buttonDestroy.css({'display': 'none'});
+    });
+
     $form.append($messageInput);
     $form.append($teamSelect);
     $form.append($colorSelect);
