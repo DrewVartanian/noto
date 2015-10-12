@@ -32,7 +32,9 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         'box-shadow': '0px 4px 6px #333',
         '-moz-box-shadow': '0px 4px 6px #333',
         '-webkit-box-shadow': '0px 4px 6px #333',
-        'opacity': '0.8'
+        'opacity': '0.8',
+        'white-space': 'pre-wrap',
+        'word-wrap': 'break-word'
     });
 
 
@@ -60,9 +62,6 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
 //     'bottom': 2 + 'px',
 //     'background-image': `url("${iconURL}")`
 //     });
-
-//     // var imgURL = chrome.extension.getURL("http://www.fontsaddict.com/images/icons/png/5002.png");
-//     // document.getElementById("handle").src = imgURL;
 
 //     $rotateSym.draggable({
 //     handle: '#handle',
@@ -110,7 +109,8 @@ GLOBALS_WEB_NOTES.renderNote = function(note,team)
     var self = this;
     var $thisNote = this.buildNote(note,team);
     var message = note.message ? note.message : "";
-    $thisNote.html(message);
+    console.log(message);
+    $thisNote.html('<span>'+message+'</span>');
     $thisNote.click(function(){
         console.log("clicked renderNote");
         self.unrenderNote(note._id);
@@ -141,7 +141,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'width': '100%',
         'height': '80%',
         'resize': 'none',
-        'backgroundColor': $thisNote.css('backgroundColor'),
+        'background-color': $thisNote.css('background-color'),
         'border-style': 'none',
         'box-sizing': "border-box",
     });
@@ -188,7 +188,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'class': 'colors',
         'width': '37%',
         'height': '15%',
-        // 'border-style': 'solid',
+        'border-style': 'none',
         // 'border-color': 'black',
         'box-shadow': 'none',
         'background': 'transparent',
@@ -227,7 +227,6 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $buttonSave.attr('type', 'submit');
     $buttonSave.text('Save');
     $form.submit(function(e){
-        console.log("height and weight is",$thisNote.height(),$thisNote.width());
         e.preventDefault();
         self.saveNote(note._id,
             $messageInput.val(),
@@ -250,19 +249,41 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 
     var $buttonCancel = $('<button></button>');
     // $buttonCancel.attr("'class': 'webnote'");
-    $buttonCancel.css('-webkit-appearance','push-$button');
+    $buttonCancel.css({'-webkit-appearance': 'push-$button'});
     $buttonCancel.html('Cancel');
     $buttonCancel.click(function(){
         self.unrenderNote(note._id);
         self.renderNote(note,team);
     });
-    var $buttonDestroy = $('<button></button>');
+
+    var deleteIcon = chrome.extension.getURL("/icons/delete.png");
+
+
+    var $buttonDestroy = $('<div></div>');
     // $buttonDestroy.attr("'class': 'webnote'");
-    $buttonDestroy.css('-webkit-appearance','push-$button');
-    $buttonDestroy.html('Destroy');
+    $buttonDestroy.css({
+        // '-webkit-appearance': 'push-$button',
+        'height': '30px',
+        'width': '30px',
+        'cursor': 'pointer',
+        'background-image': 'url('+deleteIcon+')',
+        'position': 'absolute',
+        'right': '-15px',
+        'top': '-15px',
+        'display': 'none'
+    });
+
+    // $buttonDestroy.html('Destroy');
     $buttonDestroy.click(function(){
         self.destroyNote(note._id);
     });
+
+    $thisNote.hover(function() {
+        $buttonDestroy.css({'display': 'block'});
+    }, function() {
+        $buttonDestroy.css({'display': 'none'});
+    });
+
     $form.append($messageInput);
     $form.append($teamSelect);
     $form.append($colorSelect);
