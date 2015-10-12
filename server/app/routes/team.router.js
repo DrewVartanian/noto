@@ -90,6 +90,7 @@ router.put('/:id', function(req, res, next) {
       req.team.save()
       .then(function(team) {
         if(userId){
+          console.log('adding user to socket');
           socketLedger.getSocket(userId).join(team._id.toString());
         }
         res.status(200).json(team);
@@ -139,9 +140,8 @@ router.delete('/:id/users/:userId', function(req, res, next) {
   console.log("what happened to the users after delete", users);
   req.team.users = users;
   req.team.save()
-    .then(function() {
-      socketLedger.getSocket(userId).leave(team._id.toString());
-      res.status(204).json(req.team);
+    .then(function(team) {
+      res.json(team);
     })
     .then(null, next);
 });

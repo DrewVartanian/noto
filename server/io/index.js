@@ -33,7 +33,12 @@ module.exports = function (server) {
         });
 
         socket.on('changeTeams', function(data){
-          socket.broadcast.to(team._id).emit('teamChanged',data);
+          console.log("DDDDDDEEEELLLLETING TEAM");
+          console.log(data.team);
+          socket.broadcast.to(data.team._id).emit('teamChanged',data);
+          // if(data.userId){
+          //   socketLedger.getSocket(data.userId).leave(data.team._id);
+          // }
         });
 
         socket.on('changeNote', function(data){
