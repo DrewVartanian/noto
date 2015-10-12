@@ -46,6 +46,39 @@ router.get('/team/', function (req,res,next){
 
 });
 
+//Get unread pages for a user
+router.get('/unreadpage', function (req,res,next){
+    User.findOne({_id: req.user._id}).populate('unreadPages')
+    .then(function(user){
+        console.log("in unread pages route, user: ", user);
+        res.status(200).json(user.unreadPages);
+    }).then(null, next);
+});
+
+
+//remove page from unreadPages array
+router.put('/unreadpage', function (req,res,next){
+
+    console.log("Do we have the url of the visited page? ", req.body.url);
+
+    User.findOne({_id: req.user._id}).populate('unreadPages')
+    .then(function(user){
+
+        user.unreadPages.forEach(function(page,index){
+            if (page.url === req.body.url) {
+                user.unreadPages.splice(index,1);
+                console.log('User unreadpages: ',user.unreadPages)
+            }
+        })
+        user.save().then(function (){
+            res.sendStatus(201)
+        }).then(null, next);
+
+        // console.log("in unread pages route, user: ", user);
+    })
+    .then(null, next);
+});
+
 
 
 
