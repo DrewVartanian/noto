@@ -46,6 +46,7 @@ router.get('/team/', function (req,res,next){
 
 });
 
+
 router.get('/allUsers/', function (req,res,next) {
     var allUserEmails = [];
     User.find().exec()
@@ -58,6 +59,34 @@ router.get('/allUsers/', function (req,res,next) {
         res.status(200).json(allUserEmails);
         })
     .then(null, next);
+
+//Get unread pages for a user
+router.get('/unreadpage', function (req,res,next){
+    User.findOne({_id: req.user._id}).populate('unreadPages')
+    .then(function(user){
+        res.status(200).json(user.unreadPages);
+    }).then(null, next);
+});
+});
+
+//remove page from unreadPages array
+router.put('/unreadpage', function (req,res,next){
+
+
+    User.findOne({_id: req.user._id}).populate('unreadPages')
+    .then(function(user){
+
+        user.unreadPages.forEach(function(page,index){
+            if (page.url === req.body.url) {
+                user.unreadPages.splice(index,1);
+            }
+        });
+        user.save().then(function (){
+            res.sendStatus(201);
+        }).then(null, next);
+
+        // console.log("in unread pages route, user: ", user);
+    });
 });
 
 

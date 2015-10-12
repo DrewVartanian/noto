@@ -10,6 +10,8 @@ var Page = mongoose.model('Page');
 var Team = mongoose.model('Team');
 var User = mongoose.model('User');
 
+var socketLedger=require('../../io/socketLedger.js');
+
 
 // set req.team
 router.param('id', function(req, res, next, id) {
@@ -47,6 +49,7 @@ router.post('/', function(req, res, next) {
 // PUT update team (name, users)
 router.put('/:id', function(req, res, next) {
 
+  var userId;
   console.log("what is the request body", req.body);
   if(req.body.userEmail){
     User.findOne({email: req.body.userEmail}).then(function(user){
@@ -63,11 +66,22 @@ router.put('/:id', function(req, res, next) {
             from: 'do-not-reply@webshare.com',
             to: req.body.userEmail,
             subject: req.user.email + ' has added you to team '+ req.body.name + ' on WebShare!',
-            html: '<p>Hello '+req.body.userEmail +',</p><p>Have you heard about webShare yet? get the wonderful extension today!</p><p><a href="">insert link to extension here!</a></p>'
+            html: `<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="20" background="http://s3.postimg.org/fjnpfxlvn/postit_background.png" style="background-repeat:no-repeat;">
+                   <tr>
+                   <td>
+                   <div style="height: 600px; width: 600px"><div>
+                   <div style="height: 1px; padding: 0; margin: 0"></div>
+                   <div style="text-align: center; margin-top: 250px; padding-left: 75px;"><h1 style="font-family: cursive; padding-bottom: 20px">webShare</h1>
+                   <p style="font-weight: 900">Hello ${req.body.userEmail},</p><p>${req.user.email} has added you to their team on webShare! 
+                   <p>Have you heard about webShare yet?</p> <p>get the wonderful Chrome extension today!</p>
+                   </p><p><a>insert link to extension here!</a></p></div></div></div>
+                   </td>
+                   </tr>
+                   </table>`
         });
         User.create({
           email: req.body.userEmail,
-          password: 'default',
+          password: Math.floor((Math.random()*9999999999)+1).toString(32),
           isPending: true
         })
         .then(function(user){
@@ -79,12 +93,16 @@ router.put('/:id', function(req, res, next) {
         });
         return;
       } 
+    userId=user._id;
     if(user && req.team.users.indexOf(user._id) === -1) req.team.users.push(user._id);
     if(req.body.name) req.team.name = req.body.name;
 
      //if user does not exist, put invitation to email logic here
       req.team.save()
       .then(function(team) {
+        if(userId){
+          socketLedger.getSocket(userId).join(team._id.toString());
+        }
         res.status(200).json(team);
       })
       .then(null, next);
@@ -133,6 +151,7 @@ router.delete('/:id/users/:userId', function(req, res, next) {
   req.team.users = users;
   req.team.save()
     .then(function() {
+      socketLedger.getSocket(userId).leave(team._id.toString());
       res.status(204).json(req.team);
     })
     .then(null, next);
