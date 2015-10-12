@@ -187,7 +187,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'class': 'colors',
         'width': '37%',
         'height': '15%',
-        // 'border-style': 'solid',
+        'border-style': 'none',
         // 'border-color': 'black',
         'box-shadow': 'none',
         'background': 'transparent',
