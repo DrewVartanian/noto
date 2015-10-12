@@ -25,11 +25,11 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
          'padding': '15px',
         'font-family': 'Gloria Hallelujah',
         'font-size': '15px',
-         '-moz-transform': 'rotate(4deg)',
-          '-webkit-transform': 'rotate(4deg)',
-         '-o-transform': 'rotate(4deg)',
-         '-ms-transform': 'rotate(4deg)',
-          'transform': 'rotate(4deg)',
+         // '-moz-transform': 'rotate(4deg)',
+         //  '-webkit-transform': 'rotate(4deg)',
+         // '-o-transform': 'rotate(4deg)',
+         // '-ms-transform': 'rotate(4deg)',
+         //  'transform': 'rotate(4deg)',
            'box-shadow': '0px 4px 6px #333',
             '-moz-box-shadow': '0px 4px 6px #333',
              '-webkit-box-shadow': '0px 4px 6px #333',
@@ -38,8 +38,9 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
 
 
     $thisNote.draggable({
-        //cursor: 'move',
-        //type: 'rotation'
+        cursor: 'move',
+        //type: 'rotation',
+         //revert: true
         // drag: function(event, ui){
         // var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
 
@@ -48,39 +49,39 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         // '-webkit-transform': rotateCSS
         // });
         });
-    iconURL = chrome.extension.getURL("/icons/rotate-symbol.png");
+//     iconURL = chrome.extension.getURL("/icons/rotate-symbol.png");
     
-    var $rotateSym = $('<div></div>');
-    $rotateSym.appendTo($thisNote).attr('id','handle').css({
-    'position': 'absolute',
-    'height': 16,
-    'width': 16,
-    'cursor': 'pointer',
-    'left': 2 + 'px',
-    'bottom': 2 + 'px',
-    'background-image': `url("${iconURL}")`
-    });
+//     var $rotateSym = $('<div></div>');
+//     $rotateSym.appendTo($thisNote).attr('id','handle').css({
+//     //'position': 'absolute',
+//     'height': 16,
+//     'width': 16,
+//     'cursor': 'pointer',
+//     'left': 2 + 'px',
+//     'bottom': 2 + 'px',
+//     'background-image': `url("${iconURL}")`
+//     });
 
-    // var imgURL = chrome.extension.getURL("http://www.fontsaddict.com/images/icons/png/5002.png");
-    // document.getElementById("handle").src = imgURL;
+//     // var imgURL = chrome.extension.getURL("http://www.fontsaddict.com/images/icons/png/5002.png");
+//     // document.getElementById("handle").src = imgURL;
 
-    $rotateSym.draggable({
-    handle: '#handle',
-    opacity: 0.01,
-     helper: 'clone',
-    drag: function(event, ui){
-        var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
-        $(this).parent().css({
-            '-moz-transform': rotateCSS,
-            '-webkit-transform': rotateCSS
-        });
-    }
-});
+//     $rotateSym.draggable({
+//     handle: '#handle',
+//     opacity: 0.01,
+//      helper: 'clone',
+//     drag: function(event, ui){
+//         var rotateCSS = 'rotate' + ui.position.left + 'deg)';
+//         $(this).parent().css({
+//             '-moz-transform': rotateCSS,
+//             '-webkit-transform': rotateCSS
+//         });
+//     }
+// });
 
     $thisNote.resizable({
          minWidth: 200,
-         minHeight: 200
-
+         minHeight: 200,
+         //alsoResize: "#noteform"
          });
 
     $thisNote.mouseup(function() {
@@ -129,12 +130,14 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'class': 'webnote colors'
     });
     var $messageInput = $('<textarea></textarea>');
-    $messageInput.attr('rows','10',"'class':'webnote'");
-    $messageInput.attr('rows','10',"'class':'colors'");
+     $messageInput.attr({
+        'id': 'noteform'
+    });
+    $messageInput.attr('rows','10');
     $messageInput.css({
         'width': '100%',
-        'height': '124px',
-        'resize': 'none',
+        'height': '80%',
+        //'resize': 'none',
         'backgroundColor': $thisNote.css('backgroundColor'),
         'border-style': 'none',
         'box-sizing': "border-box",
@@ -205,12 +208,13 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $buttonSave.attr('type', 'submit', "'class': 'webnote'");
     $buttonSave.text('Save');
     $form.submit(function(e){
+        console.log("height and weight is",$thisNote.height(),$thisNote.width());
         e.preventDefault();
         self.saveNote(note._id,
             $messageInput.val(),
             {
-                x: $thisNote.width(),
-                y: $thisNote.height()
+                x: $thisNote.outerWidth(),
+                y: $thisNote.outerHeight()
              },
              $("#selectColor option:selected").html(),
             {
