@@ -10,6 +10,8 @@ var Page = mongoose.model('Page');
 var Team = mongoose.model('Team');
 var User = mongoose.model('User');
 
+var socketLedger=require('../../io/socketLedger.js');
+
 
 // set req.team
 router.param('id', function(req, res, next, id) {
@@ -47,6 +49,7 @@ router.post('/', function(req, res, next) {
 // PUT update team (name, users)
 router.put('/:id', function(req, res, next) {
 
+  var userId;
   console.log("what is the request body", req.body);
   if(req.body.userEmail){
     User.findOne({email: req.body.userEmail}).then(function(user){
@@ -79,12 +82,16 @@ router.put('/:id', function(req, res, next) {
         });
         return;
       } 
+    userId=user._id;
     if(user && req.team.users.indexOf(user._id) === -1) req.team.users.push(user._id);
     if(req.body.name) req.team.name = req.body.name;
 
      //if user does not exist, put invitation to email logic here
       req.team.save()
       .then(function(team) {
+        if(userId){
+          socketLedger.getSocket(userId).join(team._id.toString());
+        }
         res.status(200).json(team);
       })
       .then(null, next);
@@ -133,6 +140,7 @@ router.delete('/:id/users/:userId', function(req, res, next) {
   req.team.users = users;
   req.team.save()
     .then(function() {
+      socketLedger.getSocket(userId).leave(team._id.toString());
       res.status(204).json(req.team);
     })
     .then(null, next);

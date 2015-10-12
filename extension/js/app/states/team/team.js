@@ -28,8 +28,14 @@ app.controller('teamController', function($scope, BackgroundFactory, $state, $ro
                 msg: "personal is a reserved team name, please choose another",
                 type: 'danger'
             });
+        } else if (teamObject.name === "All Teams") {
+            $scope.alerts.push({
+                msg: "All Teams is a reserved team name, please choose another",
+                type: 'danger'
+            });
         } else {
             TeamFactory.createNewTeam(teamObject.name).then(function(team) {
+                chrome.runtime.sendMessage({title: "change teams",team:team},function(){});
                 $scope.teams.push(team);
             });
         }

@@ -43,10 +43,11 @@ app.controller('editController', function ($scope, BackgroundFactory, TeamFactor
                 });
                 isDuplicate = true;
             }
-        })
+        });
         if(isDuplicate) return;
         TeamFactory.updateTeam(teamId, {name: teamName, userEmail: email }).then(function(returnedTeam) {
               //$scope.team.name = returnedTeam.name;
+            chrome.runtime.sendMessage({title: "change teams",team:returnedTeam},function(){});
             if(returnedTeam.users.length > $scope.team.users.length) { 
                 console.log("what is userToPush", userToPush);
                 $scope.team.users.push(userToPush);
@@ -66,6 +67,7 @@ app.controller('editController', function ($scope, BackgroundFactory, TeamFactor
 
     $scope.deleteMember = function(teamId, userId){
         TeamFactory.deleteTeamMember(teamId, userId).then(function (team) {
+            chrome.runtime.sendMessage({title: "change teams",team:team},function(){});
             console.log("this is the team", team);
         })
         .then(function() {
