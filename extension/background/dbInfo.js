@@ -35,15 +35,30 @@
         }
     });
 
-    // GLOBALS.socket.on('teamChanged',function(){
-    //     var numTeams;
-    //     GLOBALS.teamsProm.then(function(teams){
-    //         numTeams=teams.length;
-    //         GLOBALS.teamsProm=getTeams();
-    //         return GLOBALS.teamsProm;
-    //     }).then(function(teams){
-    //         if(teams.length===numTeams) return;
-    //     });
-    // });
+    GLOBALS.socket.on('teamChanged',function(data){
+        var numTeams;
+        GLOBALS.teamsProm.then(function(teams){
+            numTeams=teams.length;
+            GLOBALS.teamsProm=getTeams();
+            return GLOBALS.teamsProm;
+        }).then(function(teams){
+            if(teams.length===numTeams) return "same teams";
+            GLOBALS.pagesProm = getPages();
+            return GLOBALS.pagesProm;
+        }).then(function(pages){
+            if(pages!=="same teams"){
+                if(GLOBALS.teamSelected===data.team.name){
+                    GLOBALS.teamSelected="All Teams";
+                }
+                if(GLOBALS.teamSelected==="All Teams"){
+                    chrome.tabs.getAllInWindow(null, function(tabs){
+                        for (var i = 0; i < tabs.length; i++) {
+                            chrome.tabs.sendMessage(tabs[i].id, {title: "login content"});
+                        }
+                    });
+                }
+            }
+        });
+    });
 
 })();

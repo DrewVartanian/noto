@@ -33,7 +33,7 @@ module.exports = function (server) {
         });
 
         socket.on('changeTeams', function(data){
-          socket.broadcast.to(team._id).emit('teamChanged',{});
+          socket.broadcast.to(team._id).emit('teamChanged',data);
         });
 
         socket.on('changeNote', function(data){
