@@ -61,9 +61,6 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
 //     'background-image': `url("${iconURL}")`
 //     });
 
-//     // var imgURL = chrome.extension.getURL("http://www.fontsaddict.com/images/icons/png/5002.png");
-//     // document.getElementById("handle").src = imgURL;
-
 //     $rotateSym.draggable({
 //     handle: '#handle',
 //     opacity: 0.01,
@@ -227,7 +224,6 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $buttonSave.attr('type', 'submit');
     $buttonSave.text('Save');
     $form.submit(function(e){
-        console.log("height and weight is",$thisNote.height(),$thisNote.width());
         e.preventDefault();
         self.saveNote(note._id,
             $messageInput.val(),
@@ -256,10 +252,47 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         self.unrenderNote(note._id);
         self.renderNote(note,team);
     });
-    var $buttonDestroy = $('<button></button>');
+
+    var deleteIcon = chrome.extension.getURL("/icons/delete.png");
+    // .note-anywhere:hover .closebutton {
+    //     display: block;
+    // }
+
+    // .note-anywhere .closebutton {
+    //     display: none;
+    //     background-image: url(deleteButton.png);
+    //     height: 30px;
+    //     position: absolute;
+    //     left: -15px;
+    //     top: -15px;
+    //     width: 30px;
+    // }
+    //     var $rotateSym = $('<div></div>');
+    //     $rotateSym.appendTo($thisNote).attr('id','handle').css({
+    //     //'position': 'absolute',
+    //     'height': 16,
+    //     'width': 16,
+    //     'cursor': 'pointer',
+    //     'left': 2 + 'px',
+    //     'bottom': 2 + 'px',
+    //     'background-image': `url("${iconURL}")`
+
+
+    var $buttonDestroy = $('<div></div>');
     // $buttonDestroy.attr("'class': 'webnote'");
-    $buttonDestroy.css('-webkit-appearance','push-$button');
-    $buttonDestroy.html('Destroy');
+    $buttonDestroy.css({
+        // '-webkit-appearance': 'push-$button',
+        'height': '30px',
+        'width': '30px',
+        'cursor': 'pointer',
+        'background-image': 'url('+deleteIcon+')',
+        'position': 'absolute',
+        'right': '-15px',
+        'top': '-15px',
+        'display': 'block'
+    });
+
+    // $buttonDestroy.html('Destroy');
     $buttonDestroy.click(function(){
         self.destroyNote(note._id);
     });
