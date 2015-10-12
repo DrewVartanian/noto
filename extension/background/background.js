@@ -10,6 +10,7 @@
                 GLOBALS.teamsProm.then(function(teams){
                     console.log("logout", teams);
                     GLOBALS.teamsProm = Promise.resolve([]);
+                    GLOBALS.createRightClick();
                 });
                 GLOBALS.socket.emit('logout', {});
                 chrome.tabs.getAllInWindow(null, function(tabs){
@@ -180,6 +181,7 @@
                 console.log("hitting teams.js");
                 GLOBALS.teamsProm = GLOBALS.getTeams();
                 GLOBALS.pagesProm = GLOBALS.getPages();
+                GLOBALS.createRightClick();
                 GLOBALS.socket.emit('login', {});
                 chrome.tabs.getAllInWindow(null, function(tabs){
                     for (var i = 0; i < tabs.length; i++) {
