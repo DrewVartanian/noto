@@ -165,7 +165,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         // '-moz-border-radius': '5px',
         // 'border-radius': '5px'
     });
-    // $teamSelect.attr("id", "selectTeam");
+    $teamSelect.attr("id", "selectTeam");
     var $optionCurrent = $('<option></option>');
     $optionCurrent.attr('value', team._id);
     $optionCurrent.html(team.name);
