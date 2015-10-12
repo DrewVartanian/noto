@@ -60,8 +60,9 @@ app.controller('editController', function ($scope, BackgroundFactory, TeamFactor
     };
 
     $scope.deleteMember = function(teamId, userId){
+        console.log('deleteing member drews log');
         TeamFactory.deleteTeamMember(teamId, userId).then(function (team) {
-            chrome.runtime.sendMessage({title: "change teams",team:team},function(){});
+            chrome.runtime.sendMessage({title: "change teams",team:team,userId:userId},function(){});
             console.log("this is the team", team);
         })
         .then(function() {

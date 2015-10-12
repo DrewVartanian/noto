@@ -191,8 +191,6 @@ router.put('/:id', function(req, res, next) {
     }
     return false;
   }).then(function(page){
-
-
     // add page to unreadpages when a new page is created for a user
     if (page) {
       Team.findOne({_id: req.body.newTeam}).populate('users')
@@ -202,9 +200,8 @@ router.put('/:id', function(req, res, next) {
           user.save();
         })
       }).then(null, console.log);
-      
-    }
 
+    }
     res.status(200).json({note: retNote,page: newPageNeeded?page:false});
   })
   .then(null, next);

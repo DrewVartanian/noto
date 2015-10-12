@@ -1,1 +1,9 @@
-Testing unread state {{unreadPages}}
+Unread Pages
+
+{{unreadPages}}
+
+<ul class="list-group">
+    <li style="color:black" class="list-group-item list-group-item-info" ng-repeat="page in unreadPages track by $index">
+        <a target="_blank" href="{{page.url}}">{{page.url}}</a>
+    </li>
+</ul>
