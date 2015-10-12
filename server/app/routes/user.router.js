@@ -60,13 +60,13 @@ router.get('/allUsers/', function (req,res,next) {
         })
     .then(null, next);
 
+});
 //Get unread pages for a user
 router.get('/unreadpage', function (req,res,next){
     User.findOne({_id: req.user._id}).populate('unreadPages')
     .then(function(user){
         res.status(200).json(user.unreadPages);
     }).then(null, next);
-});
 });
 
 //remove page from unreadPages array
