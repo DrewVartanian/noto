@@ -182,7 +182,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         $teamSelect.append($option);
     });
    //color
-   var colors = ['yellow','red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
+    var colors = ['yellow','red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
     var $colorSelect = $('<select></select>');
     $colorSelect.css({
         'class': 'colors',
@@ -196,12 +196,18 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'text-align': 'center'
     });
     $colorSelect.attr("id", "selectColor");
+    var $colorCurrent = $('<option></option>');
+    $colorCurrent.attr('value', note.color);
+    $colorCurrent.html(note.color);
+    $colorSelect.append($colorCurrent);
     colors.forEach(function(color){
+        if(color===note.color) return;
+
         var $optionColor = $('<option></option>');
         $optionColor.css({
             // 'class': 'colors',
-             'value': note.color,
-             'selected': note.color,
+             // 'value': note.color,
+             // 'selected': note.color,
              'display': "inline-block"
         });
         $optionColor.attr('value', color);
