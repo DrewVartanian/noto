@@ -8,7 +8,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('pagesController', function ($scope, PageFactory, TeamFactory) {
+app.controller('pagesController', function ($scope, PageFactory, TeamFactory, BackgroundFactory) {
 
       PageFactory.getMyPages().then(function(pages){
         $scope.pages = pages;
@@ -66,4 +66,10 @@ app.controller('pagesController', function ($scope, PageFactory, TeamFactory) {
     isFirstOpen: true,
     isFirstDisabled: false
   };
+
+  $scope.setTeam = function (teamname){
+    console.log("teamname: ", teamname);
+    BackgroundFactory.setTeamViewOnLinkVisit(teamname)
+  };
+
 });
