@@ -20,7 +20,7 @@ var schema = new mongoose.Schema({
   // }],
   color: {
     type: String,
-    default: '#FFFF00'
+    default: 'yellow'
   },
   position: {
     x: Number,
