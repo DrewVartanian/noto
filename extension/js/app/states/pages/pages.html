@@ -13,7 +13,7 @@
     <uib-accordion-group heading="{{team.name}}" ng-repeat="team in teams">
         <ul class="list-group">
             <li class="list-group-item list-group-item-info" ng-repeat="page in team.pages track by $index">
-                <a target="_blank" href="{{page.url}}">{{page.url}}</a>
+                <a ng-click="setTeam(team.name)"target="_blank" href="{{page.url}}">{{page.url}}</a>{{team.name}}
             </li>
         </ul>
     </uib-accordion-group>
