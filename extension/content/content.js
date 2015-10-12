@@ -79,6 +79,23 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
                 GLOBALS_WEB_NOTES.clearNotes();
                 getDbInfo();
                 break;
+            case 'logout content':
+                console.log('logout test');
+                GLOBALS_WEB_NOTES.clearNotes();
+                GLOBALS_WEB_NOTES.team={name:"All Teams"};
+                GLOBALS_WEB_NOTES.clickedEl= null;
+                GLOBALS_WEB_NOTES.offset= {};
+                GLOBALS_WEB_NOTES.teamList=[];
+                break;
+            case 'login content':
+                console.log('login test');
+                GLOBALS_WEB_NOTES.clearNotes();
+                GLOBALS_WEB_NOTES.team={name:"All Teams"};
+                GLOBALS_WEB_NOTES.clickedEl= null;
+                GLOBALS_WEB_NOTES.offset= {};
+                GLOBALS_WEB_NOTES.teamList=[];
+                getDbInfo();
+                break;
         }
     });
 })();

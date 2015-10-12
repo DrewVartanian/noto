@@ -11,6 +11,12 @@
                     console.log("logout", teams);
                     GLOBALS.teamsProm = Promise.resolve([]);
                 });
+                GLOBALS.socket.emit('logout', {});
+                chrome.tabs.getAllInWindow(null, function(tabs){
+                    for (var i = 0; i < tabs.length; i++) {
+                        chrome.tabs.sendMessage(tabs[i].id, {title: "logout content"});
+                    }
+                });
                 break;
             case 'newPage':
                 Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
@@ -74,6 +80,13 @@
                     }),
                     success: function(res){
                        GLOBALS.pagesProm.then(function(pages){
+                            GLOBALS.socket.emit('changeNote', {
+                                          "url": sender.url,
+                                          "newTeam": request.team,
+                                          "oldTeam": request.team,
+                                          "note": res.note,
+                                          "oper": "put"
+                            });
                             pages.some(function(page){
                                 if(page.url!==sender.url) return false;
                                 if(page.team._id!==request.team) return false;
@@ -99,6 +112,7 @@
                     dataType: 'json',
                     data: JSON.stringify({
                         message: request.message, //? request.message : undefined,
+                        color: request.color,
                         newTeam: request.newTeam, //? request.newTeam : request.team,
                         oldTeam: request.oldTeam, //? request.oldTeam : request.team,
                         url: sender.url
