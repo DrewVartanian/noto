@@ -130,7 +130,7 @@ router.put('/:id', function(req, res, next) {
       if(req.body.oldTeam===req.body.newTeam) {
 
         //Add note to unread pages if the note was updated but there was no team change
-        Page.find({url: req.body.url, team: req.body.newTeam})
+        Page.findOne({url: req.body.url, team: req.body.newTeam})
         .then(function (page){
           Team.findOne({_id: req.body.oldTeam}).populate('users')
           .then(function (team){
