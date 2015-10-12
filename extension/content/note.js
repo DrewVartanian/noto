@@ -215,16 +215,31 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     });
 
 
+    var saveIcon = chrome.extension.getURL("/icons/save.png");
     var $buttonSave = $('<button></button>');
     $buttonSave.css({
-        'width': '25%',
-        'height': '15%',
-        '-webkit-appearance': 'push-button',
-        'display': "inline-block",
-        'text-align': "center"
+        // 'width': '25%',
+        // 'height': '15%',
+        // '-webkit-appearance': 'push-button',
+        // 'display': "inline-block",
+        // 'text-align': "center"
+        'height': '30px',
+        'width': '30px',
+        'cursor': 'pointer',
+        'background': 'url('+saveIcon+')',
+        'border': '0px',
+        'position': 'absolute',
+        'right': '-15px',
+        'bottom': '-15px',
+        // 'display': 'none'
     });
-    $buttonSave.attr('type', 'submit');
-    $buttonSave.text('Save');
+    // $buttonSave.attr('type', 'submit');
+    // $thisNote.hover(function() {
+    //     $buttonSave.css({'display': 'block'});
+    // }, function() {
+    //     $buttonSave.css({'display': 'none'});
+    // });
+
     $form.submit(function(e){
         e.preventDefault();
         self.saveNote(note._id,
@@ -236,14 +251,12 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
             $("#selectColor option:selected").html(),
             {
                 _id: $teamSelect.val(),
-                // to debug
                 name: $("#selectTeam option:selected").html()
             },
             team);
     });
 
 //$teamSelect.option($teamSelect.selectedIndex).html()
-
 
 
     var $buttonCancel = $('<button></button>');
@@ -256,8 +269,6 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     });
 
     var deleteIcon = chrome.extension.getURL("/icons/delete.png");
-
-
     var $buttonDestroy = $('<div></div>');
     // $buttonDestroy.attr("'class': 'webnote'");
     $buttonDestroy.css({

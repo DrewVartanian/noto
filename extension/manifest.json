@@ -35,6 +35,7 @@
   },
   "web_accessible_resources": [
     "/icons/delete.png",
+    "/icons/save.png",
     "/js/dependencies/externalMain.js"
   ],
   "externally_connectable": {
