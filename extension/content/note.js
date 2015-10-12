@@ -34,7 +34,7 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         '-webkit-box-shadow': '0px 4px 6px #333',
         'opacity': '0.8',
         'white-space': 'pre-wrap',
-        'word-break': 'break-all'
+        'word-wrap': 'break-word'
     });
 
 
@@ -113,7 +113,7 @@ GLOBALS_WEB_NOTES.renderNote = function(note,team)
     var $thisNote = this.buildNote(note,team);
     var message = note.message ? note.message : "";
     console.log(message);
-    $thisNote.html(message);
+    $thisNote.html('<span>'+message+'</span>');
     $thisNote.click(function(){
         console.log("clicked renderNote");
         self.unrenderNote(note._id);
