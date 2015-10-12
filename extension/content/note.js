@@ -38,18 +38,50 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
 
 
     $thisNote.draggable({
-        cursor: 'move',
-        type: 'rotation',
-        drag: function(event, ui){
-        var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
+        //cursor: 'move',
+        //type: 'rotation'
+        // drag: function(event, ui){
+        // var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
 
-        $(this).css({
-         '-moz-transform': rotateCSS,
-        '-webkit-transform': rotateCSS
+        // $(this).css({
+        //  '-moz-transform': rotateCSS,
+        // '-webkit-transform': rotateCSS
+        // });
         });
-        }
+    iconURL = chrome.extension.getURL("/icons/rotate-symbol.png");
+    
+    var $rotateSym = $('<div></div>');
+    $rotateSym.appendTo($thisNote).attr('id','handle').css({
+    'position': 'absolute',
+    'height': 16,
+    'width': 16,
+    'cursor': 'pointer',
+    'left': 2 + 'px',
+    'bottom': 2 + 'px',
+    'background-image': `url("${iconURL}")`
     });
-    $thisNote.resizable();
+
+    // var imgURL = chrome.extension.getURL("http://www.fontsaddict.com/images/icons/png/5002.png");
+    // document.getElementById("handle").src = imgURL;
+
+    $rotateSym.draggable({
+    handle: '#handle',
+    opacity: 0.01,
+     helper: 'clone',
+    drag: function(event, ui){
+        var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
+        $(this).parent().css({
+            '-moz-transform': rotateCSS,
+            '-webkit-transform': rotateCSS
+        });
+    }
+});
+
+    $thisNote.resizable({
+         minWidth: 200,
+         minHeight: 200
+
+         });
 
     $thisNote.mouseup(function() {
         //save position here
@@ -176,11 +208,11 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         e.preventDefault();
         self.saveNote(note._id,
             $messageInput.val(),
-             $("#selectColor option:selected").html(),
-             {
+            {
                 x: $thisNote.width(),
                 y: $thisNote.height()
              },
+             $("#selectColor option:selected").html(),
             {
                 _id: $teamSelect.val(),
                 // to debug
