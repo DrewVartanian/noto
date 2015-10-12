@@ -138,7 +138,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'width': '100%',
         'height': '80%',
         'resize': 'none',
-        'backgroundColor': $thisNote.css('backgroundColor'),
+        'background-color': $thisNote.css('background-color'),
         'border-style': 'none',
         'box-sizing': "border-box",
     });
@@ -246,7 +246,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 
     var $buttonCancel = $('<button></button>');
     // $buttonCancel.attr("'class': 'webnote'");
-    $buttonCancel.css('-webkit-appearance','push-$button');
+    $buttonCancel.css({'-webkit-appearance': 'push-$button'});
     $buttonCancel.html('Cancel');
     $buttonCancel.click(function(){
         self.unrenderNote(note._id);
@@ -254,28 +254,6 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     });
 
     var deleteIcon = chrome.extension.getURL("/icons/delete.png");
-    // .note-anywhere:hover .closebutton {
-    //     display: block;
-    // }
-
-    // .note-anywhere .closebutton {
-    //     display: none;
-    //     background-image: url(deleteButton.png);
-    //     height: 30px;
-    //     position: absolute;
-    //     left: -15px;
-    //     top: -15px;
-    //     width: 30px;
-    // }
-    //     var $rotateSym = $('<div></div>');
-    //     $rotateSym.appendTo($thisNote).attr('id','handle').css({
-    //     //'position': 'absolute',
-    //     'height': 16,
-    //     'width': 16,
-    //     'cursor': 'pointer',
-    //     'left': 2 + 'px',
-    //     'bottom': 2 + 'px',
-    //     'background-image': `url("${iconURL}")`
 
 
     var $buttonDestroy = $('<div></div>');
@@ -289,13 +267,20 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'position': 'absolute',
         'right': '-15px',
         'top': '-15px',
-        'display': 'block'
+        'display': 'none'
     });
 
     // $buttonDestroy.html('Destroy');
     $buttonDestroy.click(function(){
         self.destroyNote(note._id);
     });
+
+    $thisNote.hover(function() {
+        $buttonDestroy.css({'display': 'block'});
+    }, function() {
+        $buttonDestroy.css({'display': 'none'});
+    });
+
     $form.append($messageInput);
     $form.append($teamSelect);
     $form.append($colorSelect);
