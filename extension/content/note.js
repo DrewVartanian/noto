@@ -126,6 +126,10 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     var self = this;
     var $thisNote = this.buildNote(note,team);
     var $form = $('<form></form>');
+    $form.css({
+        'width': '95%',
+        'height': '90%'
+    });
     $form.attr({
         'class': 'webnote colors'
     });
@@ -137,7 +141,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $messageInput.css({
         'width': '100%',
         'height': '80%',
-        //'resize': 'none',
+        'resize': 'none',
         'backgroundColor': $thisNote.css('backgroundColor'),
         'border-style': 'none',
         'box-sizing': "border-box",
@@ -170,7 +174,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         if(teamOp._id===team._id) return;
         var $option = $('<option></option>');
         $option.css({
-            'class': 'webnote'
+            'class': 'webnote',
+            'display': "inline-block"
         });
         $option.attr('value', teamOp._id);
         $option.html(teamOp.name);
@@ -195,7 +200,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         $optionColor.css({
             'class': 'colors',
              'value': note.color,
-             'selected': note.color
+             'selected': note.color,
+             'display': "inline-block"
         });
         $optionColor.attr('value', color);
         $optionColor.html(color);
@@ -204,7 +210,12 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     
 
     var $buttonSave = $('<button></button>');
-    $buttonSave.css('-webkit-appearance', 'push-button');
+    $buttonSave.css({
+        'width': '20%',
+        '-webkit-appearance': 'push-button',
+        'display': "inline-block",
+        'text-align': "center"
+    });
     $buttonSave.attr('type', 'submit', "'class': 'webnote'");
     $buttonSave.text('Save');
     $form.submit(function(e){
