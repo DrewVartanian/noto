@@ -46,21 +46,12 @@ app.controller('editController', function ($scope, BackgroundFactory, TeamFactor
         });
         if(isDuplicate) return;
         TeamFactory.updateTeam(teamId, {name: teamName, userEmail: email }).then(function(returnedTeam) {
-              //$scope.team.name = returnedTeam.name;
             chrome.runtime.sendMessage({title: "change teams",team:returnedTeam},function(){});
-            if(returnedTeam.users.length > $scope.team.users.length) { 
                 console.log("what is userToPush", userToPush);
                 $scope.team.users.push(userToPush);
                 $scope.team.name = returnedTeam.name;
-            }
-            else if($scope.team.name !== returnedTeam.name){
+            if($scope.team.name !== returnedTeam.name){
                 $scope.team.name = returnedTeam.name;
-            }
-            else {
-                $scope.alerts.push({
-                msg: "User Not Found",
-                type: 'danger'
-            });
             }
         }).then($scope.checktoggle());
     };
