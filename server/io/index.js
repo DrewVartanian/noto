@@ -32,6 +32,10 @@ module.exports = function (server) {
           });
         });
 
+        socket.on('changeTeams', function(data){
+          socket.broadcast.to(team._id).emit('teamChanged',{});
+        });
+
         socket.on('changeNote', function(data){
           console.log(socket.id);
           if(data.oper==="put"){

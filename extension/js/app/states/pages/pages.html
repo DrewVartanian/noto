@@ -1,5 +1,4 @@
-
-<p>Team</p>
+<!-- <p>Team</p>
 <ul ng-repeat="team in teams">
 <li>{{team.name}}</li>
 <ul>
@@ -7,7 +6,15 @@
 <a target="_blank" href="{{page.url}}">{{page.url}}</a>
 </li>
 </ul>
-</ul>
-
-
-
+</ul> -->
+<script type="text/ng-template" id="group-template.html">
+</script>
+<uib-accordion close-others="oneAtATime">
+    <uib-accordion-group heading="{{team.name}}" ng-repeat="team in teams">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-info" ng-repeat="page in team.pages track by $index">
+                <a target="_blank" href="{{page.url}}">{{page.url}}</a>
+            </li>
+        </ul>
+    </uib-accordion-group>
+</uib-accordion>

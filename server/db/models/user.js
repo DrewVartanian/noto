@@ -33,7 +33,11 @@ var schema = new mongoose.Schema({
   isPending: {
     type: Boolean,
     default: false
-  }
+  },
+  unreadPages: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Page'
+  }]
 });
 
 

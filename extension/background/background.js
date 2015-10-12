@@ -30,6 +30,17 @@
                     sendResponse({pages: pageToContent,teams: dbInfo[1], teamSelected:GLOBALS.teamSelected});
                 });
                 return true;
+            case 'unreadPage':
+                $.ajax({
+                    url: GLOBALS.serverUrl+'/api/user/unreadPage',
+                    type:'PUT',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        url: sender.url
+                    })
+                });
+                break;
             case 'destroyNote':
                 $.ajax({
                     url:GLOBALS.serverUrl+'/api/note/'+request.noteId,
@@ -101,6 +112,7 @@
                     dataType: 'json',
                     data: JSON.stringify({
                         message: request.message, //? request.message : undefined,
+                        size: request.size,
                         color: request.color,
                         newTeam: request.newTeam, //? request.newTeam : request.team,
                         oldTeam: request.oldTeam, //? request.oldTeam : request.team,
