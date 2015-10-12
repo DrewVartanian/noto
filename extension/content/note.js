@@ -153,7 +153,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $teamSelect.css({
         'class': 'webnote',
         //'padding': '5px 8px',
-        'width': '40%',
+        'width': '37%',
+         'height': '15%',
         'border': 'none',
         'box-shadow': 'none',
         'background': 'transparent',
@@ -186,7 +187,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     var $colorSelect = $('<select></select>');
     $colorSelect.css({
         'class': 'colors',
-        'width': '40%',
+        'width': '37%',
+        'height': '15%',
         // 'border-style': 'solid',
         // 'border-color': 'black',
         'box-shadow': 'none',
@@ -211,7 +213,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 
     var $buttonSave = $('<button></button>');
     $buttonSave.css({
-        'width': '20%',
+        'width': '25%',
+        'height': '15%',
         '-webkit-appearance': 'push-button',
         'display': "inline-block",
         'text-align': "center"
