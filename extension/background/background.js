@@ -190,15 +190,13 @@
                 });
                 break;
             case "change teams":
-                console.log('changing teams');
-                console.log('team:',request.team);
                 var data = {team:request.team};
                 if(request.userId){
                     data.userId=request.userId;
                 }
                 GLOBALS.socket.emit('changeTeams', data);
                 GLOBALS.teamsProm=GLOBALS.getTeams();
-                console.log('done here');
+                GLOBALS.createRightClick();
                 break;
             case "team link":
                 console.log("Trying request.teamname", request.teamname);
