@@ -198,6 +198,10 @@
                 GLOBALS.teamsProm=GLOBALS.getTeams();
                 console.log('done here');
                 break;
+            case "team link":
+                console.log("Trying request.teamname", request.teamname);
+                GLOBALS.teamSelected = request.teamname
+                break;
         }
     });
 })();
