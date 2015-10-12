@@ -11,7 +11,14 @@ app.factory('UserFactory', function ($http, RequestFactory) {
         getTeams: function() {
             return $http(RequestFactory.composeRequest('GET', '/api/user/team'))
                 .then(function(res) {
-                    return res.data
+                    return res.data;
+                });
+        },
+        getAllUsers: function() {
+            return $http(RequestFactory.composeRequest('GET', '/api/user/allUsers'))
+                .then(function(res) {
+                    console.log(res.data)
+                    return res.data;
                 });
         },
         getUnreadPages: function() {

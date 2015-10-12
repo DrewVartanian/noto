@@ -11,18 +11,21 @@ app.config(function ($stateProvider) {
             },
             users: function(TeamFactory, $stateParams) {
                 return TeamFactory.getTeamMembers($stateParams.id);
+            },
+            allusers: function(UserFactory) {
+                return UserFactory.getAllUsers();
             }
         }
     });
 
 });
 
-app.controller('editController', function ($scope, BackgroundFactory, TeamFactory, $state, $rootScope, pages, $stateParams, users) {
+app.controller('editController', function ($scope, BackgroundFactory, TeamFactory, $state, $rootScope, pages, $stateParams, users, allusers) {
     $scope.alerts = [];
     $scope.pages = pages;
     $scope.teamId = $stateParams.id;
     $scope.team = users;
-    
+    $scope.everySingleUser = allusers;
     $scope.teamPages = pages.filter(function(page){
         return (page.team._id === $scope.teamId);
     });
