@@ -16,7 +16,7 @@
                         <label for="teamName">Team Name</label>
                         <input type="name" ng-model="teamObject.name" class="form-control">
                         <label for="email">Add Members</label>
-                        <input type="email" ng-model="userObject.email" class="form-control">
+                        <input type="email" ng-model="userObject.email" typeahead="user for user in everySingleUser | filter:$viewValue | limitTo:6" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-default">Save</button>
                 </form>

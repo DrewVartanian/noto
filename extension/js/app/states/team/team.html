@@ -2,7 +2,7 @@
     <div>
         <!--         {{user.email}} {{pages}} -->
         <ul ng-repeat="team in teams">
-            <li ui-sref="edit({id: team._id})">{{team.name}}</li>
+            <li ui-sref="edit({id: team._id})" ng-hide="team.name === 'personal'">{{team.name}}</li>
             <!--             <ul ng-repeat="note in page.notes">
                 <li>Note {{note}}</li>
             </ul> -->

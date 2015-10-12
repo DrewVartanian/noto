@@ -11,18 +11,21 @@ app.config(function ($stateProvider) {
             },
             users: function(TeamFactory, $stateParams) {
                 return TeamFactory.getTeamMembers($stateParams.id);
+            },
+            allusers: function(UserFactory) {
+                return UserFactory.getAllUsers();
             }
         }
     });
 
 });
 
-app.controller('editController', function ($scope, BackgroundFactory, TeamFactory, $state, $rootScope, pages, $stateParams, users) {
+app.controller('editController', function ($scope, BackgroundFactory, TeamFactory, $state, $rootScope, pages, $stateParams, users, allusers) {
     $scope.alerts = [];
     $scope.pages = pages;
     $scope.teamId = $stateParams.id;
     $scope.team = users;
-    
+    $scope.everySingleUser = allusers;
     $scope.teamPages = pages.filter(function(page){
         return (page.team._id === $scope.teamId);
     });
@@ -46,21 +49,12 @@ app.controller('editController', function ($scope, BackgroundFactory, TeamFactor
         });
         if(isDuplicate) return;
         TeamFactory.updateTeam(teamId, {name: teamName, userEmail: email }).then(function(returnedTeam) {
-              //$scope.team.name = returnedTeam.name;
             chrome.runtime.sendMessage({title: "change teams",team:returnedTeam},function(){});
-            if(returnedTeam.users.length > $scope.team.users.length) { 
                 console.log("what is userToPush", userToPush);
                 $scope.team.users.push(userToPush);
                 $scope.team.name = returnedTeam.name;
-            }
-            else if($scope.team.name !== returnedTeam.name){
+            if($scope.team.name !== returnedTeam.name){
                 $scope.team.name = returnedTeam.name;
-            }
-            else {
-                $scope.alerts.push({
-                msg: "User Not Found",
-                type: 'danger'
-            });
             }
         }).then($scope.checktoggle());
     };

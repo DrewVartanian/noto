@@ -4,7 +4,7 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
 
     var colors = ['yellow','red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
     $thisNote.attr({
-        'class': 'webnote',
+        // 'class': 'webnote',
         'id': note._id,
         'data-team-name': team.name,
         'data-team-id': team._id,
@@ -22,34 +22,68 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         'zIndex': 2147483647,
         'position': 'absolute',
         'box-sizing': "border-box",
-         'padding': '15px',
         'font-family': 'Gloria Hallelujah',
         'font-size': '15px',
-         '-moz-transform': 'rotate(4deg)',
-          '-webkit-transform': 'rotate(4deg)',
-         '-o-transform': 'rotate(4deg)',
-         '-ms-transform': 'rotate(4deg)',
-          'transform': 'rotate(4deg)',
-           'box-shadow': '0px 4px 6px #333',
-            '-moz-box-shadow': '0px 4px 6px #333',
-             '-webkit-box-shadow': '0px 4px 6px #333',
-             'opacity': '0.8'
+         // '-moz-transform': 'rotate(4deg)',
+         //  '-webkit-transform': 'rotate(4deg)',
+         // '-o-transform': 'rotate(4deg)',
+         // '-ms-transform': 'rotate(4deg)',
+         //  'transform': 'rotate(4deg)',
+        'box-shadow': '0px 4px 6px #333',
+        '-moz-box-shadow': '0px 4px 6px #333',
+        '-webkit-box-shadow': '0px 4px 6px #333',
+        'opacity': '0.8'
     });
 
 
     $thisNote.draggable({
         cursor: 'move',
-        type: 'rotation',
-        drag: function(event, ui){
-        var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
+        //type: 'rotation',
+         //revert: true
+        // drag: function(event, ui){
+        // var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
 
-        $(this).css({
-         '-moz-transform': rotateCSS,
-        '-webkit-transform': rotateCSS
+        // $(this).css({
+        //  '-moz-transform': rotateCSS,
+        // '-webkit-transform': rotateCSS
+        // });
         });
-        }
-    })
-    .mouseup(function() {
+//     iconURL = chrome.extension.getURL("/icons/rotate-symbol.png");
+
+//     var $rotateSym = $('<div></div>');
+//     $rotateSym.appendTo($thisNote).attr('id','handle').css({
+//     //'position': 'absolute',
+//     'height': 16,
+//     'width': 16,
+//     'cursor': 'pointer',
+//     'left': 2 + 'px',
+//     'bottom': 2 + 'px',
+//     'background-image': `url("${iconURL}")`
+//     });
+
+//     // var imgURL = chrome.extension.getURL("http://www.fontsaddict.com/images/icons/png/5002.png");
+//     // document.getElementById("handle").src = imgURL;
+
+//     $rotateSym.draggable({
+//     handle: '#handle',
+//     opacity: 0.01,
+//      helper: 'clone',
+//     drag: function(event, ui){
+//         var rotateCSS = 'rotate' + ui.position.left + 'deg)';
+//         $(this).parent().css({
+//             '-moz-transform': rotateCSS,
+//             '-webkit-transform': rotateCSS
+//         });
+//     }
+// });
+
+    $thisNote.resizable({
+         minWidth: 200,
+         minHeight: 200,
+         //alsoResize: "#noteform"
+         });
+
+    $thisNote.mouseup(function() {
         //save position here
 
         console.log("this.position() ", $(this).position());
@@ -91,15 +125,21 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     var self = this;
     var $thisNote = this.buildNote(note,team);
     var $form = $('<form></form>');
-    $form.attr({
-        'class': 'webnote colors'
+    $form.css({
+        'width': '95%',
+        'height': '90%'
     });
+    // $form.attr({
+    //     'class': 'webnote colors'
+    // });
     var $messageInput = $('<textarea></textarea>');
-    $messageInput.attr('rows','10',"'class':'webnote'");
-    $messageInput.attr('rows','10',"'class':'colors'");
+    //  $messageInput.attr({
+    //     'id': 'noteform'
+    // });
+    $messageInput.attr('rows','10');
     $messageInput.css({
         'width': '100%',
-        'height': '124px',
+        'height': '80%',
         'resize': 'none',
         'backgroundColor': $thisNote.css('backgroundColor'),
         'border-style': 'none',
@@ -110,68 +150,92 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $messageInput.html(message);
     var $teamSelect = $('<select></select>');
     $teamSelect.css({
-        'class': 'webnote',
+        // 'class': 'webnote',
         //'padding': '5px 8px',
-        'width': '40%',
+        'width': '37%',
+         'height': '15%',
         'border': 'none',
         'box-shadow': 'none',
         'background': 'transparent',
         '-webkit-appearance': 'none',
         'text-align': 'center'
-        // 'border': '2px solid purple', 
+        // 'border': '2px solid purple',
         //  'width': '200px;',
         // '-webkit-border-radius': '5px',
         // '-moz-border-radius': '5px',
         // 'border-radius': '5px'
     });
-    $teamSelect.attr("id", "selectTeam", "'class': 'webnote'");
+    $teamSelect.attr("id", "selectTeam");
     var $optionCurrent = $('<option></option>');
-    $optionCurrent.attr('value', team._id, "'class': 'webnote'");
+    $optionCurrent.attr('value', team._id);
     $optionCurrent.html(team.name);
     $teamSelect.append($optionCurrent);
     GLOBALS_WEB_NOTES.teamList.forEach(function(teamOp){
         if(teamOp._id===team._id) return;
         var $option = $('<option></option>');
         $option.css({
-            'class': 'webnote'
+            // 'class': 'webnote',
+            'display': "inline-block"
         });
         $option.attr('value', teamOp._id);
         $option.html(teamOp.name);
         $teamSelect.append($option);
     });
    //color
-   var colors = ['yellow','red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
+    var colors = ['yellow','red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
     var $colorSelect = $('<select></select>');
     $colorSelect.css({
         'class': 'colors',
-        'width': '40%',
-        'border': 'none',
+        'width': '37%',
+        'height': '15%',
+        // 'border-style': 'solid',
+        // 'border-color': 'black',
         'box-shadow': 'none',
         'background': 'transparent',
         '-webkit-appearance': 'none',
         'text-align': 'center'
     });
-    $colorSelect.attr("id", "selectColor", "'class': 'colors'");
+    $colorSelect.attr("id", "selectColor");
+    var $colorCurrent = $('<option></option>');
+    $colorCurrent.attr('value', note.color);
+    $colorCurrent.html(note.color);
+    $colorSelect.append($colorCurrent);
     colors.forEach(function(color){
+        if(color===note.color) return;
+
         var $optionColor = $('<option></option>');
         $optionColor.css({
-            'class': 'colors'
+            // 'class': 'colors',
+             // 'value': note.color,
+             // 'selected': note.color,
+             'display': "inline-block"
         });
         $optionColor.attr('value', color);
         $optionColor.html(color);
         $colorSelect.append($optionColor);
     });
-    
+
 
     var $buttonSave = $('<button></button>');
-    $buttonSave.css('-webkit-appearance', 'push-button');
-    $buttonSave.attr('type', 'submit', "'class': 'webnote'");
+    $buttonSave.css({
+        'width': '25%',
+        'height': '15%',
+        '-webkit-appearance': 'push-button',
+        'display': "inline-block",
+        'text-align': "center"
+    });
+    $buttonSave.attr('type', 'submit');
     $buttonSave.text('Save');
     $form.submit(function(e){
+        console.log("height and weight is",$thisNote.height(),$thisNote.width());
         e.preventDefault();
         self.saveNote(note._id,
             $messageInput.val(),
-             $("#selectColor option:selected").html(),
+            {
+                x: $thisNote.outerWidth(),
+                y: $thisNote.outerHeight()
+            },
+            $("#selectColor option:selected").html(),
             {
                 _id: $teamSelect.val(),
                 // to debug
@@ -185,7 +249,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 
 
     var $buttonCancel = $('<button></button>');
-    $buttonCancel.attr("'class': 'webnote'");
+    // $buttonCancel.attr("'class': 'webnote'");
     $buttonCancel.css('-webkit-appearance','push-$button');
     $buttonCancel.html('Cancel');
     $buttonCancel.click(function(){
@@ -193,7 +257,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         self.renderNote(note,team);
     });
     var $buttonDestroy = $('<button></button>');
-    $buttonDestroy.attr("'class': 'webnote'");
+    // $buttonDestroy.attr("'class': 'webnote'");
     $buttonDestroy.css('-webkit-appearance','push-$button');
     $buttonDestroy.html('Destroy');
     $buttonDestroy.click(function(){
@@ -238,11 +302,12 @@ GLOBALS_WEB_NOTES.saveNotePosition = function(note, team){
 };
 
 
-GLOBALS_WEB_NOTES.saveNote = function(noteId, message, color, newTeam, oldTeam){
+GLOBALS_WEB_NOTES.saveNote = function(noteId, message, size, color, newTeam, oldTeam){
     var self = this;
     chrome.runtime.sendMessage({
         title: "saveNote",
         noteId: noteId,
+        size: size,
         color: color,
         message: message,
         newTeam: newTeam._id,
