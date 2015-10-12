@@ -4,7 +4,7 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
 
     var colors = ['yellow','red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
     $thisNote.attr({
-        'class': 'webnote',
+        // 'class': 'webnote',
         'id': note._id,
         'data-team-name': team.name,
         'data-team-id': team._id,
@@ -22,7 +22,6 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         'zIndex': 2147483647,
         'position': 'absolute',
         'box-sizing': "border-box",
-         'padding': '15px',
         'font-family': 'Gloria Hallelujah',
         'font-size': '15px',
          // '-moz-transform': 'rotate(4deg)',
@@ -30,10 +29,10 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
          // '-o-transform': 'rotate(4deg)',
          // '-ms-transform': 'rotate(4deg)',
          //  'transform': 'rotate(4deg)',
-           'box-shadow': '0px 4px 6px #333',
-            '-moz-box-shadow': '0px 4px 6px #333',
-             '-webkit-box-shadow': '0px 4px 6px #333',
-             'opacity': '0.8'
+        'box-shadow': '0px 4px 6px #333',
+        '-moz-box-shadow': '0px 4px 6px #333',
+        '-webkit-box-shadow': '0px 4px 6px #333',
+        'opacity': '0.8'
     });
 
 
@@ -50,7 +49,7 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         // });
         });
 //     iconURL = chrome.extension.getURL("/icons/rotate-symbol.png");
-    
+
 //     var $rotateSym = $('<div></div>');
 //     $rotateSym.appendTo($thisNote).attr('id','handle').css({
 //     //'position': 'absolute',
@@ -130,13 +129,13 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'width': '95%',
         'height': '90%'
     });
-    $form.attr({
-        'class': 'webnote colors'
-    });
+    // $form.attr({
+    //     'class': 'webnote colors'
+    // });
     var $messageInput = $('<textarea></textarea>');
-     $messageInput.attr({
-        'id': 'noteform'
-    });
+    //  $messageInput.attr({
+    //     'id': 'noteform'
+    // });
     $messageInput.attr('rows','10');
     $messageInput.css({
         'width': '100%',
@@ -151,7 +150,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $messageInput.html(message);
     var $teamSelect = $('<select></select>');
     $teamSelect.css({
-        'class': 'webnote',
+        // 'class': 'webnote',
         //'padding': '5px 8px',
         'width': '40%',
         'border': 'none',
@@ -159,22 +158,22 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'background': 'transparent',
         '-webkit-appearance': 'none',
         'text-align': 'center'
-        // 'border': '2px solid purple', 
+        // 'border': '2px solid purple',
         //  'width': '200px;',
         // '-webkit-border-radius': '5px',
         // '-moz-border-radius': '5px',
         // 'border-radius': '5px'
     });
-    $teamSelect.attr("id", "selectTeam", "'class': 'webnote'");
+    // $teamSelect.attr("id", "selectTeam");
     var $optionCurrent = $('<option></option>');
-    $optionCurrent.attr('value', team._id, "'class': 'webnote'");
+    $optionCurrent.attr('value', team._id);
     $optionCurrent.html(team.name);
     $teamSelect.append($optionCurrent);
     GLOBALS_WEB_NOTES.teamList.forEach(function(teamOp){
         if(teamOp._id===team._id) return;
         var $option = $('<option></option>');
         $option.css({
-            'class': 'webnote',
+            // 'class': 'webnote',
             'display': "inline-block"
         });
         $option.attr('value', teamOp._id);
@@ -185,7 +184,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
    var colors = ['yellow','red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
     var $colorSelect = $('<select></select>');
     $colorSelect.css({
-        'class': 'colors',
+        // 'class': 'colors',
         'width': '40%',
         // 'border-style': 'solid',
         // 'border-color': 'black',
@@ -194,11 +193,11 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         '-webkit-appearance': 'none',
         'text-align': 'center'
     });
-    $colorSelect.attr("id", "selectColor", "'class': 'colors'");
+    $colorSelect.attr("id", "selectColor");
     colors.forEach(function(color){
         var $optionColor = $('<option></option>');
         $optionColor.css({
-            'class': 'colors',
+            // 'class': 'colors',
              'value': note.color,
              'selected': note.color,
              'display': "inline-block"
@@ -207,7 +206,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         $optionColor.html(color);
         $colorSelect.append($optionColor);
     });
-    
+
 
     var $buttonSave = $('<button></button>');
     $buttonSave.css({
@@ -216,7 +215,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'display': "inline-block",
         'text-align': "center"
     });
-    $buttonSave.attr('type', 'submit', "'class': 'webnote'");
+    $buttonSave.attr('type', 'submit');
     $buttonSave.text('Save');
     $form.submit(function(e){
         console.log("height and weight is",$thisNote.height(),$thisNote.width());
@@ -226,8 +225,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
             {
                 x: $thisNote.outerWidth(),
                 y: $thisNote.outerHeight()
-             },
-             $("#selectColor option:selected").html(),
+            },
+            $("#selectColor option:selected").html(),
             {
                 _id: $teamSelect.val(),
                 // to debug
@@ -241,7 +240,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 
 
     var $buttonCancel = $('<button></button>');
-    $buttonCancel.attr("'class': 'webnote'");
+    // $buttonCancel.attr("'class': 'webnote'");
     $buttonCancel.css('-webkit-appearance','push-$button');
     $buttonCancel.html('Cancel');
     $buttonCancel.click(function(){
@@ -249,7 +248,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         self.renderNote(note,team);
     });
     var $buttonDestroy = $('<button></button>');
-    $buttonDestroy.attr("'class': 'webnote'");
+    // $buttonDestroy.attr("'class': 'webnote'");
     $buttonDestroy.css('-webkit-appearance','push-$button');
     $buttonDestroy.html('Destroy');
     $buttonDestroy.click(function(){
