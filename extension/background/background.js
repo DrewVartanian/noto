@@ -10,7 +10,7 @@
                 GLOBALS.teamsProm.then(function(teams){
                     console.log("logout", teams);
                     GLOBALS.teamsProm = Promise.resolve([]);
-                    GLOBALS.createRightClick();
+                    chrome.contextMenus.removeAll();
                 });
                 GLOBALS.socket.emit('logout', {});
                 chrome.tabs.getAllInWindow(null, function(tabs){

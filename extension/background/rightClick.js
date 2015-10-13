@@ -85,5 +85,9 @@
     // }
   };
 
-  GLOBALS.createRightClick();
+  Promise.resolve($.get(GLOBALS.serverUrl+'/session')).then(function(session){
+    GLOBALS.createRightClick();
+  }).then(null,function(){
+    //no user returned;
+  });
 })();
