@@ -76,17 +76,28 @@ router.put('/unreadpage', function (req,res,next){
     User.findOne({_id: req.user._id}).populate('unreadPages')
     .then(function(user){
 
-        user.unreadPages.forEach(function(page,index){
-            if (page.url === req.body.url) {
-                user.unreadPages.splice(index,1);
+        // user.unreadPages.forEach(function(page,index){
+        //     if (page.url === req.body.url) {
+        //         console.log("splicing index number: ", index)
+        //         user.unreadPages.splice(index,1);
+        //     }
+        // });
+
+        for (var i=user.unreadPages.length-1; i>=0; i--) {
+            if (user.unreadPages[i].url === req.body.url) {
+                console.log("splicing index number: ", i);
+                user.unreadPages.splice(i,1);
             }
-        });
+        }
+
+        return user;
+        // console.log("in unread pages route, user: ", user);
+    }).then(function(user){
         user.save().then(function (){
             res.sendStatus(201);
         }).then(null, next);
 
-        // console.log("in unread pages route, user: ", user);
-    });
+    })
 });
 
 

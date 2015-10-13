@@ -17,6 +17,8 @@
         chrome.contextMenus.create({
             "title": "All Teams",
             "contexts":["all"],
+            "type": "radio",
+            "checked": true,
             "onclick": function(info, tab){
               changeTeamClickHandler(info,tab,'All Teams');
             }
@@ -25,6 +27,8 @@
         chrome.contextMenus.create({
             "title": "personal",
             "contexts":["all"],
+            "type": "radio",
+            "checked": false,
             "onclick": function(info, tab){
               changeTeamClickHandler(info,tab,'personal');
             }
@@ -36,6 +40,8 @@
             chrome.contextMenus.create({
                 "title": team.name,
                 "contexts":["all"],
+                "type": "radio",
+                "checked": false,
                 "onclick": function(info, tab){
                   changeTeamClickHandler(info,tab,team.name);
                 }
@@ -84,10 +90,4 @@
       });
     // }
   };
-
-  Promise.resolve($.get(GLOBALS.serverUrl+'/session')).then(function(session){
-    GLOBALS.createRightClick();
-  }).then(null,function(){
-    //no user returned;
-  });
 })();

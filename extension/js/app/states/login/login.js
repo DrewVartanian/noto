@@ -23,6 +23,7 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
             var userLoggedIn = response.user;
                 currentUser.setLoggedInUser(userLoggedIn);
                 $rootScope.isLoggedIn = true;
+                console.log('going to pages');
                 $state.go('pages');
             } else {
                 currentUser.setLogOutUser();

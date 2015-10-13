@@ -6,15 +6,19 @@ app.config(function($stateProvider) {
         controller: 'unreadController',
         resolve: {
             unreadPages: function(UserFactory) {
-                return UserFactory.getUnreadPages()
+                return UserFactory.getUnreadPages();
             }
         }
     });
 
 });
 
-app.controller('unreadController', function($scope, unreadPages, PageFactory, TeamFactory) {
+app.controller('unreadController', function($scope, unreadPages, PageFactory, TeamFactory, BackgroundFactory) {
     $scope.unreadPages = unreadPages;
+
+    $scope.setTeam = function () {
+        BackgroundFactory.setTeamViewOnLinkVisit("All Teams")
+    };
 
     // PageFactory.getMyPages().then(function(pages) {
     //     $scope.pages = pages;
