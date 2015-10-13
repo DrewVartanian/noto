@@ -263,14 +263,66 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $buttonDestroy.click(function(){
         self.destroyNote(note._id);
     });
+        $thisNote.actions = [];
+    var $buttonRecord = $('<button></button>')
+        $buttonRecord.css('-webkit-appearance','push-$button');
+        $buttonRecord.html('Record');
+
+        $buttonRecord.click(function(){
+            var startDate = new Date();
+            console.log("Recording!")
+            document.onmousemove = function(e){
+                var date = new Date();
+                var moveObj = {
+                    x: e.pageX,
+                    y: e.pageY,
+                    type: 'move',
+                    time: date - startDate
+                };
+                $thisNote.actions.push(moveObj);
+                console.log($thisNote.actions);
+            };
+            document.onclick = function(e){
+                var date = new Date();
+                var clickObj = {
+                    x: e.pageX,
+                    y: e.pageY,
+                    type: 'click',
+                    time: date - startDate
+                    };
+                $thisNote.actions.push(clickObj);
+                };
+            document.onkeyup = function (e){
+                var date = new Date();
+                var keyObj = {
+                 data: e.keyCode,
+                 type: 'keypress',
+                 time: date - startDate
+                };
+                $thisNote.actions.push(keyObj);
+            };
+
+        });
+    var $buttonStop = $('<button></button>');
+        $buttonStop.css('-webkit-appearance','push-$button');
+        $buttonStop.html('Stop');
+        $buttonStop.click(function() {
+            document.onclick = null;
+            document.onmousemove = null;
+            document.onkeyup = null;
+        });
+    var $buttonPlay = $('<button></button>');
+        $buttonPlay.css('-webkit-appearance','push-$button');
+        $buttonPlay.html('Play');
     $form.append($messageInput);
     $form.append($teamSelect);
     $form.append($colorSelect);
     $form.append($buttonSave);
     $thisNote.append($buttonCancel);
     $thisNote.append($buttonDestroy);
-
-
+    $thisNote.append($buttonRecord);
+    $thisNote.append($buttonStop);
+    $thisNote.append($buttonPlay);
     $thisNote.append($form);
 };
 
