@@ -103,6 +103,14 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
     // });
     // $thisNote.append($buttonResize);
 
+    $thisNote.resize(function() {
+        // console.log("original size", note.size.x, " ", note.size.y);
+        // console.log("new size", $(this).outerWidth(), " ", $(this).outerHeight());
+        note.size.x = $(this).outerWidth();
+        note.size.y = $(this).outerHeight();
+        self.saveNoteSize(note, team);
+    });
+
 
     $thisNote.mouseup(function() {
         // console.log("this.position() ", $(this).position());
@@ -114,14 +122,10 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         //     'offset.top': event.y+'px'
         // });
         // console.log("what is note?", note);
-        console.log("original size", note.size.x, " ", note.size.y);
-        console.log("new size", $(this).outerWidth(), " ", $(this).outerHeight());
 
-        note.size.x = $(this).outerWidth(),
-        note.size.y = $(this).outerHeight(),
         note.position.x = $(this).position().left;
         note.position.y = $(this).position().top;
-        self.saveNoteSizePosition(note, team);
+        self.saveNotePosition(note, team);
     });
 
     $('body').append($thisNote);
@@ -265,10 +269,10 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         e.preventDefault();
         self.saveNote(note._id,
             $messageInput.val(),
-            {
-                x: $thisNote.outerWidth(),
-                y: $thisNote.outerHeight()
-            },
+            // {
+            //     x: $thisNote.outerWidth(),
+            //     y: $thisNote.outerHeight()
+            // },
             $("#selectColor option:selected").html(),
             {
                 _id: $teamSelect.val(),
@@ -352,25 +356,36 @@ GLOBALS_WEB_NOTES.destroyNote = function(noteId){
     });
 };
 
-GLOBALS_WEB_NOTES.saveNoteSizePosition = function(note, team){
+
+GLOBALS_WEB_NOTES.saveNoteSize = function(note, team){
     var self = this;
     chrome.runtime.sendMessage({
-        title: "saveNoteSizePosition",
+        title: "saveNoteSize",
+        noteId: note._id,
+        size: note.size,
+        team: team._id
+    });
+};
+
+
+GLOBALS_WEB_NOTES.saveNotePosition = function(note, team){
+    var self = this;
+    chrome.runtime.sendMessage({
+        title: "saveNotePosition",
         noteId: note._id,
         position: note.position,
         size: note.size,
         team: team._id
     });
-
 };
 
 
-GLOBALS_WEB_NOTES.saveNote = function(noteId, message, size, color, newTeam, oldTeam){
+GLOBALS_WEB_NOTES.saveNote = function(noteId, message, color, newTeam, oldTeam){
     var self = this;
     chrome.runtime.sendMessage({
         title: "saveNote",
         noteId: noteId,
-        size: size,
+        // size: size,
         color: color,
         message: message,
         newTeam: newTeam._id,
