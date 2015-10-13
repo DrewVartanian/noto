@@ -13,8 +13,13 @@ app.config(function($stateProvider) {
 
 });
 
-app.controller('unreadController', function($scope, unreadPages, PageFactory, TeamFactory) {
+app.controller('unreadController', function($scope, unreadPages, PageFactory, TeamFactory, BackgroundFactory) {
     $scope.unreadPages = unreadPages;
+
+    $scope.setTeam = function (teamname){
+        console.log("teamname: ", teamname);
+        BackgroundFactory.setTeamViewOnLinkVisit(teamname)
+    };
 
     // PageFactory.getMyPages().then(function(pages) {
     //     $scope.pages = pages;
