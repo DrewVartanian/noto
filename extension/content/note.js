@@ -314,6 +314,23 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     var $buttonPlay = $('<button></button>');
         $buttonPlay.css('-webkit-appearance','push-$button');
         $buttonPlay.html('Play');
+        var $playball = $('<img id="theball" src="http://www.clker.com/cliparts/b/3/b/d/11971252702040963370chris_sharkot_ball.svg.med.png" height="10px" width="10px">');
+        $playball.css({
+            'zIndex': 2147483647,
+            'position': 'absolute'
+        });
+        $buttonPlay.click(function() {
+            $('body').append($playball);
+            console.log($thisNote.actions.length);
+            for(var i=0;i<$thisNote.actions.length; i++) {
+                console.log($thisNote.actions[i].x);
+                $('#theball').animate({
+                     left: $thisNote.actions[i].x,
+                     top: $thisNote.actions[i].y
+                     
+                }, 100);
+            }
+        });
     $form.append($messageInput);
     $form.append($teamSelect);
     $form.append($colorSelect);
