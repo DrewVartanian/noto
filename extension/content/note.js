@@ -105,20 +105,23 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
 
 
     $thisNote.mouseup(function() {
-        //save position here
-
-        console.log("this.position() ", $(this).position());
-        console.log("original note position", note.position);
-        console.log("attempting to save the position");
+        // console.log("this.position() ", $(this).position());
+        // console.log("original note position", note.position);
+        // console.log("attempting to save the position");
         // console.log("event.x and event.y", event.x, event.y);
         // $thisNote.css({
         //     'offset.left':  event.x + "px",
         //     'offset.top': event.y+'px'
         // });
         // console.log("what is note?", note);
+        console.log("original size", note.size.x, " ", note.size.y);
+        console.log("new size", $(this).outerWidth(), " ", $(this).outerHeight());
+
+        note.size.x = $(this).outerWidth(),
+        note.size.y = $(this).outerHeight(),
         note.position.x = $(this).position().left;
         note.position.y = $(this).position().top;
-        self.saveNotePosition(note, team);
+        self.saveNoteSizePosition(note, team);
     });
 
     $('body').append($thisNote);
@@ -175,7 +178,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         // 'class': 'webnote',
         //'padding': '5px 8px',
         'width': '37%',
-         'height': '15%',
+        'height': '15%',
         'border': 'none',
         'box-shadow': 'none',
         'background': 'transparent',
@@ -349,13 +352,13 @@ GLOBALS_WEB_NOTES.destroyNote = function(noteId){
     });
 };
 
-GLOBALS_WEB_NOTES.saveNotePosition = function(note, team){
+GLOBALS_WEB_NOTES.saveNoteSizePosition = function(note, team){
     var self = this;
-    console.log("note.position saveNotePosition ", note.position);
     chrome.runtime.sendMessage({
-        title: "saveNotePosition",
+        title: "saveNoteSizePosition",
         noteId: note._id,
         position: note.position,
+        size: note.size,
         team: team._id
     });
 

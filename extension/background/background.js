@@ -69,7 +69,7 @@
                     }
                 });
                 return true;
-            case 'saveNotePosition':
+            case 'saveNoteSizePosition':
              $.ajax({
                     url:GLOBALS.serverUrl+'/api/note/'+request.noteId,
                     type:'PUT',
@@ -77,6 +77,7 @@
                     dataType: 'json',
                     data: JSON.stringify({
                         position: request.position,
+                        size: request.size,
                         url: sender.url
                     }),
                     success: function(res){
