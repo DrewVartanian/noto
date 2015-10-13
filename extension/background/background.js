@@ -10,6 +10,7 @@
                 GLOBALS.teamsProm.then(function(teams){
                     console.log("logout", teams);
                     GLOBALS.teamsProm = Promise.resolve([]);
+                    chrome.contextMenus.removeAll();
                 });
                 GLOBALS.socket.emit('logout', {});
                 chrome.tabs.getAllInWindow(null, function(tabs){
@@ -68,6 +69,41 @@
                     }
                 });
                 return true;
+            case 'saveNoteSize':
+            $.ajax({
+                    url:GLOBALS.serverUrl+'/api/note/'+request.noteId,
+                    type:'PUT',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        size: request.size,
+                        url: sender.url
+                    }),
+                    success: function(res){
+                        GLOBALS.pagesProm.then(function(pages){
+                            GLOBALS.socket.emit('changeNote', {
+                                        "url": sender.url,
+                                        "newTeam": request.team,
+                                        "oldTeam": request.team,
+                                        "note": res.note,
+                                        "oper": "put"
+                            });
+                            pages.some(function(page){
+                                if(page.url!==sender.url) return false;
+                                if(page.team._id!==request.team) return false;
+                                return page.notes.some(function(note,index){
+                                    if(note._id===request.noteId){
+                                        page.notes[index] = res.note;
+                                        console.log(res.note);
+                                        return true;
+                                    }
+                                    return false;
+                                });
+                            });
+                        });
+                    }
+                });
+                return true;
             case 'saveNotePosition':
              $.ajax({
                     url:GLOBALS.serverUrl+'/api/note/'+request.noteId,
@@ -112,7 +148,7 @@
                     dataType: 'json',
                     data: JSON.stringify({
                         message: request.message, //? request.message : undefined,
-                        size: request.size,
+                        // size: request.size,
                         color: request.color,
                         newTeam: request.newTeam, //? request.newTeam : request.team,
                         oldTeam: request.oldTeam, //? request.oldTeam : request.team,
@@ -180,6 +216,7 @@
                 console.log("hitting teams.js");
                 GLOBALS.teamsProm = GLOBALS.getTeams();
                 GLOBALS.pagesProm = GLOBALS.getPages();
+                GLOBALS.createRightClick();
                 GLOBALS.socket.emit('login', {});
                 chrome.tabs.getAllInWindow(null, function(tabs){
                     for (var i = 0; i < tabs.length; i++) {
@@ -188,15 +225,13 @@
                 });
                 break;
             case "change teams":
-                console.log('changing teams');
-                console.log('team:',request.team);
                 var data = {team:request.team};
                 if(request.userId){
                     data.userId=request.userId;
                 }
                 GLOBALS.socket.emit('changeTeams', data);
                 GLOBALS.teamsProm=GLOBALS.getTeams();
-                console.log('done here');
+                GLOBALS.createRightClick();
                 break;
             case "team link":
                 console.log("Trying request.teamname", request.teamname);
