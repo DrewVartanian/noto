@@ -4,9 +4,9 @@
   "version": "1.0",
   "description": "This is a test description change it later!",
   "icons": {
-    "16": "/icons/robit_16.png",
-    "48": "/icons/robit_48.png",
-    "128": "/icons/robit_128.png"
+    "16": "/icons/icon16.png",
+    "48": "/icons/icon48.png",
+    "128": "/icons/icon128.png"
   },
   "background": {
    // "scripts": ["/background/background.js"]
@@ -23,19 +23,26 @@
   "content_scripts": [{
     "matches": [ "*://*/*"],
     "js": ["/js/dependencies/jquery-1.11.3.min.js","/js/dependencies/jquery-ui.min.js", "/content/globals.js", "/content/note.js", "/content/content.js"],
-    "css": ["/css/content.css", "/css/jquery-ui.min.css"]
+    "css": ["/css/content.css", "/css/jquery-ui.min.css", "/css/font-awesome.min.css"]
   }],
   "browser_action": {
     "default_icon": {
-      "19": "/icons/robit_sleep_19.png",
-      "38": "/icons/robit_48.png"
+      "19": "/icons/icon19.png",
+      "38": "/icons/icon38.png"
     },
     "default_title": "WebNotes",
     "default_popup": "popup.html"
   },
   "web_accessible_resources": [
     "/icons/delete.png",
-    "/js/dependencies/externalMain.js"
+    "/icons/save.png",
+    "/icons/pin.png",
+    "/icons/cancel.png",
+    // "/icons/resize.png",
+    "/js/dependencies/externalMain.js",
+    "/css/jquery-ui.min.css",
+    "/css/font-awesome.min.css",
+    "/fonts/*"
   ],
   "externally_connectable": {
     "ids": ["*"],

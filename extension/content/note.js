@@ -77,10 +77,32 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
 // });
 
     $thisNote.resizable({
-         minWidth: 200,
-         minHeight: 200,
-         //alsoResize: "#noteform"
-         });
+        minWidth: 200,
+        minHeight: 200,
+        // handles: 'se'
+        //alsoResize: "#noteform"
+    });
+
+    // var resizeIcon = chrome.extension.getURL("/icons/resize.png");
+    // var $buttonResize = $('<div></div>');
+    // $buttonResize.addClass('ui-resizable-handle ui-resizable-se');
+    // $buttonResize.css({
+    //     'height': '30px',
+    //     'width': '30px',
+    //     'cursor': 'se-resize',
+    //     'background': 'url('+resizeIcon+')',
+    //     'position': 'absolute',
+    //     'right': '-15px',
+    //     'bottom': '-15px',
+    //     // 'display': 'none'
+    // });
+    // $thisNote.hover(function() {
+    //     $buttonResize.css({'display': 'block'});
+    // }, function() {
+    //     $buttonResize.css({'display': 'none'});
+    // });
+    // $thisNote.append($buttonResize);
+
 
     $thisNote.mouseup(function() {
         //save position here
@@ -109,7 +131,7 @@ GLOBALS_WEB_NOTES.renderNote = function(note,team)
     var self = this;
     var $thisNote = this.buildNote(note,team);
     var message = note.message ? note.message : "";
-    console.log(message);
+    // console.log(message);
     $thisNote.html('<span>'+message+'</span>');
     $thisNote.click(function(){
         console.log("clicked renderNote");
@@ -216,16 +238,26 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     });
 
 
+    var saveIcon = chrome.extension.getURL("/icons/save.png");
     var $buttonSave = $('<button></button>');
     $buttonSave.css({
-        'width': '25%',
-        'height': '15%',
-        '-webkit-appearance': 'push-button',
-        'display': "inline-block",
-        'text-align': "center"
+        'height': '30px',
+        'width': '30px',
+        'cursor': 'pointer',
+        'background': 'url('+saveIcon+')',
+        'border': '0px',
+        'position': 'absolute',
+        'right': '15px',
+        'bottom': '15px',
+        // 'display': 'none'
     });
     $buttonSave.attr('type', 'submit');
-    $buttonSave.text('Save');
+    // $thisNote.hover(function() {
+    //     $buttonSave.css({'display': 'block'});
+    // }, function() {
+    //     $buttonSave.css({'display': 'none'});
+    // });
+
     $form.submit(function(e){
         e.preventDefault();
         self.saveNote(note._id,
@@ -237,28 +269,35 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
             $("#selectColor option:selected").html(),
             {
                 _id: $teamSelect.val(),
-                // to debug
                 name: $("#selectTeam option:selected").html()
             },
             team);
     });
 
-//$teamSelect.option($teamSelect.selectedIndex).html()
+    //$teamSelect.option($teamSelect.selectedIndex).html()
+    // unable to get font-awesome to load
+    // var $buttonCancel = $('<i class="fa fa-floppy-o"></i>');
 
-
-
-    var $buttonCancel = $('<button></button>');
+    var cancelIcon = chrome.extension.getURL("/icons/cancel.png");
+    var $buttonCancel = $('<div></div>');
     // $buttonCancel.attr("'class': 'webnote'");
-    $buttonCancel.css({'-webkit-appearance': 'push-$button'});
-    $buttonCancel.html('Cancel');
+    $buttonCancel.css({
+        // '-webkit-appearance': 'push-$button'
+        'height': '30px',
+        'width': '30px',
+        'cursor': 'pointer',
+        'background-image': 'url('+cancelIcon+')',
+        'position': 'absolute',
+        'right': '55px',
+        'bottom': '15px',
+    });
+    // $buttonCancel.html('Cancel');
     $buttonCancel.click(function(){
         self.unrenderNote(note._id);
         self.renderNote(note,team);
     });
 
     var deleteIcon = chrome.extension.getURL("/icons/delete.png");
-
-
     var $buttonDestroy = $('<div></div>');
     // $buttonDestroy.attr("'class': 'webnote'");
     $buttonDestroy.css({
@@ -268,7 +307,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'cursor': 'pointer',
         'background-image': 'url('+deleteIcon+')',
         'position': 'absolute',
-        'right': '-15px',
+        'left': '-15px',
         'top': '-15px',
         'display': 'none'
     });
