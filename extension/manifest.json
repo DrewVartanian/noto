@@ -9,7 +9,6 @@
     "128": "/icons/icon128.png"
   },
   "background": {
-   // "scripts": ["/background/background.js"]
    "page": "/background/background.html"
   },
   "permissions": [
@@ -22,8 +21,18 @@
   ],
   "content_scripts": [{
     "matches": [ "*://*/*"],
-    "js": ["/js/dependencies/jquery-1.11.3.min.js","/js/dependencies/jquery-ui.min.js", "/content/globals.js", "/content/note.js", "/content/content.js"],
-    "css": ["/css/content.css", "/css/jquery-ui.min.css", "/css/font-awesome.min.css"]
+    "js": [
+      "/js/dependencies/jquery-1.11.3.min.js",
+      "/js/dependencies/jquery-ui.min.js",
+      "/content/globals.js",
+      "/content/note.js",
+      "/content/content.js"
+    ],
+    "css": [
+      "/css/content.css",
+      "/css/jquery-ui.min.css"
+      // "/css/font-awesome.min.css"
+    ]
   }],
   "browser_action": {
     "default_icon": {
@@ -35,9 +44,12 @@
   },
   "web_accessible_resources": [
     "/icons/delete.png",
-    "/icons/save.png",
-    "/icons/pin.png",
-    "/icons/cancel.png",
+    "/icons/corkboard.png",
+    "/icons/postit400.png",
+
+    // "/icons/save.png",
+    // "/icons/pin.png",
+    // "/icons/cancel.png",
     // "/icons/resize.png",
     "/js/dependencies/externalMain.js",
     "/css/jquery-ui.min.css",
