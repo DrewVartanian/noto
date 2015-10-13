@@ -1,108 +1,115 @@
-#mainWindow {
-    /*background-color: black;
-  color: white;*/
-    height: 550px;
-    width: 400px;
+@import url(http://fonts.googleapis.com/css?family=Raleway:400,300,500,700,800);
+@import url(https://fonts.googleapis.com/css?family=Indie+Flower:400,300,500,700,800);
+@import url(https://fonts.googleapis.com/css?family=Reenie+Beanie:400,300,500,700,800);
+
+body {
+  /*font: 300 18px/1.8 'Raleway', sans-serif;*/
+  color: #272626;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 a {
-    color: black;
+  color: #272626;
 }
 
-#teamGroup {
-    display: inline;
+a:hover {
+  text-decoration: none;
+  color: #36444e;
 }
 
-#logo {
-    font-size: 30em;
-    text-align: center;
-    margin-left: 20px;
-    margin-right: 20px;
-    position: absolute;
-    color: rgba(255, 255, 255, 1.0);
-    z-index: -1;
-    top: 0px;
-    padding-top: 50px;
+/* ---------------------------------------------- /*
+ * Typography
+/* ---------------------------------------------- */
+
+/*h1, h2, h3, h4, h5, h6 {
+    font: 700 40px/1.2 Raleway, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin: 5px 0 5px;
+    color: #222;
 }
 
-#logotext {
-    color: black;
-    font-family: cursive;
-    margin-left: 40px;
-    margin-top: 100px;
+h2 {
+    font-size: 30px;
+    margin: 0 0 30px;
+}*/
+
+/* ---------------------------------------------- /*
+ * <body>
+/* ---------------------------------------------- */
+
+#mainWindow {
+  width: 400px;
+  height: 500px;
+}
+
+/* ---------------------------------------------- /*
+ * webnote.html
+/* ---------------------------------------------- */
+
+#corkboard {
+  width: 400px;
+  height: 500px;
+  background: url('../icons/corkboard.png') no-repeat center center fixed;
+  background-size: cover;
+  /*position: relative;*/
+}
+
+/*div*/
+#postit {
+  position: relative;
+}
+
+/*h2*/
+#postittext {
+  position: absolute;
+  text-align: center;
+  top: 45px;
+  left: 125px;
+  font-family: 'Reenie Beanie';
+  font-size: 50px;
 }
 
 #loginsignup {
-    text-align: center;
-    margin-top: 220px;
-    padding: 0px;
+  font-family: 'Reenie Beanie';
+  font-size: 30px;
+  text-align: center;
+  font-weight: 800;
+
+}
+
+#loginsignup p, a {
+  margin: 0;
+  padding: 0;
 }
 
 #loginsignup a {
-    color: white;
-    font-weight: 900;
-    margin: 0;
-    padding: 0;
+  text-transform: uppercase;
 }
 
-#loginsignup p {
-    margin: 0;
-    padding: 0;
+/* ---------------------------------------------- /*
+ * edit.html
+/* ---------------------------------------------- */
+
+#teamGroup {
+  display: inline;
 }
 
-/*.webnote button {
-    all: initial;
-    display: inline-block;
-    padding: 2px 4px;
-    margin-bottom: 0;
-    font-size: 9px;
-    font-weight: 400;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    background-color: white;
-    height: 10px;
-    width: 20%;
-}*/
-
-.webnote form {}
-
-.webnote select {}
-
-.webnote textarea {}
-
-.webnote option {}
-
-
-/*select {
-   -webkit-appearance: none;
-   -moz-appearance: none;
-   appearance: none;
-}*/
-
+/* ---------------------------------------------- /*
+ * paper
+/* ---------------------------------------------- */
 
 .webnote-paper {
-
-    background-color: #fff; 
-    background-image: 
-    linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
-    linear-gradient(#eee .1em, transparent .1em);
-    background-size: 100% 1.2em;
-    font-family: 'Indie Flower', cursive;
-    font-size: 16px;
-    background-position: -70px -9px;
-    color: black;
-
+  background-color: #fff;
+  background-image: linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px), linear-gradient(#eee .1em, transparent .1em);
+  background-size: 100% 1.2em;
+  font-family: 'Indie Flower', cursive;
+  font-size: 16px;
+  background-position: -70px -9px;
+  color: black;
 }
-

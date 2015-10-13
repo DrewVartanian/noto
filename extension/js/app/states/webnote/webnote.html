@@ -1,10 +1,14 @@
 
-<div ng-hide="hidelanding || isLoggedIn">
-    <h1 id="logotext"> Welcome to WebNotes! </h1>
-    <i id="logo" class="fa fa-sticky-note"></i>
+<div ng-hide="hidelanding || isLoggedIn" id="corkboard">
+    <div id="postit">
+        <img src='../icons/postit400.png'></img>
+        <h2 id="postittext"> Welcome <br>to<br> Noto! </h2>
+    </div>
+
     <div id="loginsignup">
-        <p> Already using WebNotes to make your life easier? </p> <a ng-click="hidelanding = !hidelanding" ui-sref='login'>Log in here!</a>
-        <div></div>
-        <p> want to start? </p> <a ng-click="hidelanding = !hidelanding" ui-sref="signup">Sign up!</a>
+        <p> Already using Noto to collaborate? </p>
+        <a ng-click="hidelanding = !hidelanding" ui-sref='login'>Log in here!</a>
+        <p> Ready to start? </p>
+        <a ng-click="hidelanding = !hidelanding" ui-sref="signup">Sign up!</a>
     </div>
 </div>
