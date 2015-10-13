@@ -146,6 +146,9 @@ GLOBALS_WEB_NOTES.renderNote = function(note,team)
     // console.log("renderNote", note, team);
     var self = this;
     var $thisNote = this.buildNote(note,team);
+    $thisNote.css({
+        'overflow': 'scroll'
+    });
     var message = note.message ? note.message : "";
     // console.log(message);
     $thisNote.html('<span>'+message+'</span>');
@@ -287,10 +290,10 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
             //     x: $thisNote.outerWidth(),
             //     y: $thisNote.outerHeight()
             // },
-            $("#selectColor option:selected").html(),
+            $colorSelect.children("option:selected").html(),
             {
                 _id: $teamSelect.val(),
-                name: $("#selectTeam option:selected").html()
+                name: $teamSelect.children("option:selected").html()
             },
             team);
     });

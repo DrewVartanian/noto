@@ -8,7 +8,7 @@
                 });
             });
             if(dbInfo.teamSelected==='All Teams'){
-                GLOBALS_WEB_NOTES.team={name:"All Teams"};
+                GLOBALS_WEB_NOTES.team={name:"personal"};
             }else{
                 if(!dbInfo.teams.some(function(team){
                     if(team.name===dbInfo.teamSelected){
