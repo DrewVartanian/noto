@@ -181,7 +181,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'resize': 'none',
         'background-color': $thisNote.css('background-color'),
         'border-style': 'none',
-        'box-sizing': "border-box",
+        'box-sizing': "border-box"
     });
 
     var message = note.message ? note.message : "";
@@ -257,6 +257,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 
     var saveIcon = chrome.extension.getURL("/icons/save.png");
     var $buttonSave = $('<button></button>');
+    // invisible buttons
     $buttonSave.css({
         'height': '0px',
         'width': '0px',
@@ -364,6 +365,11 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 
 GLOBALS_WEB_NOTES.unrenderNote = function(noteId){
     console.log("unrendering note");
+    $('#'+noteId).remove();
+};
+
+GLOBALS_WEB_NOTES.unrenderNoteForm = function(noteId){
+    console.log("unrendering note form");
     $('#'+noteId).remove();
 };
 
