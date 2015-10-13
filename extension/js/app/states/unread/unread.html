@@ -1,7 +1,9 @@
-Unread Pages
+<h5 class="list-group-item" style="background-color:grey; text-align:center">New Notes</h5>
 
 <ul class="list-group">
-    <li style="color:black" class="list-group-item list-group-item-info" ng-repeat="page in unreadPages track by $index">
-        <a target="_blank" href="{{page.url}}">{{page.url}}</a>
+	<a target="_blank" href="{{page.url}}" ng-repeat="page in unreadPages track by $index">
+    <li class="list-group-item list-group-item-info webnote-paper">
+        {{page.url}}
     </li>
+    </a>
 </ul>
