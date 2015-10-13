@@ -123,7 +123,14 @@ router.put('/:id', function(req, res, next) {
 
     });
   }
-  else{   // save the note  
+  // saving size
+  else if(req.body.size){
+    req.note.save().then(function(note){
+      console.log("put with req.body.size ", note);
+      res.status(200).json({note: note});
+    });
+  }
+  else {   // save the note
     req.note.save().then(function(note) {
       retNote=note;
       // check if there has been a team change
