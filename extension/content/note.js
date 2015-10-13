@@ -40,6 +40,13 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
 
     $thisNote.draggable({
         cursor: 'move',
+        stop: function() {
+            // console.log("drag stop, note: ", note,"self: ", self);
+            note.position.x = $(this).position().left;
+            note.position.y = $(this).position().top;
+            self.saveNotePosition(note, team);
+        }
+    });
         //type: 'rotation',
          //revert: true
         // drag: function(event, ui){
@@ -49,7 +56,7 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         //  '-moz-transform': rotateCSS,
         // '-webkit-transform': rotateCSS
         // });
-        });
+
 //     iconURL = chrome.extension.getURL("/icons/rotate-symbol.png");
 
 //     var $rotateSym = $('<div></div>');
@@ -106,27 +113,28 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
     $thisNote.resize(function() {
         // console.log("original size", note.size.x, " ", note.size.y);
         // console.log("new size", $(this).outerWidth(), " ", $(this).outerHeight());
+        // console.log("resizing");
         note.size.x = $(this).outerWidth();
         note.size.y = $(this).outerHeight();
         self.saveNoteSize(note, team);
     });
 
 
-    $thisNote.mouseup(function() {
-        // console.log("this.position() ", $(this).position());
-        // console.log("original note position", note.position);
-        // console.log("attempting to save the position");
-        // console.log("event.x and event.y", event.x, event.y);
-        // $thisNote.css({
-        //     'offset.left':  event.x + "px",
-        //     'offset.top': event.y+'px'
-        // });
-        // console.log("what is note?", note);
-
-        note.position.x = $(this).position().left;
-        note.position.y = $(this).position().top;
-        self.saveNotePosition(note, team);
-    });
+    // $thisNote.mouseup(function() {
+    //     // console.log("this.position() ", $(this).position());
+    //     // console.log("original note position", note.position);
+    //     // console.log("attempting to save the position");
+    //     // console.log("event.x and event.y", event.x, event.y);
+    //     // $thisNote.css({
+    //     //     'offset.left':  event.x + "px",
+    //     //     'offset.top': event.y+'px'
+    //     // });
+    //     // console.log("what is note?", note);
+    //     console.log("drag mouseup");
+    //     note.position.x = $(this).position().left;
+    //     note.position.y = $(this).position().top;
+    //     self.saveNotePosition(note, team);
+    // });
 
     $('body').append($thisNote);
     return $thisNote;
@@ -134,7 +142,8 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
 
 GLOBALS_WEB_NOTES.renderNote = function(note,team)
 {
-    console.log("renderNote", note, team);
+    console.log("rendering note");
+    // console.log("renderNote", note, team);
     var self = this;
     var $thisNote = this.buildNote(note,team);
     var message = note.message ? note.message : "";
@@ -210,6 +219,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         $option.html(teamOp.name);
         $teamSelect.append($option);
     });
+
    //color
     var colors = ['yellow','red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
     var $colorSelect = $('<select></select>');
@@ -248,16 +258,18 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     var saveIcon = chrome.extension.getURL("/icons/save.png");
     var $buttonSave = $('<button></button>');
     $buttonSave.css({
-        'height': '30px',
-        'width': '30px',
-        'cursor': 'pointer',
-        'background': 'url('+saveIcon+')',
+        'height': '0px',
+        'width': '0px',
+        'padding': '0',
+        // 'cursor': 'pointer',
+        // 'background': 'url('+saveIcon+')',
         'border': '0px',
         'position': 'absolute',
-        'right': '15px',
-        'bottom': '15px',
+        'right': '0px',
+        'bottom': '0px',
         // 'display': 'none'
     });
+
     $buttonSave.attr('type', 'submit');
     // $thisNote.hover(function() {
     //     $buttonSave.css({'display': 'block'});
@@ -267,6 +279,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 
     $form.submit(function(e){
         e.preventDefault();
+        console.log("form.submit self: ", self);
         self.saveNote(note._id,
             $messageInput.val(),
             // {
@@ -282,27 +295,25 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     });
 
     //$teamSelect.option($teamSelect.selectedIndex).html()
-    // unable to get font-awesome to load
-    // var $buttonCancel = $('<i class="fa fa-floppy-o"></i>');
 
-    var cancelIcon = chrome.extension.getURL("/icons/cancel.png");
-    var $buttonCancel = $('<div></div>');
-    // $buttonCancel.attr("'class': 'webnote'");
-    $buttonCancel.css({
-        // '-webkit-appearance': 'push-$button'
-        'height': '30px',
-        'width': '30px',
-        'cursor': 'pointer',
-        'background-image': 'url('+cancelIcon+')',
-        'position': 'absolute',
-        'right': '55px',
-        'bottom': '15px',
-    });
-    // $buttonCancel.html('Cancel');
-    $buttonCancel.click(function(){
-        self.unrenderNote(note._id);
-        self.renderNote(note,team);
-    });
+    // var cancelIcon = chrome.extension.getURL("/icons/cancel.png");
+    // var $buttonCancel = $('<div></div>');
+    // // $buttonCancel.attr("'class': 'webnote'");
+    // $buttonCancel.css({
+    //     // '-webkit-appearance': 'push-$button'
+    //     'height': '30px',
+    //     'width': '30px',
+    //     'cursor': 'pointer',
+    //     'background-image': 'url('+cancelIcon+')',
+    //     'position': 'absolute',
+    //     'right': '55px',
+    //     'bottom': '15px',
+    // });
+    // // $buttonCancel.html('Cancel');
+    // $buttonCancel.click(function(){
+    //     self.unrenderNote(note._id);
+    //     self.renderNote(note,team);
+    // });
 
     var deleteIcon = chrome.extension.getURL("/icons/delete.png");
     var $buttonDestroy = $('<div></div>');
@@ -330,19 +341,29 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         $buttonDestroy.css({'display': 'none'});
     });
 
+    $teamSelect.change(function() {
+        $buttonSave.trigger('submit');
+    });
+
+    $colorSelect.change(function() {
+        $buttonSave.trigger('submit');
+    });
+    $messageInput.blur(function() {
+        $buttonSave.trigger('submit');
+    });
+
     $form.append($messageInput);
     $form.append($teamSelect);
     $form.append($colorSelect);
     $form.append($buttonSave);
-    $thisNote.append($buttonCancel);
+    // $thisNote.append($buttonCancel);
     $thisNote.append($buttonDestroy);
-
 
     $thisNote.append($form);
 };
 
 GLOBALS_WEB_NOTES.unrenderNote = function(noteId){
-    console.log("unrenderNote");
+    console.log("unrendering note");
     $('#'+noteId).remove();
 };
 
@@ -350,6 +371,7 @@ GLOBALS_WEB_NOTES.destroyNote = function(noteId){
     var self = this;
     chrome.runtime.sendMessage({title: "destroyNote",noteId: noteId},function(confirmation){
         if(confirmation==='deleted'){
+            console.log("deleting");
             // close animation effect
             $('#'+noteId).css({
                 'webkitTransition': '-webkit-transform 0.5s ease-in, opacity 0.5s ease-in',
@@ -367,6 +389,7 @@ GLOBALS_WEB_NOTES.destroyNote = function(noteId){
 
 
 GLOBALS_WEB_NOTES.saveNoteSize = function(note, team){
+    console.log("saving size");
     var self = this;
     chrome.runtime.sendMessage({
         title: "saveNoteSize",
@@ -378,6 +401,8 @@ GLOBALS_WEB_NOTES.saveNoteSize = function(note, team){
 
 
 GLOBALS_WEB_NOTES.saveNotePosition = function(note, team){
+    console.log("saving position");
+
     var self = this;
     chrome.runtime.sendMessage({
         title: "saveNotePosition",
@@ -400,7 +425,7 @@ GLOBALS_WEB_NOTES.saveNote = function(noteId, message, color, newTeam, oldTeam){
         newTeam: newTeam._id,
         oldTeam: oldTeam._id
     },function(changedNote){
-        console.log(changedNote);
+        console.log("saving note");
         self.unrenderNote(noteId);
         self.renderNote(changedNote,newTeam);
     });
