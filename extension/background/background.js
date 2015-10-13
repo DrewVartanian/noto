@@ -1,4 +1,24 @@
 (function(){
+
+       var overlay = function(){
+        GLOBALS.unreadProm.then(function(unreadPages){
+        var count = 0;
+        unreadPages.forEach(function(page){
+            count += page.notes.length;
+        });
+        //GLOBALS.unreadCount = count;
+        return count;
+         }).then(function(count){
+        console.log("overlay is working", count);
+            chrome.browserAction.setBadgeText({
+                text: String(count)
+        });
+     if(count === 0) chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
+    });
+    };
+
+    //overlay();
+
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         switch(request.title){
             case 'logout' :
@@ -10,6 +30,7 @@
                 GLOBALS.teamsProm.then(function(teams){
                     console.log("logout", teams);
                     GLOBALS.teamsProm = Promise.resolve([]);
+                    chrome.contextMenus.removeAll();
                 });
                 GLOBALS.socket.emit('logout', {});
                 chrome.tabs.getAllInWindow(null, function(tabs){
@@ -40,6 +61,9 @@
                         url: sender.url
                     })
                 });
+                console.log("update overlay");
+                //chrome.runtime.reload();
+                overlay();
                 break;
             case 'destroyNote':
                 $.ajax({
@@ -64,6 +88,41 @@
                                 });
                             });
                             sendResponse('deleted');
+                        });
+                    }
+                });
+                return true;
+            case 'saveNoteSize':
+            $.ajax({
+                    url:GLOBALS.serverUrl+'/api/note/'+request.noteId,
+                    type:'PUT',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        size: request.size,
+                        url: sender.url
+                    }),
+                    success: function(res){
+                        GLOBALS.pagesProm.then(function(pages){
+                            GLOBALS.socket.emit('changeNote', {
+                                        "url": sender.url,
+                                        "newTeam": request.team,
+                                        "oldTeam": request.team,
+                                        "note": res.note,
+                                        "oper": "put"
+                            });
+                            pages.some(function(page){
+                                if(page.url!==sender.url) return false;
+                                if(page.team._id!==request.team) return false;
+                                return page.notes.some(function(note,index){
+                                    if(note._id===request.noteId){
+                                        page.notes[index] = res.note;
+                                        console.log(res.note);
+                                        return true;
+                                    }
+                                    return false;
+                                });
+                            });
                         });
                     }
                 });
@@ -112,7 +171,7 @@
                     dataType: 'json',
                     data: JSON.stringify({
                         message: request.message, //? request.message : undefined,
-                        size: request.size,
+                        // size: request.size,
                         color: request.color,
                         newTeam: request.newTeam, //? request.newTeam : request.team,
                         oldTeam: request.oldTeam, //? request.oldTeam : request.team,
@@ -176,6 +235,37 @@
 
                 });
                 return true;
+            case "login":
+                console.log("hitting teams.js");
+                GLOBALS.teamsProm = GLOBALS.getTeams();
+                GLOBALS.pagesProm = GLOBALS.getPages();
+                GLOBALS.createRightClick();
+                GLOBALS.socket.emit('login', {});
+                chrome.tabs.getAllInWindow(null, function(tabs){
+                    for (var i = 0; i < tabs.length; i++) {
+                        chrome.tabs.sendMessage(tabs[i].id, {title: "login content"});
+                    }
+                });
+                break;
+            case "change teams":
+                var data = {team:request.team};
+                if(request.userId){
+                    data.userId=request.userId;
+                }
+                GLOBALS.socket.emit('changeTeams', data);
+                GLOBALS.teamsProm=GLOBALS.getTeams();
+                GLOBALS.createRightClick();
+                break;
+            case "team link":
+                console.log("Trying request.teamname", request.teamname);
+                GLOBALS.teamSelected = request.teamname;
+                break;
         }
+    });
+
+    Promise.resolve($.get(GLOBALS.serverUrl+'/session')).then(function(session){
+        GLOBALS.createRightClick();
+    }).then(null,function(){
+        //no user returned;
     });
 })();

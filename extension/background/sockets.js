@@ -47,5 +47,36 @@
       });
     });
   });
+
+  GLOBALS.socket.on('teamChanged',function(data){
+        console.log('team has changed');
+        var numTeams;
+        GLOBALS.teamsProm.then(function(teams){
+            numTeams=teams.length;
+            GLOBALS.teamsProm=GLOBALS.getTeams();
+            return GLOBALS.teamsProm;
+        }).then(function(teams){
+          console.log(teams.length+' == '+numTeams);
+            if(teams.length===numTeams) return "same teams";
+            GLOBALS.pagesProm = GLOBALS.getPages();
+            return GLOBALS.pagesProm;
+        }).then(function(pages){
+            GLOBALS.createRightClick();
+            if(pages!=="same teams"){
+                if(GLOBALS.teamSelected===data.team.name){
+                    GLOBALS.teamSelected="All Teams";
+                }
+                if(GLOBALS.teamSelected==="All Teams"){
+                    chrome.tabs.getAllInWindow(null, function(tabs){
+                      console.log('refreshing pages:');
+                      for (var i = 0; i < tabs.length; i++) {
+                          console.log(tabs[i]);
+                          chrome.tabs.sendMessage(tabs[i].id, {title: "login content"});
+                      }
+                  });
+                }
+            }
+        });
+    });
 })();
 

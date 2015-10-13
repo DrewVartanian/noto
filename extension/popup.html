@@ -1,22 +1,30 @@
 <!DOCTYPE html>
-<html id='mainWindow' lang="en">
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>WebNotes</title>
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+    <!-- <link rel="stylesheet" href="/css/material.min.css"> -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/material.min.css">
     <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/jquery-ui.min.css">
     <link rel="stylesheet" href="/css/angular-csp.css" />
-    <script src="/js/dependencies/socket.io.js"></script>
-    <script src="/js/dependencies/lodash.js"></script>
+    <link rel="stylesheet" href="/css/styles.css" />
+
+    <script src="/js/dependencies/jquery-1.11.3.min.js"></script>
     <script src="/js/dependencies/angular.min.js"></script>
     <script src="/js/dependencies/angular-animate.min.js"></script>
+    <script src="/js/dependencies/angular-material.min.js"></script>
     <script src="/js/dependencies/angular-ui-router.min.js"></script>
-    <script src="/js/dependencies/ui-bootstrap.min.js"></script>
+    <script src="/js/dependencies/bootstrap.min.js"></script>
     <script src="/js/dependencies/ui-bootstrap-tpls.min.js"></script>
-    <script src="/js/dependencies/jquery-1.11.3.min.js"></script>
+    <script src="/js/dependencies/ui-bootstrap.min.js"></script>
+    <script src="/js/dependencies/socket.io.js"></script>
+    <script src="/js/dependencies/lodash.js"></script>
+
     <script src="/js/app/app.js"></script>
     <script src="/js/fsa/fsa-pre-built.js"></script>
     <script src="/js/app/states/login/login.js"></script>
@@ -34,27 +42,11 @@
     <script src="/js/app/factories/ExtensionFactory.js"></script>
     <script src="/js/app/factories/RequestFactory.js"></script>
     <script src="/js/app/directives/navbar/navbar.js"></script>
-
-
-
 </head>
 
-<body ng-app="WebNotes">
-<!--     <div ng-controller="loginController"> -->
-        <nav-bar ng-show="isLoggedIn"></nav-bar>
-        <div ui-view></div>
-        <!-- <div ng-hide="hidelanding || isLoggedIn"> 
-            <h1 id="logotext"> Welcome to WebNotes! </h1>
-            <i id="logo" class="fa fa-sticky-note"></i>
-            <div id="loginsignup">
-                <p> Already using WebNotes to make your life easier? </p> <a ng-click="hidelanding = !hidelanding" ui-sref='login'>Log in here!</a>
-                <div></div>
-                <p> want to start? </p> <a ng-click="hidelanding = !hidelanding" ui-sref="signup">Sign up!</a>
-            </div>
-        </div> -->
-<!--     </div> -->
-
-
+<body id='mainWindow' ng-app="WebNotes">
+    <nav-bar ng-show="isLoggedIn"></nav-bar>
+    <div ui-view></div>
 </body>
 
 </html>

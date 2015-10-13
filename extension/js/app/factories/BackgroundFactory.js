@@ -78,6 +78,12 @@ app.factory('BackgroundFactory', function ($http, $q, RequestFactory) {
 
         getLoggedInUser: function () {
             return $q.when(currentUser.getLoggedInUser());
+        },
+
+
+        // This assigns the team to be viewed upon following a link
+        setTeamViewOnLinkVisit: function (teamname) {
+            chrome.runtime.sendMessage({title: "team link", teamname: teamname}, function(){});
         }
     };
 });
