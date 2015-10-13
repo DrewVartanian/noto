@@ -1,4 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Raleway:400,300,500,700,800);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,500,700,800);
 @import url(https://fonts.googleapis.com/css?family=Indie+Flower:400,300,500,700,800);
 @import url(https://fonts.googleapis.com/css?family=Reenie+Beanie:400,300,500,700,800);
 
@@ -71,12 +72,12 @@ h2 {
   text-align: center;
   top: 45px;
   left: 125px;
-  font-family: 'Reenie Beanie';
+  font-family: 'Reenie Beanie', cursive;
   font-size: 50px;
 }
 
 #loginsignup {
-  font-family: 'Reenie Beanie';
+  font-family: 'Reenie Beanie', cursive;
   font-size: 30px;
   text-align: center;
   font-weight: 800;
@@ -108,7 +109,7 @@ h2 {
   background-color: #fff;
   background-image: linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px), linear-gradient(#eee .1em, transparent .1em);
   background-size: 100% 1.2em;
-  font-family: 'Indie Flower', cursive;
+  font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   background-position: -70px -9px;
   color: black;
