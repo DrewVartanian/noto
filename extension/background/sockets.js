@@ -61,7 +61,7 @@
             GLOBALS.pagesProm = GLOBALS.getPages();
             return GLOBALS.pagesProm;
         }).then(function(pages){
-            console.log('pages:',pages);
+            GLOBALS.createRightClick();
             if(pages!=="same teams"){
                 if(GLOBALS.teamSelected===data.team.name){
                     GLOBALS.teamSelected="All Teams";
