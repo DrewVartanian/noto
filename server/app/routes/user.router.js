@@ -95,7 +95,7 @@ router.put('/unreadpage', function (req,res,next){
         // console.log("in unread pages route, user: ", user);
     }).then(function(user){
         user.save().then(function (){
-            res.sendStatus(201).json(user.unreadPages);
+            res.sendStatus(201);
         }).then(null, next);
 
     });

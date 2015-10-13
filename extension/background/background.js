@@ -49,12 +49,9 @@
                         return false;
                     });
                     sendResponse({pages: pageToContent,teams: dbInfo[1], teamSelected:GLOBALS.teamSelected});
-                });
-                chrome.runtime.reload();
-                overlay();
+                })
                 return true;
             case 'unreadPage':
-                //console.log("what happens to overlay now?", overlay());
                 $.ajax({
                     url: GLOBALS.serverUrl+'/api/user/unreadPage',
                     type:'PUT',
@@ -67,7 +64,6 @@
                 console.log("update overlay");
                 chrome.runtime.reload();
                 overlay();
-                //console.log("what happens to overlay now?", overlay());
                 break;
             case 'destroyNote':
                 $.ajax({
@@ -238,7 +234,6 @@
                     }
 
                 });
-                overlay();
                 return true;
             case "login":
                 console.log("hitting teams.js");

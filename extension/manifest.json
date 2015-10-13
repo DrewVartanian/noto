@@ -31,7 +31,6 @@
     "css": [
       "/css/content.css",
       "/css/jquery-ui.min.css"
-      // "/css/font-awesome.min.css"
     ]
   }],
   "browser_action": {
