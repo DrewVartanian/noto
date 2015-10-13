@@ -7,14 +7,14 @@
 </li>
 </ul>
 </ul> -->
+<h5 class="list-group-item" style="background-color:grey; text-align:center">Your Notes</h5>
 <script type="text/ng-template" id="group-template.html">
 </script>
 <uib-accordion close-others="oneAtATime">
-    <uib-accordion-group heading="{{team.name}}" ng-repeat="team in teams">
+    <uib-accordion-group ng-repeat="team in teams" heading="{{team.name}}">
         <ul class="list-group">
-            <li class="list-group-item list-group-item-info" ng-repeat="page in team.pages track by $index">
-                <a ng-click="setTeam(team.name)"target="_blank" href="{{page.url}}">{{page.url}}</a>
-            </li>
+        	<a ng-repeat="page in team.pages track by $index" ng-click="setTeam(team.name)" target="_blank" href="{{page.url}}">
+            <li class="list-group-item list-group-item-info webnote-paper">{{page.url}}</li></a>
         </ul>
     </uib-accordion-group>
 </uib-accordion>
