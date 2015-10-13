@@ -326,27 +326,29 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         $buttonPlay.click(function() {
             var playHeight = Number(window.innerHeight);
             var playWidth = Number(window.innerWidth);
-            console.log("record height " + $thisNote.winHeightRecord,"record width " + $thisNote.winWidthRecord);
-            console.log("play height " + playHeight, "play width " + playWidth);
-            SCALAR_H = playHeight / $thisNote.winHeightRecord;
-            SCALAR_W = playWidth / $thisNote.winWidthRecord;
-            console.log("height scalar ", SCALAR_H, "width_scalar ", SCALAR_W); 
-            console.log("transformed current ", playHeight / SCALAR_H, " width ", playWidth / SCALAR_W);
+            // console.log("record height " + $thisNote.winHeightRecord,"record width " + $thisNote.winWidthRecord);
+            // console.log("play height " + playHeight, "play width " + playWidth);
+            // SCALAR_H = playHeight / $thisNote.winHeightRecord;
+            // SCALAR_W = playWidth / $thisNote.winWidthRecord;
+            // console.log("height scalar ", SCALAR_H, "width_scalar ", SCALAR_W); 
+            // console.log("transformed current ", playHeight / SCALAR_H, " width ", playWidth / SCALAR_W);
             $('body').append($playball);
             console.log($thisNote.actions.length);
             var beforetime = 0;
-            for(var i=0;i<$thisNote.actions.length; i++) {
+            for(var i=0;i<$thisNote.actions.length; i++) {  
                 console.log($thisNote.actions[i].x);
                 var timeDifference = $thisNote.actions[i].time - beforetime;
                 beforetime = $thisNote.actions[i].time;
                 var theAnimation = function (){
                     var indexTracker = i;
                     $('#theball').animate({
-                         left: ($thisNote.actions[i].x * SCALAR_W),
-                         top: ($thisNote.actions[i].y * SCALAR_H)
+                         left: ($thisNote.actions[i].x),
+                         top: ($thisNote.actions[i].y)
                     }, timeDifference, function() {
                        if(indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'click') {
                         console.log('event', $thisNote.actions[indexTracker]);
+                        console.log(document.elementFromPoint($thisNote.actions[indexTracker].x, $thisNote.actions[indexTracker].y));
+                        document.elementFromPoint($thisNote.actions[indexTracker].x, $thisNote.actions[indexTracker].y).click();
                        }
                     });
                 };
@@ -363,7 +365,6 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $thisNote.append($buttonStop);
     $thisNote.append($buttonPlay);
     $thisNote.append($form);
-    $('body').append('<div id="referencepoint" style="background-color: red; height:200px; width:200px; position: absolute; left:200px; top: 200px">TESTER!</div>')
 };
 
 GLOBALS_WEB_NOTES.unrenderNote = function(noteId){
