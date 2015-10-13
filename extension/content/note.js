@@ -280,7 +280,6 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                     time: date - startDate
                 };
                 $thisNote.actions.push(moveObj);
-                console.log($thisNote.actions);
             };
             document.onclick = function(e){
                 var date = new Date();
@@ -291,6 +290,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                     time: date - startDate
                     };
                 $thisNote.actions.push(clickObj);
+                console.log($thisNote.actions);
                 };
             document.onkeyup = function (e){
                 var date = new Date();
@@ -307,6 +307,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         $buttonStop.css('-webkit-appearance','push-$button');
         $buttonStop.html('Stop');
         $buttonStop.click(function() {
+            $thisNote.actions.splice(0,10);
             document.onclick = null;
             document.onmousemove = null;
             document.onkeyup = null;
@@ -328,15 +329,17 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                 var timeDifference = $thisNote.actions[i].time - beforetime;
                 beforetime = $thisNote.actions[i].time;
                 if($thisNote.actions[i].type === 'move') {
-                $('#theball').animate({
-                     left: $thisNote.actions[i].x,
-                     top: $thisNote.actions[i].y
-                     
-                }, timeDifference);
-                if($thisNote.actions[i].type === 'click') {
-                    Promose.resolve(document.elementFromPoint($thisNote.actions[i].x, $thisNote.actions[i].y).click()).then(console.log('click fired!'))
+                    $('#theball').animate({
+                         left: $thisNote.actions[i].x,
+                         top: $thisNote.actions[i].y
+                         
+                    }, timeDifference);
                 }
-            }
+                if($thisNote.actions[i].type === 'click') {
+                   Promise.resolve(document.elementFromPoint($thisNote.actions[i].x, $thisNote.actions[i].y).click()).then(function(){
+                   console.log('click fired!');
+                   });
+                }
             }
         });
     $form.append($messageInput);
