@@ -322,13 +322,18 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         $buttonPlay.click(function() {
             $('body').append($playball);
             console.log($thisNote.actions.length);
+            var beforetime = 0;
             for(var i=0;i<$thisNote.actions.length; i++) {
                 console.log($thisNote.actions[i].x);
+                var timeDifference = $thisNote.actions[i].time - beforetime;
+                beforetime = $thisNote.actions[i].time;
+                if($thisNote.actions[i].type === 'move') {
                 $('#theball').animate({
                      left: $thisNote.actions[i].x,
                      top: $thisNote.actions[i].y
                      
-                }, 100);
+                }, timeDifference);
+            }
             }
         });
     $form.append($messageInput);
