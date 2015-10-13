@@ -315,7 +315,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     var $buttonPlay = $('<button></button>');
         $buttonPlay.css('-webkit-appearance','push-$button');
         $buttonPlay.html('Play');
-        var $playball = $('<img id="theball" src="http://www.clker.com/cliparts/b/3/b/d/11971252702040963370chris_sharkot_ball.svg.med.png" height="10px" width="10px">');
+    var $playball = $('<img id="theball" src="http://www.clker.com/cliparts/b/3/b/d/11971252702040963370chris_sharkot_ball.svg.med.png" height="10px" width="10px">');
         $playball.css({
             'zIndex': 2147483647,
             'position': 'absolute'
@@ -328,18 +328,18 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                 console.log($thisNote.actions[i].x);
                 var timeDifference = $thisNote.actions[i].time - beforetime;
                 beforetime = $thisNote.actions[i].time;
-                if($thisNote.actions[i].type === 'move') {
+                var theAnimation = function (){
+                    var indexTracker = i;
                     $('#theball').animate({
                          left: $thisNote.actions[i].x,
                          top: $thisNote.actions[i].y
-                         
-                    }, timeDifference);
-                }
-                if($thisNote.actions[i].type === 'click') {
-                   Promise.resolve(document.elementFromPoint($thisNote.actions[i].x, $thisNote.actions[i].y).click()).then(function(){
-                   console.log('click fired!');
-                   });
-                }
+                    }, timeDifference, function() {
+                       if(indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'click') {
+                        console.log('event', $thisNote.actions[indexTracker]);
+                       }
+                    });
+                };
+                    setTimeout(theAnimation(), 0);
             }
         });
     $form.append($messageInput);
