@@ -8,34 +8,16 @@
         });
         //GLOBALS.unreadCount = count;
         return count;
-    }).then(function(count){
+         }).then(function(count){
         console.log("overlay is working", count);
             chrome.browserAction.setBadgeText({
-            text: String(count)
-            });
+                text: String(count)
+        });
      if(count === 0) chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
     });
     };
 
     overlay();
-   
-
-    // chrome.browserAction.onClicked.addListener(
-    //     function(tab) {
-    //        GLOBALS.unreadProm.then(function(unreadPages){
-    //        var count = 0;
-    //         unreadPages.forEach(function(page){
-    //             count += page.notes.length;
-    //         });
-    //         return count;
-    //     }).then(function(count){
-    //         console.log(count);
-    //             chrome.browserAction.setBadgeText({
-    //             text: String(count)
-    //      });
-    //      if(count === 0) chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
-    //     });
-    // });
 
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         switch(request.title){
@@ -68,6 +50,8 @@
                     });
                     sendResponse({pages: pageToContent,teams: dbInfo[1], teamSelected:GLOBALS.teamSelected});
                 });
+                chrome.runtime.reload();
+                overlay();
                 return true;
             case 'unreadPage':
                 //console.log("what happens to overlay now?", overlay());
@@ -81,6 +65,7 @@
                     })
                 });
                 console.log("update overlay");
+                chrome.runtime.reload();
                 overlay();
                 //console.log("what happens to overlay now?", overlay());
                 break;
@@ -253,6 +238,7 @@
                     }
 
                 });
+                overlay();
                 return true;
             case "login":
                 console.log("hitting teams.js");
