@@ -146,6 +146,9 @@ GLOBALS_WEB_NOTES.renderNote = function(note,team)
     // console.log("renderNote", note, team);
     var self = this;
     var $thisNote = this.buildNote(note,team);
+    $thisNote.css({
+        'overflow': 'scroll'
+    });
     var message = note.message ? note.message : "";
     // console.log(message);
     $thisNote.html('<span>'+message+'</span>');
