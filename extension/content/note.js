@@ -287,10 +287,10 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
             //     x: $thisNote.outerWidth(),
             //     y: $thisNote.outerHeight()
             // },
-            $("#selectColor option:selected").html(),
+            $colorSelect.children("option:selected").html(),
             {
                 _id: $teamSelect.val(),
-                name: $("#selectTeam option:selected").html()
+                name: $teamSelect.children("option:selected").html()
             },
             team);
     });
