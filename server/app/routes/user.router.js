@@ -87,6 +87,7 @@ router.put('/unreadpage', function (req,res,next){
             if (user.unreadPages[i].url === req.body.url) {
                 console.log("splicing index number: ", i);
                 user.unreadPages.splice(i,1);
+
             }
         }
 
@@ -94,10 +95,10 @@ router.put('/unreadpage', function (req,res,next){
         // console.log("in unread pages route, user: ", user);
     }).then(function(user){
         user.save().then(function (){
-            res.sendStatus(201);
+            res.sendStatus(201).json(user.unreadPages);
         }).then(null, next);
 
-    })
+    });
 });
 
 

@@ -1,4 +1,24 @@
 (function(){
+
+       var overlay = function(){
+        GLOBALS.unreadProm.then(function(unreadPages){
+        var count = 0;
+        unreadPages.forEach(function(page){
+            count += page.notes.length;
+        });
+        //GLOBALS.unreadCount = count;
+        return count;
+         }).then(function(count){
+        console.log("overlay is working", count);
+            chrome.browserAction.setBadgeText({
+                text: String(count)
+        });
+     if(count === 0) chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
+    });
+    };
+
+    overlay();
+
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         switch(request.title){
             case 'logout' :
@@ -30,8 +50,11 @@
                     });
                     sendResponse({pages: pageToContent,teams: dbInfo[1], teamSelected:GLOBALS.teamSelected});
                 });
+                chrome.runtime.reload();
+                overlay();
                 return true;
             case 'unreadPage':
+                //console.log("what happens to overlay now?", overlay());
                 $.ajax({
                     url: GLOBALS.serverUrl+'/api/user/unreadPage',
                     type:'PUT',
@@ -41,6 +64,10 @@
                         url: sender.url
                     })
                 });
+                console.log("update overlay");
+                chrome.runtime.reload();
+                overlay();
+                //console.log("what happens to overlay now?", overlay());
                 break;
             case 'destroyNote':
                 $.ajax({
@@ -211,6 +238,7 @@
                     }
 
                 });
+                overlay();
                 return true;
             case "login":
                 console.log("hitting teams.js");
