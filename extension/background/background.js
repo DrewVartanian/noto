@@ -281,8 +281,14 @@
                 break;
             case "team link":
                 console.log("Trying request.teamname", request.teamname);
-                GLOBALS.teamSelected = request.teamname
+                GLOBALS.teamSelected = request.teamname;
                 break;
         }
+    });
+
+    Promise.resolve($.get(GLOBALS.serverUrl+'/session')).then(function(session){
+        GLOBALS.createRightClick();
+    }).then(null,function(){
+        //no user returned;
     });
 })();
