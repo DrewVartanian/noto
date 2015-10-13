@@ -17,7 +17,7 @@
     });
     };
 
-    overlay();
+    //overlay();
 
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         switch(request.title){
@@ -49,7 +49,7 @@
                         return false;
                     });
                     sendResponse({pages: pageToContent,teams: dbInfo[1], teamSelected:GLOBALS.teamSelected});
-                })
+                });
                 return true;
             case 'unreadPage':
                 $.ajax({
@@ -62,7 +62,7 @@
                     })
                 });
                 console.log("update overlay");
-                chrome.runtime.reload();
+                //chrome.runtime.reload();
                 overlay();
                 break;
             case 'destroyNote':
