@@ -144,7 +144,9 @@ router.put('/:id', function(req, res, next) {
           Team.findOne({_id: req.body.oldTeam}).populate('users')
           .then(function (team){
             team.users.forEach(function(user){
-               if (!(user._id.toString() !== req.user._id.toString())) {
+                          console.log("User: ", user._id)
+            console.log("Req.user: ", req.user._id)
+               if ((user._id.toString() !== req.user._id.toString())) {
                 if (!user.unreadPages.some(function(page){
                   return (pageCheck.url.toString() === req.body.url.toString())
                 })) {
@@ -188,7 +190,9 @@ router.put('/:id', function(req, res, next) {
         Team.findOne({_id: req.body.oldTeam}).populate('users')
         .then(function (team){
           team.users.forEach(function(user){
-            if (!(user._id.toString() !== req.user._id.toString())) {
+            console.log("User: ", user._id)
+            console.log("Req.user: ", req.user._id)
+            if ((user._id.toString() !== req.user._id.toString())) {
               if (!user.unreadPages.some(function(page){
                 return (pageCheck.url.toString() === req.body.url.toString())
               })) {
@@ -219,7 +223,9 @@ router.put('/:id', function(req, res, next) {
       Team.findOne({_id: req.body.oldTeam}).populate('users')
       .then(function (team){
         team.users.forEach(function(user){
-          if (!(user._id.toString() !== req.user._id.toString())) {
+                      console.log("User: ", user._id)
+            console.log("Req.user: ", req.user._id)
+          if ((user._id.toString() !== req.user._id.toString())) {
             if (!user.unreadPages.some(function(page){
               return (pageCheck.url.toString() === req.body.url.toString())
             })) {
