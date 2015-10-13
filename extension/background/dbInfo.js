@@ -11,7 +11,13 @@
       });
     };
 
+    GLOBALS.getUnreadPages = function(){
+      return Promise.resolve($.get(GLOBALS.serverUrl+'/api/user/unreadpage')).then(null,function(res){
+        return res;
+      });
+    };
     GLOBALS.teamsProm=GLOBALS.getTeams();
     GLOBALS.teamSelected="All Teams";
     GLOBALS.pagesProm = GLOBALS.getPages();
+    GLOBALS.unreadProm = GLOBALS.getUnreadPages();
 })();

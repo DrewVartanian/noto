@@ -75,14 +75,13 @@ router.put('/unreadpage', function (req,res,next){
 
     User.findOne({_id: req.user._id}).populate('unreadPages')
     .then(function(user){
-
         user.unreadPages.forEach(function(page,index){
             if (page.url === req.body.url) {
                 user.unreadPages.splice(index,1);
             }
         });
         user.save().then(function (){
-            res.sendStatus(201);
+            res.sendStatus(201).json(user.unreadPages);
         }).then(null, next);
 
         // console.log("in unread pages route, user: ", user);

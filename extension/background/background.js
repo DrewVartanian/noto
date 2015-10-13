@@ -1,4 +1,35 @@
 (function(){
+    GLOBALS.unreadProm.then(function(unreadPages){
+        var count = 0;
+        unreadPages.forEach(function(page){
+            count += page.notes.length;
+        });
+        return count;
+    }).then(function(count){
+        console.log(count);
+            chrome.browserAction.setBadgeText({
+            text: String(count)
+        });
+     if(count === 0) chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
+    });
+
+    chrome.browserAction.onClicked.addListener(
+        function(tab) {
+           GLOBALS.unreadProm.then(function(unreadPages){
+           var count = 0;
+            unreadPages.forEach(function(page){
+                count += page.notes.length;
+            });
+            return count;
+        }).then(function(count){
+            console.log(count);
+                chrome.browserAction.setBadgeText({
+                text: String(count)
+         });
+         if(count === 0) chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
+        });
+    });
+
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         switch(request.title){
             case 'logout' :
@@ -39,8 +70,23 @@
                     dataType: 'json',
                     data: JSON.stringify({
                         url: sender.url
-                    })
+                    }),
+                    success: function(res){
+                        //console.log("unreadPages updated", res);
+                        var count = 0;
+                        res.pages.forEach(function(page){
+                            count += page.notes.length;
+                        });
+                        console.log('updated count', count);
+                        chrome.browserAction.setBadgeText({
+                            text: String(count)
+                        });
+                        if(count === 0) chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
+                    sendResponse('unreadPages updated', res);
+
+                    }
                 });
+                
                 break;
             case 'destroyNote':
                 $.ajax({
