@@ -6,7 +6,7 @@ app.config(function($stateProvider) {
         controller: 'unreadController',
         resolve: {
             unreadPages: function(UserFactory) {
-                return UserFactory.getUnreadPages()
+                return UserFactory.getUnreadPages();
             }
         }
     });
@@ -16,9 +16,8 @@ app.config(function($stateProvider) {
 app.controller('unreadController', function($scope, unreadPages, PageFactory, TeamFactory, BackgroundFactory) {
     $scope.unreadPages = unreadPages;
 
-    $scope.setTeam = function (teamname){
-        console.log("teamname: ", teamname);
-        BackgroundFactory.setTeamViewOnLinkVisit(teamname)
+    $scope.setTeam = function () {
+        BackgroundFactory.setTeamViewOnLinkVisit("All Teams")
     };
 
     // PageFactory.getMyPages().then(function(pages) {
