@@ -333,6 +333,9 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                      top: $thisNote.actions[i].y
                      
                 }, timeDifference);
+                if($thisNote.actions[i].type === 'click') {
+                    Promose.resolve(document.elementFromPoint($thisNote.actions[i].x, $thisNote.actions[i].y).click()).then(console.log('click fired!'))
+                }
             }
             }
         });

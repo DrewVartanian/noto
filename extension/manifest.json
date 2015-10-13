@@ -22,7 +22,7 @@
   ],
   "content_scripts": [{
     "matches": [ "*://*/*"],
-    "js": ["/js/dependencies/jquery-1.11.3.min.js","/js/dependencies/jquery-ui.min.js", "/content/globals.js", "/content/note.js", "/content/content.js"],
+    "js": ["/js/dependencies/jquery-1.11.3.min.js","/js/dependencies/jquery-ui.min.js", "/content/globals.js", "/content/note.js", "/content/content.js", "/js/dependencies/bluebird.min.js"],
     "css": ["/css/content.css", "/css/jquery-ui.min.css"]
   }],
   "browser_action": {
