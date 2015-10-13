@@ -50,8 +50,8 @@
                     });
                     sendResponse({pages: pageToContent,teams: dbInfo[1], teamSelected:GLOBALS.teamSelected});
                 });
-                chrome.runtime.reload();
-                overlay();
+                // chrome.runtime.reload();
+                // overlay();
                 return true;
             case 'unreadPage':
                 //console.log("what happens to overlay now?", overlay());
