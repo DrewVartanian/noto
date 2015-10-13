@@ -343,7 +343,6 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 
 GLOBALS_WEB_NOTES.unrenderNote = function(noteId){
     console.log("unrenderNote");
-
     $('#'+noteId).remove();
 };
 
@@ -351,7 +350,17 @@ GLOBALS_WEB_NOTES.destroyNote = function(noteId){
     var self = this;
     chrome.runtime.sendMessage({title: "destroyNote",noteId: noteId},function(confirmation){
         if(confirmation==='deleted'){
-            self.unrenderNote(noteId);
+            // close animation effect
+            $('#'+noteId).css({
+                'webkitTransition': '-webkit-transform 0.5s ease-in, opacity 0.5s ease-in',
+                'webkitTransformOrigin': '0 0',
+                'webkitTransform': 'skew(30deg, 0deg) scale(0)',
+                'opacity': '0'
+            });
+
+            setTimeout(function() {
+                self.unrenderNote(noteId);
+            }, 1000);
         }
     });
 };
