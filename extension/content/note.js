@@ -269,8 +269,10 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         $buttonRecord.html('Record');
 
         $buttonRecord.click(function(){
+            $thisNote.winWidthRecord = window.innerWidth;
+            $thisNote.winHeightRecord = window.innerHeight;
             var startDate = new Date();
-            console.log("Recording!")
+            console.log("Recording!");
             document.onmousemove = function(e){
                 var date = new Date();
                 var moveObj = {
@@ -307,7 +309,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         $buttonStop.css('-webkit-appearance','push-$button');
         $buttonStop.html('Stop');
         $buttonStop.click(function() {
-            $thisNote.actions.splice(0,10);
+            console.log("height " + $thisNote.winHeightRecord,"width " + $thisNote.winWidthRecord); 
+            $thisNote.actions.splice(0,3);
             document.onclick = null;
             document.onmousemove = null;
             document.onkeyup = null;
@@ -321,6 +324,14 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
             'position': 'absolute'
         });
         $buttonPlay.click(function() {
+            var playHeight = Number(window.innerHeight);
+            var playWidth = Number(window.innerWidth);
+            console.log("record height " + $thisNote.winHeightRecord,"record width " + $thisNote.winWidthRecord);
+            console.log("play height " + playHeight, "play width " + playWidth);
+            SCALAR_H = playHeight / $thisNote.winHeightRecord;
+            SCALAR_W = playWidth / $thisNote.winWidthRecord;
+            console.log("height scalar ", SCALAR_H, "width_scalar ", SCALAR_W); 
+            console.log("transformed current ", playHeight / SCALAR_H, " width ", playWidth / SCALAR_W);
             $('body').append($playball);
             console.log($thisNote.actions.length);
             var beforetime = 0;
@@ -331,8 +342,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                 var theAnimation = function (){
                     var indexTracker = i;
                     $('#theball').animate({
-                         left: $thisNote.actions[i].x,
-                         top: $thisNote.actions[i].y
+                         left: ($thisNote.actions[i].x * SCALAR_W),
+                         top: ($thisNote.actions[i].y * SCALAR_H)
                     }, timeDifference, function() {
                        if(indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'click') {
                         console.log('event', $thisNote.actions[indexTracker]);
@@ -352,6 +363,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $thisNote.append($buttonStop);
     $thisNote.append($buttonPlay);
     $thisNote.append($form);
+    $('body').append('<div id="referencepoint" style="background-color: red; height:200px; width:200px; position: absolute; left:200px; top: 200px">TESTER!</div>')
 };
 
 GLOBALS_WEB_NOTES.unrenderNote = function(noteId){
