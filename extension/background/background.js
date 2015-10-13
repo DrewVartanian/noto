@@ -1,34 +1,41 @@
 (function(){
-    GLOBALS.unreadProm.then(function(unreadPages){
+
+       var overlay = function(){
+        GLOBALS.unreadProm.then(function(unreadPages){
         var count = 0;
         unreadPages.forEach(function(page){
             count += page.notes.length;
         });
+        //GLOBALS.unreadCount = count;
         return count;
     }).then(function(count){
-        console.log(count);
+        console.log("overlay is working", count);
             chrome.browserAction.setBadgeText({
             text: String(count)
-        });
+            });
      if(count === 0) chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
     });
+    };
 
-    chrome.browserAction.onClicked.addListener(
-        function(tab) {
-           GLOBALS.unreadProm.then(function(unreadPages){
-           var count = 0;
-            unreadPages.forEach(function(page){
-                count += page.notes.length;
-            });
-            return count;
-        }).then(function(count){
-            console.log(count);
-                chrome.browserAction.setBadgeText({
-                text: String(count)
-         });
-         if(count === 0) chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
-        });
-    });
+    overlay();
+   
+
+    // chrome.browserAction.onClicked.addListener(
+    //     function(tab) {
+    //        GLOBALS.unreadProm.then(function(unreadPages){
+    //        var count = 0;
+    //         unreadPages.forEach(function(page){
+    //             count += page.notes.length;
+    //         });
+    //         return count;
+    //     }).then(function(count){
+    //         console.log(count);
+    //             chrome.browserAction.setBadgeText({
+    //             text: String(count)
+    //      });
+    //      if(count === 0) chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
+    //     });
+    // });
 
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         switch(request.title){
@@ -63,6 +70,7 @@
                 });
                 return true;
             case 'unreadPage':
+                //console.log("what happens to overlay now?", overlay());
                 $.ajax({
                     url: GLOBALS.serverUrl+'/api/user/unreadPage',
                     type:'PUT',
@@ -70,23 +78,11 @@
                     dataType: 'json',
                     data: JSON.stringify({
                         url: sender.url
-                    }),
-                    success: function(res){
-                        //console.log("unreadPages updated", res);
-                        var count = 0;
-                        res.pages.forEach(function(page){
-                            count += page.notes.length;
-                        });
-                        console.log('updated count', count);
-                        chrome.browserAction.setBadgeText({
-                            text: String(count)
-                        });
-                        if(count === 0) chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
-                    sendResponse('unreadPages updated', res);
-
-                    }
+                    })
                 });
-                
+                console.log("update overlay");
+                overlay();
+                //console.log("what happens to overlay now?", overlay());
                 break;
             case 'destroyNote':
                 $.ajax({
