@@ -347,8 +347,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                     }, timeDifference, function() {
                        if(indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'click') {
                         console.log('event', $thisNote.actions[indexTracker]);
-                        console.log(document.elementFromPoint($thisNote.actions[indexTracker].x, $thisNote.actions[indexTracker].y));
-                        document.elementFromPoint($thisNote.actions[indexTracker].x, $thisNote.actions[indexTracker].y).click();
+                        console.log(document.elementFromPoint($thisNote.actions[indexTracker].x+11, $thisNote.actions[indexTracker].y+11));
+                        document.elementFromPoint($thisNote.actions[indexTracker].x+11, $thisNote.actions[indexTracker].y+11).click();
                        }
                     });
                 };
