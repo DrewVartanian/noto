@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Noto",
   "version": "1.0",
-  "description": "This is a test description change it later!",
+  "description": "Virtual post-its with real-time collaboration",
   "icons": {
     "16": "/icons/icon16.png",
     "48": "/icons/icon48.png",
@@ -38,7 +38,7 @@
       "19": "/icons/icon19.png",
       "38": "/icons/icon38.png"
     },
-    "default_title": "WebNotes",
+    "default_title": "Noto",
     "default_popup": "popup.html"
   },
   "web_accessible_resources": [

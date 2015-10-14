@@ -3,6 +3,11 @@
 @import url(https://fonts.googleapis.com/css?family=Indie+Flower:400,300,500,700,800);
 @import url(https://fonts.googleapis.com/css?family=Reenie+Beanie:400,300,500,700,800);
 
+*, *:after, *:before { -webkit-box-sizing: border-box; }
+
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
+
 body {
   /*font: 300 18px/1.8 'Raleway', sans-serif;*/
   color: #272626;
@@ -15,10 +20,11 @@ img {
 }
 
 a {
-  color: #272626;
+  color: #3b5998;
+  text-decoration: none;
 }
 
-a:hover {
+a:focus, a:hover {
   text-decoration: none;
   color: #36444e;
 }
@@ -58,6 +64,7 @@ h2 {
   height: 500px;
   background: url('../icons/corkboard.png') no-repeat center center fixed;
   background-size: cover;
+  border: none;
   /*position: relative;*/
 }
 
@@ -81,7 +88,6 @@ h2 {
   font-size: 30px;
   text-align: center;
   font-weight: 800;
-
 }
 
 #loginsignup p, a {
@@ -91,6 +97,112 @@ h2 {
 
 #loginsignup a {
   text-transform: uppercase;
+  color: #133b8b;
+}
+
+#loginsignup a:focus, a:hover {
+  color: #13778b;
+}
+
+/* ---------------------------------------------- /*
+ * navbar
+/* ---------------------------------------------- */
+
+#notonav {
+  padding-top: 10px;
+  padding-bottom: 25px;
+  text-align: center;
+  font-family: 'Raleway', sans-serif;
+  background-color: #FFFFCC;
+}
+
+#notonav a {
+  color: #f0f0f0;
+  outline: none;
+  display: inline-block;
+  position: relative;
+  text-align: left;
+  width: 50px;
+  height: 50px;
+  background: #FFFFCC;
+  border-radius: 50%;
+  margin: 0 0.4em;
+  border: 4px solid #6495ED;
+}
+
+#notonav a > span {
+  display: none;
+}
+
+#notonav a:hover:before {
+  content: attr(data-info);
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Raleway', sans-serif;
+  color: #6495ED;
+  position: absolute;
+  width: 600%;
+  top: 120%;
+  text-align: right;
+  right: 0;
+  pointer-events: none;
+}
+
+#notonav a:hover {
+  background: #6495ED;
+  cursor: pointer;
+}
+
+#notonav .fa:before {
+  content: '';
+}
+
+#notonav .fa-2x {
+  font-size: 1.5em;
+}
+
+
+#notonav .fa:after {
+  font-family: 'FontAwesome';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-align: center;
+  color: #6495ED;
+  -webkit-font-smoothing: antialiased;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  line-height: 2;
+  text-indent: 0;
+}
+
+#notonav a:hover:after {
+  color: #FFFFCC;
+}
+
+#notonav .fa-sitemap:after {
+  content: "\f0e8";
+}
+
+#notonav .fa-commenting-o:after {
+  content: "\f27b";
+}
+
+#notonav .fa-users:after {
+  content: "\f0c0";
+}
+
+#notonav .fa-refresh:after {
+  content: "\f021";
+}
+
+#notonav .fa-lock:after {
+  content: "\f023";
 }
 
 /* ---------------------------------------------- /*
@@ -114,3 +226,4 @@ h2 {
   background-position: -70px -9px;
   color: black;
 }
+
