@@ -1,14 +1,12 @@
 
 <nav class="navbar navbar-default">
-  <div class="container-fluid">
-  	 <a type="button" class="btn btn-default btn-md" ui-sref="pages">Pages</a>
+  <div class="container">
+  	<a type="button" class="btn btn-default btn-md" ui-sref="pages">Pages</a>
     <a type="button" class="btn btn-default btn-md" ui-sref="login" ng-hide="!isLoggedIn">Login</a>
     <a type="button" class="btn btn-default btn-md" ui-sref="signup" ng-hide="!isLoggedIn">Signup</a>
-    <a type="button" class="btn btn-default btn-md" ng-show="!isLoggedIn" ng-click="logout()">Logout</a>
     <a type="button" class="btn btn-default btn-md" ui-sref="team">Teams</a>
     <a type="button" class="btn btn-default btn-md" ui-sref="unread">Unread</a>
     <a type="button" class="btn btn-default btn-md" ng-click="refresh()">Refresh</a>
-
-
+    <a type="button" class="btn btn-default btn-md" ng-show="!isLoggedIn" ng-click="logout()">Logout</a>
   </div>
 </nav>
