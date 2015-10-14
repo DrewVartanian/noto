@@ -76,17 +76,17 @@ router.put('/:id', function(req, res, next) {
             }
         });
         transporter.sendMail({
-            from: 'do-not-reply@webshare.com',
+            from: 'do-not-reply@noto.com',
             to: req.body.userEmail,
-            subject: req.user.email + ' has added you to team '+ req.body.name + ' on WebShare!',
+            subject: req.user.email + ' has added you to team '+ req.body.name + ' on Noto!',
             html: `<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="20" background="http://s3.postimg.org/fjnpfxlvn/postit_background.png" style="background-repeat:no-repeat;">
                    <tr>
                    <td>
                    <div style="height: 600px; width: 600px"><div>
                    <div style="height: 1px; padding: 0; margin: 0"></div>
-                   <div style="text-align: center; margin-top: 250px; padding-left: 75px;"><h1 style="font-family: cursive; padding-bottom: 20px">webShare</h1>
-                   <p style="font-weight: 900">Hello ${req.body.userEmail},</p><p>${req.user.email} has added you to their team on webShare! 
-                   <p>Have you heard about webShare yet?</p> <p>get the wonderful Chrome extension today!</p>
+                   <div style="text-align: center; margin-top: 250px; padding-left: 75px;"><h1 style="font-family: cursive; padding-bottom: 20px">Noto</h1>
+                   <p style="font-weight: 900">Hello ${req.body.userEmail},</p><p>${req.user.email} has added you to their team on Noto! 
+                   <p>Have you heard about Noto yet?</p> <p>get the wonderful Chrome extension today!</p>
                    </p><p><a>insert link to extension here!</a></p></div></div></div>
                    </td>
                    </tr>
