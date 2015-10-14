@@ -36,6 +36,19 @@ router.get('/:id/users', function(req, res, next) {
     .then(null, next);
 });
 
+
+// Get all teams populated with all users
+router.get('/users', function(req, res, next) {
+  console.log("what is req.team", req.team);
+  Team.find({users: req.user._id})
+    .populate('users')
+    .then(function(team) {
+      console.log(team);
+      res.status(200).json(team);
+    })
+    .then(null, next);
+});
+
 // POST new team
 router.post('/', function(req, res, next) {
   console.log("what is post team req body ", req.body);
