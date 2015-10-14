@@ -44,7 +44,7 @@
                 text: String(0)
                 });
                 chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
-                background.location.reload();
+                //background.location.reload();
                 break;
             case 'newPage':
                 Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
@@ -70,7 +70,7 @@
                 });
                 console.log("update overlay");
                 overlay();
-                background.location.reload();
+                //background.location.reload();
 
                 
                 break;
@@ -249,7 +249,7 @@
                 return true;
             case "login":
                 overlay();
-                background.location.reload();
+                //background.location.reload();
                 overlay();
                 console.log("hitting teams.js");
                 GLOBALS.teamsProm = GLOBALS.getTeams();
