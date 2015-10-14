@@ -14,12 +14,14 @@
                 text: String(count)
         });
      if(count === 0) chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
+
     });
     };
 
-    //overlay();
+    overlay();
 
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        var background = chrome.extension.getBackgroundPage();
         switch(request.title){
             case 'logout' :
                 console.log("i got the message");
@@ -38,6 +40,11 @@
                         chrome.tabs.sendMessage(tabs[i].id, {title: "logout content"});
                     }
                 });
+                chrome.browserAction.setBadgeText({
+                text: String(0)
+                });
+                chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
+                background.location.reload();
                 break;
             case 'newPage':
                 Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
@@ -63,8 +70,8 @@
                 });
                 console.log("update overlay");
                 overlay();
-                var background = chrome.extension.getBackgroundPage();
                 background.location.reload();
+
                 
                 break;
             case 'destroyNote':
@@ -241,6 +248,9 @@
                 });
                 return true;
             case "login":
+                overlay();
+                background.location.reload();
+                overlay();
                 console.log("hitting teams.js");
                 GLOBALS.teamsProm = GLOBALS.getTeams();
                 GLOBALS.pagesProm = GLOBALS.getPages();
@@ -251,9 +261,6 @@
                         chrome.tabs.sendMessage(tabs[i].id, {title: "login content"});
                     }
                 });
-                overlay();
-                var background = chrome.extension.getBackgroundPage();
-                background.location.reload();
                 break;
             case "change teams":
                 var data = {team:request.team};
