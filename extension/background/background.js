@@ -62,8 +62,10 @@
                     })
                 });
                 console.log("update overlay");
-                //chrome.runtime.reload();
                 overlay();
+                var background = chrome.extension.getBackgroundPage();
+                background.location.reload();
+                
                 break;
             case 'destroyNote':
                 $.ajax({
@@ -91,6 +93,9 @@
                         });
                     }
                 });
+                //chrome.runtime
+
+
                 return true;
             case 'saveNoteSize':
             $.ajax({
@@ -246,6 +251,9 @@
                         chrome.tabs.sendMessage(tabs[i].id, {title: "login content"});
                     }
                 });
+                overlay();
+                var background = chrome.extension.getBackgroundPage();
+                background.location.reload();
                 break;
             case "change teams":
                 var data = {team:request.team};
