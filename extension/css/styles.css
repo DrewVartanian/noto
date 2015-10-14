@@ -110,9 +110,10 @@ h2 {
 
 #notonav {
   padding-top: 10px;
-  padding-bottom: 20px;
+  padding-bottom: 25px;
   text-align: center;
   font-family: 'Raleway', sans-serif;
+  background-color: #FFFFCC;
 }
 
 #notonav a {
@@ -123,10 +124,10 @@ h2 {
   text-align: left;
   width: 50px;
   height: 50px;
-  background: #fff;
+  background: #FFFFCC;
   border-radius: 50%;
   margin: 0 0.4em;
-  border: 4px solid #47a3da;
+  border: 4px solid #6495ED;
 }
 
 #notonav a > span {
@@ -138,7 +139,7 @@ h2 {
   font-size: 18px;
   font-weight: 700;
   font-family: 'Raleway', sans-serif;
-  color: #47a3da;
+  color: #6495ED;
   position: absolute;
   width: 600%;
   top: 120%;
@@ -148,7 +149,7 @@ h2 {
 }
 
 #notonav a:hover {
-  background: #47a3da;
+  background: #6495ED;
   cursor: pointer;
 }
 
@@ -169,7 +170,7 @@ h2 {
   font-variant: normal;
   text-transform: none;
   text-align: center;
-  color: #47a3da;
+  color: #6495ED;
   -webkit-font-smoothing: antialiased;
   position: absolute;
   top: 0;
@@ -181,7 +182,7 @@ h2 {
 }
 
 #notonav a:hover:after {
-  color: #fff;
+  color: #FFFFCC;
 }
 
 #notonav .fa-sitemap:after {
