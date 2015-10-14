@@ -1,5 +1,5 @@
 <!-- style="background-color:grey; text-align:center" -->
-<h5 class="list-group-item">Team Management</h5>
+<h5 class="list-group-item-info" style="text-align:center; font-size: 24px; padding: 5px;" >Team Management</h5>
 
 <!-- <div class="container">
     <div> -->
@@ -24,7 +24,7 @@
         </div>
 
                 <div>
-                    <button type="button" class="btn btn-success" ng-click="toggleEdit = !toggleEdit">Edit This Team</button>
+                    <button type="button" class="btn btn-primary" ng-click="toggleEdit = !toggleEdit">Edit This Team</button>
                     <div class="container" ng-show="toggleEdit">
                         <form id="login-form" name="loginForm" ng-submit="addNewTeamMember(team._id, userObject, teamObject)">
                             <div class="form-group">
@@ -41,7 +41,7 @@
                 </uib-accordion-group>
             </uib-accordion>
         <div>
-            <button type="button" class="btn btn-success" ng-click="toggleCreate = !toggleCreate">Create New Team</button>
+            <button type="button" class="btn btn-primary" ng-click="toggleCreate = !toggleCreate">Create New Team</button>
             <div class="container" ng-show="toggleCreate">
                 <form id="login-form" name="loginForm" ng-submit="loginForm.$valid && createNewTeam(teamObject)">
                     <div class="form-group">
