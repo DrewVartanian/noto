@@ -16,11 +16,13 @@
                         <li class="list-group-item list-group-item-info webnote-paper">{{page.url}}</li></a>
                     </ul> -->
         <div id="teamGroup">
-            <ul ng-repeat="user in team.users">
+            <ul ng-repeat="user in team.users" class="list-group">
                 <li class="list-group-item list-group-item-info webnote-paper">{{user.email}}<span class="glyphicon glyphicon-remove pull-right" ng-click="deleteMember(team._id, user._id)"></span></li>
 
             </ul>
+
         </div>
+
                 <div>
                     <button type="button" class="btn btn-success" ng-click="toggleEdit = !toggleEdit">Edit This Team</button>
                     <div class="container" ng-show="toggleEdit">

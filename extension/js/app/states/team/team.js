@@ -52,7 +52,7 @@ app.controller('teamController', function($scope, BackgroundFactory, $state, $ro
         } else {
             TeamFactory.createNewTeam(teamObject.name).then(function(team) {
                 chrome.runtime.sendMessage({title: "change teams",team:team},function(){});
-                $scope.teams.push(team);
+                $scope.team.push(team);
             });
         }
     };
@@ -85,8 +85,12 @@ app.controller('teamController', function($scope, BackgroundFactory, $state, $ro
         TeamFactory.updateTeam(teamId, {name: teamName, userEmail: email }).then(function(returnedTeam) {
             chrome.runtime.sendMessage({title: "change teams",team:returnedTeam},function(){});
                 console.log("what is userToPush", userToPush);
-                $scope.team.users.push(userToPush);
-                $scope.team.name = returnedTeam.name;
+                $scope.team.forEach(function(team){
+                    if (team._id !== teamId) return;
+                    if (userToPush) team.users.push(userToPush);
+                    team.name = returnedTeam.name;
+                })
+                //$scope.team.users.push(userToPush);
             if($scope.team.name !== returnedTeam.name){
                 $scope.team.name = returnedTeam.name;
             }
@@ -100,8 +104,11 @@ app.controller('teamController', function($scope, BackgroundFactory, $state, $ro
             console.log("this is the team", team);
         })
         .then(function() {
-            $scope.team.users = $scope.team.users.filter(function (user) {
-               return user._id !== userId;
+            $scope.team.forEach(function(team){
+                if(team._id!==teamId) return;
+                team.users = team.users.filter(function (user) {
+                   return user._id !== userId;
+                });
             });
         });
     };
