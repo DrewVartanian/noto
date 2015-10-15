@@ -1,4 +1,15 @@
 (function(){
+    function getUser() {
+        return Promise.resolve($.get(GLOBALS.serverUrl+'/session')).then(function(session){
+                GLOBALS.createRightClick();
+                console.log("Session: ", session);
+                return session.user;
+            }).then(null,function(){
+                return {};
+        });
+    }
+
+    GLOBALS.userProm = getUser();
 
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         var background = chrome.extension.getBackgroundPage();
@@ -26,7 +37,7 @@
                 chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
                 break;
             case 'newPage':
-                Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
+                Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm,GLOBALS.userProm]).then(function(dbInfo){
                     var pageToContent=dbInfo[0].filter(function(page){
                         if(page.url===sender.url){
                             if(GLOBALS.teamSelected==="All Teams") return true;
@@ -34,7 +45,10 @@
                         }
                         return false;
                     });
-                    sendResponse({pages: pageToContent,teams: dbInfo[1], teamSelected:GLOBALS.teamSelected});
+                    // console.log("Checking logged in user: ", GLOBALS.userProm);
+
+                    console.log("dbInfo in newPage: ",dbInfo[2])
+                    sendResponse({pages: pageToContent,teams: dbInfo[1], teamSelected:GLOBALS.teamSelected, user:dbInfo[2]});
                 });
                 return true;
             case 'unreadPage':
@@ -235,6 +249,7 @@
                 });
                 break;
             case "change teams":
+
                 var data = {team:request.team};
                 if(request.userId){
                     data.userId=request.userId;
@@ -250,9 +265,4 @@
         }
     });
 
-    Promise.resolve($.get(GLOBALS.serverUrl+'/session')).then(function(session){
-        GLOBALS.createRightClick();
-    }).then(null,function(){
-        //no user returned;
-    });
 })();
