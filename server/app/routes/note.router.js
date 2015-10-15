@@ -65,9 +65,9 @@ router.post('/', function(req, res, next) {
 
   // look up current page by url
   // error note: multiple pages can have same URL
-  console.log('note post');
+  // console.log('note post');
   if(req.body.team==='personal'){
-    console.log('personal');
+    // console.log('personal');
     teamFind = Team.findOne({name:'personal',users:[req.user._id]}).then(function(team){
       return team?team:Team.create({name:'personal',users:[req.user._id]});
     }).then(function(team){
@@ -75,7 +75,7 @@ router.post('/', function(req, res, next) {
     });
   }else{
     //ELSE STATMENT IS UNTESTED
-    console.log('team id provided: ',req.body.team);
+    // console.log('team id provided: ',req.body.team);
     teamId = req.body.team;
     teamFind = Promise.resolve();
   }
@@ -101,7 +101,7 @@ router.post('/', function(req, res, next) {
   .then(function(page){
     return newPageNeeded?(page.populate('team').execPopulate()):page;
   }).then(function(page){
-    console.log('new posted note: ', retNote);
+    // console.log('new posted note: ', retNote);
     res.json({page: newPageNeeded?page:false, note: retNote, teamId: teamId});
   })
   .then(null,next);
@@ -119,7 +119,7 @@ router.put('/:id', function(req, res, next) {
   //saving position
   if(req.body.position){
     req.note.save().then(function(note){
-      console.log("put with req.body.position ", note);
+      // console.log("put with req.body.position ", note);
       res.status(200).json({note: note});
 
     });
@@ -127,7 +127,7 @@ router.put('/:id', function(req, res, next) {
   // saving size
   else if(req.body.size){
     req.note.save().then(function(note){
-      console.log("put with req.body.size ", note);
+      // console.log("put with req.body.size ", note);
       res.status(200).json({note: note});
     });
   }
@@ -138,14 +138,20 @@ router.put('/:id', function(req, res, next) {
       if(req.body.oldTeam===req.body.newTeam) {
 
         //Add note to unread pages if the note was updated but there was no team change
+        console.log("Saving note on update");
+
         Page.findOne({url: req.body.url, team: req.body.newTeam})
         .then(function (page){
           pageCheck = page;
+          // console.log("Pagecheck: ",pageCheck)
+
           Team.findOne({_id: req.body.oldTeam}).populate('users')
           .then(function (team){
             team.users.forEach(function(user){
-                          console.log("User: ", user._id)
-            console.log("Req.user: ", req.user._id)
+
+              // console.log("User: ", user._id)
+              // console.log("Req.user: ", req.user._id)
+              // console.log("Pagecheck inside team find: ", pageCheck)
                if ((user._id.toString() !== req.user._id.toString())) {
                 if (!user.unreadPages.some(function(page){
                   return (pageCheck.url.toString() === req.body.url.toString())
@@ -153,7 +159,7 @@ router.put('/:id', function(req, res, next) {
                   user.unreadPages.push(page._id);
                   user.save(); 
                 }
-              }
+               }
             })
           }).then(null, next);
         }).then(null, next);
@@ -180,21 +186,25 @@ router.put('/:id', function(req, res, next) {
     var pageSaves=pages.map(function(page){     //find old team and remove note from it
       if(page.team.toString()===req.body.oldTeam){
         page.notes.splice(page.notes.indexOf(req.note._id),1);
-        console.log("Removing note from: ", req.body.oldTeam)
+        // console.log("Removing note from: ", req.body.oldTeam)
       }else if(page.team.toString()===req.body.newTeam){    // find new team if exists and add note to it
         newPageNeeded = false;      // mark that page for new team was found
         page.notes.push(req.note._id);
 
         //Add note to unread pages when team has been changed but it wasnt a new page
+
+
+        console.log("In team change")
+
         pageCheck = page;
-        Team.findOne({_id: req.body.oldTeam}).populate('users')
+        Team.findOne({_id: req.body.newTeam}).populate('users')
         .then(function (team){
           team.users.forEach(function(user){
             console.log("User: ", user._id)
             console.log("Req.user: ", req.user._id)
             if ((user._id.toString() !== req.user._id.toString())) {
               if (!user.unreadPages.some(function(page){
-                return (pageCheck.url.toString() === req.body.url.toString())
+                return (pageCheck.url.toString() === req.body.url.toString());
               })) {
                 user.unreadPages.push(page._id);
                 user.save(); 
@@ -218,25 +228,43 @@ router.put('/:id', function(req, res, next) {
     return false;
   }).then(function(page){
     // add page to unreadpages when a new page is created for a user
-    if (page) {
-      pageCheck = page;
-      Team.findOne({_id: req.body.oldTeam}).populate('users')
-      .then(function (team){
-        team.users.forEach(function(user){
-                      console.log("User: ", user._id)
-            console.log("Req.user: ", req.user._id)
-          if ((user._id.toString() !== req.user._id.toString())) {
-            if (!user.unreadPages.some(function(page){
-              return (pageCheck.url.toString() === req.body.url.toString())
-            })) {
-              user.unreadPages.push(page._id);
-              user.save(); 
-            }
-          }
-        })
-      }).then(null, next);
+    //if (page) {
+      // console.log("Page: ", page)
+      // pageCheck = page;
 
-    }
+      // Team.findById(req.user._id).populate('users').exec
+      // .then(function(teams){
+      //   teams.forEach(function(team){
+      //     console.log("Adding to team: ",team._id);
+      //     team.users.forEach(function(user){
+      //       console.log("Adding to user: ", user._id);
+      //       user.unreadPages.push(page._id);
+      //       user.save()
+      //     })
+      //     team.save();
+      //   })
+      // })
+
+      // console.log("Adding to unread pages when a new page was created")
+
+      // Team.findOne({_id: req.body.oldTeam}).populate('users')
+      // .then(function (team){
+      //   console.log("Team: ", team)
+      //   team.users.forEach(function(user){
+      //                 console.log("User: ", user._id)
+      //       console.log("Req.user: ", req.user._id)
+      //     if ((user._id.toString() !== req.user._id.toString())) {
+      //       if (!user.unreadPages.some(function(page){
+      //         return (pageCheck.url.toString() === req.body.url.toString())
+      //       })) {
+      //         user.unreadPages.push(page._id);
+      //         user.save(); 
+      //       }
+      //     }
+      //   })
+      // }).then(null, next);
+
+    //}
     res.status(200).json({note: retNote,page: newPageNeeded?page:false});
   })
   .then(null, next);

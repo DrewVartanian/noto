@@ -18,6 +18,7 @@
     });
     };
 
+
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         var background = chrome.extension.getBackgroundPage();
         switch(request.title){
@@ -42,7 +43,6 @@
                 text: String(0)
                 });
                 chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
-                //background.location.reload();
                 break;
             case 'newPage':
                 Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
@@ -74,8 +74,6 @@
                     tabId: sender.tab.id
                  });
                 //background.location.reload();
-
-                
                 break;
             case 'destroyNote':
                 $.ajax({
@@ -251,9 +249,6 @@
                 });
                 return true;
             case "login":
-                overlay();
-                //background.location.reload();
-                overlay();
                 console.log("hitting teams.js");
                 GLOBALS.teamsProm = GLOBALS.getTeams();
                 GLOBALS.pagesProm = GLOBALS.getPages();
