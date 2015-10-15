@@ -26,7 +26,8 @@
       "/js/dependencies/jquery-ui.min.js",
       "/content/globals.js",
       "/content/note.js",
-      "/content/content.js"
+      "/content/content.js",
+      "/js/dependencies/bluebird.min.js"
     ],
     "css": [
       "/css/content.css",
