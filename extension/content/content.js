@@ -2,6 +2,7 @@
     function getDbInfo(){
         chrome.runtime.sendMessage({title: "newPage"},function(dbInfo){
             GLOBALS_WEB_NOTES.teamList = dbInfo.teams;
+            GLOBALS_WEB_NOTES.user = dbInfo.user;
             dbInfo.pages.forEach(function(page){
                 page.notes.forEach(function(note){
                     GLOBALS_WEB_NOTES.renderNote(note,page.team);
@@ -28,7 +29,7 @@
         //right clickteam
         if(event.button == 2) {
             GLOBALS_WEB_NOTES.clickedEl = event.target;
-            GLOBALS_WEB_NOTES.offset.x = event.pageX;
+            GLOBALS_WEB_NOTES.offset.x = 100*event.pageX/$(document).width();
             GLOBALS_WEB_NOTES.offset.y = event.pageY;
         }
     }, true);
@@ -40,7 +41,9 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
         sendResponse({team: GLOBALS_WEB_NOTES.team._id?GLOBALS_WEB_NOTES.team._id:"personal",
             url:document.URL,
             x: GLOBALS_WEB_NOTES.offset.x,
-            y: GLOBALS_WEB_NOTES.offset.y});
+            y: GLOBALS_WEB_NOTES.offset.y,
+            message: '-'+GLOBALS_WEB_NOTES.user.email.slice(0,GLOBALS_WEB_NOTES.user.email.indexOf('@'))+": "
+        });
     }
 });
 
