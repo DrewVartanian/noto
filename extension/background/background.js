@@ -20,10 +20,6 @@
                         chrome.tabs.sendMessage(tabs[i].id, {title: "logout content"});
                     }
                 });
-                chrome.browserAction.setBadgeText({
-                text: String(0)
-                });
-                chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
                 break;
             case 'newPage':
                 Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
