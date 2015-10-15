@@ -22,7 +22,8 @@ app.config(function($stateProvider) {
 
 });
 
-app.controller('teamController', function($scope, BackgroundFactory, $state, $rootScope, pages, teams, allusers, TeamFactory, users) {
+app.controller('teamController', function($scope, BackgroundFactory, $state, $rootScope, pages, teams, allusers, TeamFactory, users,StateFactory) {
+    StateFactory.state.name='team';
     $scope.alerts = [];
     $scope.pages = pages;
     $scope.teams = teams;
