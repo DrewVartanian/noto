@@ -246,6 +246,7 @@
                         chrome.tabs.sendMessage(tabs[i].id, {title: "login content"});
                     }
                 });
+                sendResponse({});
                 break;
             case "change teams":
 
