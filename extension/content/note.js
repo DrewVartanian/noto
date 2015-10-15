@@ -425,6 +425,10 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                         console.log(document.elementFromPoint($thisNote.actions[indexTracker].x+11, $thisNote.actions[indexTracker].y+11));
                         document.elementFromPoint($thisNote.actions[indexTracker].x+11, $thisNote.actions[indexTracker].y+11).click();
                        }
+                       else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'keypress') {
+                        console.log('keypress!!', $thisNote.actions[indexTracker]);
+                        jQuery.event.trigger({ type : 'keypress', which : $thisNote.actions[indexTracker].data });
+                        }
                     });
                 };
                     setTimeout(theAnimation(), 0);
