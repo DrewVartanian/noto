@@ -32,6 +32,8 @@ app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log) {
                     .then(function(response) {
                         var userLoggedIn = response.user;
                         scope.user = userLoggedIn;
+                        scope.user.welcome = scope.user.email.substr(0,scope.user.email.indexOf('@'));
+
                     })
                     .catch(function(err) {
                         $log.warn(err);
