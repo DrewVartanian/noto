@@ -1,4 +1,4 @@
-app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log) {
+app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log, UserFactory) {
 
     return {
         restrict: 'E',
@@ -6,7 +6,8 @@ app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log) {
         templateUrl: '/js/app/directives/navbar/navbar.html',
         link: function(scope) {
 
-            scope.user;
+            // scope.user;
+            scope.welcome=UserFactory.welcome;
 
             scope.logout = function() {
                 BackgroundFactory.logOutUser()
@@ -15,15 +16,15 @@ app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log) {
                         $rootScope.hidelanding = false;
                         $rootScope.user = null;
                         $state.go('webnote');
+                        scope.welcome.user='';
                     })
                     .catch(function(err) {
                         $log.warn(err);
                     });
-                
             };
 
             scope.refresh = function() {
-                console.log("Inside refresh function")
+                console.log("Inside refresh function");
                 chrome.runtime.sendMessage({title: "login"},function(){});
             };
 
@@ -31,8 +32,8 @@ app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log) {
                 BackgroundFactory.checkLoggedIn()
                     .then(function(response) {
                         var userLoggedIn = response.user;
-                        scope.user = userLoggedIn;
-                        scope.user.welcome = scope.user.email.substr(0,scope.user.email.indexOf('@'));
+                        // scope.user = userLoggedIn;
+                        scope.welcome.user = userLoggedIn.email.substr(0,userLoggedIn.email.indexOf('@'));
 
                     })
                     .catch(function(err) {
