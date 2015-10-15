@@ -25,6 +25,7 @@
                     GLOBALS.teamsProm = Promise.resolve([]);
                     chrome.contextMenus.removeAll();
                 });
+                GLOBALS.userProm = Promise.resolve({});
                 GLOBALS.socket.emit('logout', {});
                 chrome.tabs.getAllInWindow(null, function(tabs){
                     for (var i = 0; i < tabs.length; i++) {
@@ -241,6 +242,8 @@
                 GLOBALS.teamsProm = GLOBALS.getTeams();
                 GLOBALS.pagesProm = GLOBALS.getPages();
                 GLOBALS.createRightClick();
+                console.log(GLOBALS.user.getLoggedInUser().email);
+                GLOBALS.userProm = Promise.resolve({email: GLOBALS.user.getLoggedInUser().email});
                 GLOBALS.socket.emit('login', {});
                 chrome.tabs.getAllInWindow(null, function(tabs){
                     for (var i = 0; i < tabs.length; i++) {

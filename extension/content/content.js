@@ -38,12 +38,15 @@
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if(request == "newNoteClick") {
         var team;
-        sendResponse({team: GLOBALS_WEB_NOTES.team._id?GLOBALS_WEB_NOTES.team._id:"personal",
+        var data = {team: GLOBALS_WEB_NOTES.team._id?GLOBALS_WEB_NOTES.team._id:"personal",
             url:document.URL,
             x: GLOBALS_WEB_NOTES.offset.x,
-            y: GLOBALS_WEB_NOTES.offset.y,
-            message: '-'+GLOBALS_WEB_NOTES.user.email.slice(0,GLOBALS_WEB_NOTES.user.email.indexOf('@'))+": "
-        });
+            y: GLOBALS_WEB_NOTES.offset.y
+        };
+        if(GLOBALS_WEB_NOTES.user.email){
+            data.message='-'+GLOBALS_WEB_NOTES.user.email.slice(0,GLOBALS_WEB_NOTES.user.email.indexOf('@'))+": ";
+        }
+        sendResponse(data);
     }
 });
 
