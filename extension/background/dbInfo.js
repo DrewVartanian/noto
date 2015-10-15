@@ -10,7 +10,16 @@
         return [];
       });
     };
+
+
+
     GLOBALS.teamsProm=GLOBALS.getTeams();
     GLOBALS.teamSelected="All Teams";
     GLOBALS.pagesProm = GLOBALS.getPages();
+
+
+
+
+
+
 })();

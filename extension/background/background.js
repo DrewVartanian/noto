@@ -1,4 +1,15 @@
 (function(){
+    function getUser() {
+        return Promise.resolve($.get(GLOBALS.serverUrl+'/session')).then(function(session){
+                GLOBALS.createRightClick();
+                console.log("Session: ", session);
+                return session.user;
+            }).then(null,function(){
+                return {};
+        });
+    }
+
+    GLOBALS.userProm = getUser();
 
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         var background = chrome.extension.getBackgroundPage();
@@ -14,6 +25,7 @@
                     GLOBALS.teamsProm = Promise.resolve([]);
                     chrome.contextMenus.removeAll();
                 });
+                GLOBALS.userProm = Promise.resolve({});
                 GLOBALS.socket.emit('logout', {});
                 chrome.tabs.getAllInWindow(null, function(tabs){
                     for (var i = 0; i < tabs.length; i++) {
@@ -22,7 +34,7 @@
                 });
                 break;
             case 'newPage':
-                Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
+                Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm,GLOBALS.userProm]).then(function(dbInfo){
                     var pageToContent=dbInfo[0].filter(function(page){
                         if(page.url===sender.url){
                             if(GLOBALS.teamSelected==="All Teams") return true;
@@ -30,7 +42,10 @@
                         }
                         return false;
                     });
-                    sendResponse({pages: pageToContent,teams: dbInfo[1], teamSelected:GLOBALS.teamSelected});
+                    // console.log("Checking logged in user: ", GLOBALS.userProm);
+
+                    console.log("dbInfo in newPage: ",dbInfo[2])
+                    sendResponse({pages: pageToContent,teams: dbInfo[1], teamSelected:GLOBALS.teamSelected, user:dbInfo[2]});
                 });
                 return true;
             case 'unreadPage':
@@ -223,6 +238,8 @@
                 GLOBALS.teamsProm = GLOBALS.getTeams();
                 GLOBALS.pagesProm = GLOBALS.getPages();
                 GLOBALS.createRightClick();
+                console.log(GLOBALS.user.getLoggedInUser().email);
+                GLOBALS.userProm = Promise.resolve({email: GLOBALS.user.getLoggedInUser().email});
                 GLOBALS.socket.emit('login', {});
                 chrome.tabs.getAllInWindow(null, function(tabs){
                     for (var i = 0; i < tabs.length; i++) {
@@ -231,6 +248,7 @@
                 });
                 break;
             case "change teams":
+
                 var data = {team:request.team};
                 if(request.userId){
                     data.userId=request.userId;
@@ -246,9 +264,4 @@
         }
     });
 
-    Promise.resolve($.get(GLOBALS.serverUrl+'/session')).then(function(session){
-        GLOBALS.createRightClick();
-    }).then(null,function(){
-        //no user returned;
-    });
 })();
