@@ -28,7 +28,7 @@
         //right clickteam
         if(event.button == 2) {
             GLOBALS_WEB_NOTES.clickedEl = event.target;
-            GLOBALS_WEB_NOTES.offset.x = event.pageX;
+            GLOBALS_WEB_NOTES.offset.x = 100*event.pageX/$(document).width();
             GLOBALS_WEB_NOTES.offset.y = event.pageY;
         }
     }, true);
