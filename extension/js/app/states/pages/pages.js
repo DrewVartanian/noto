@@ -21,9 +21,9 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('pagesController', function ($scope, PageFactory, TeamFactory, BackgroundFactory,pages,teams) {
+app.controller('pagesController', function ($scope, PageFactory, TeamFactory, BackgroundFactory,pages,teams,StateFactory) {
 
-
+    StateFactory.state.name='pages';
     $scope.pages = pages;
     console.log('controller pages',pages);
 

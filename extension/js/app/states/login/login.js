@@ -8,7 +8,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('loginController', function ($rootScope, $scope, BackgroundFactory, $state, $window, $location, $log, AuthService) {
+app.controller('loginController', function ($rootScope, $scope, BackgroundFactory, $state, $window, $location, $log, AuthService, UserFactory) {
     $scope.login = {};
     $scope.loggedInUser = {};
     $scope.alerts = [];
@@ -45,6 +45,8 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
         BackgroundFactory.logInUser(loginInfo)
         .then(function (userInfo) {
             $rootScope.isLoggedIn = true;
+            console.log(userInfo);
+            UserFactory.welcome.user=userInfo.email.substr(0,userInfo.email.indexOf('@'));
             $state.go('pages');
         })
         .catch(function (err) {

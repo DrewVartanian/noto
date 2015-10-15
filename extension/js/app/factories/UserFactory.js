@@ -27,6 +27,9 @@ app.factory('UserFactory', function ($http, RequestFactory) {
                     console.log("Data coming back from route: ", res.data)
                     return res.data
                 });
+        },
+        welcome: {
+            user:''
         }
 
     };
