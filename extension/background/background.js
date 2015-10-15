@@ -18,8 +18,6 @@
     });
     };
 
-    overlay();
-
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         var background = chrome.extension.getBackgroundPage();
         switch(request.title){
@@ -71,6 +69,10 @@
                 });
                 console.log("update overlay");
                 overlay();
+                chrome.browserAction.setIcon({
+                    path: '/icons/icon19.png',
+                    tabId: sender.tab.id
+                 });
                 //background.location.reload();
 
                 
