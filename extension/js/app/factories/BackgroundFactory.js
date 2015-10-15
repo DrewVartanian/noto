@@ -31,18 +31,27 @@ app.factory('BackgroundFactory', function ($http, $q, RequestFactory) {
         logInUser: function(info) {
             return $http(RequestFactory.composeRequest('POST', '/login', { email: info.email, password: info.password }))
             .then(function (response) {
-                chrome.tabs.query({title: 'WebNotes'}, function (tabs) {
-                    if (tabs.length) {
-                        tabs.forEach(function(tab) {
-                            chrome.tabs.reload(tab.id)
-                        });
-                    };
+                return new $q(function(resolve,reject){
+                    chrome.tabs.query({title: 'WebNotes'}, function (tabs) {
+                        console.log('inside');
+                        if (tabs.length) {
+                            tabs.forEach(function(tab) {
+                                chrome.tabs.reload(tab.id);
+                            });
+                        }
+                        resolve(response);
+                    });
                 });
+                console.log('outside');
 
+            }).then(function(response){
                 var returnedUser = response.data.user;
                 setUser(returnedUser);
-                chrome.runtime.sendMessage({title: "login"},function(){});
-                return returnedUser;
+                return new $q(function(resolve,reject){
+                    chrome.runtime.sendMessage({title: "login"},function(){
+                        resolve(returnedUser);
+                    });
+                });
             });
         },
 
