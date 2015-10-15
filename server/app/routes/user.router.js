@@ -97,21 +97,9 @@ router.put('/unreadpage', function (req,res,next){
                 res.sendStatus(201);
             }).then(null, next);
 
-<<<<<<< HEAD
-        return user;
-        // console.log("in unread pages route, user: ", user);
-    }).then(function(user){
-        user.save().then(function (){
-            res.sendStatus(201);
-        }).then(null, next);
-
-    });
-    
-=======
         });
-        
+
     }
->>>>>>> cc0ce6e2270dfb891b66a5431eea835fad2e6403
 });
 
 
