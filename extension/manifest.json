@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "WebNotes",
+  "name": "Noto",
   "version": "1.0",
-  "description": "This is a test description change it later!",
+  "description": "Virtual post-its with real-time collaboration",
   "icons": {
     "16": "/icons/icon16.png",
     "48": "/icons/icon48.png",
@@ -26,12 +26,12 @@
       "/js/dependencies/jquery-ui.min.js",
       "/content/globals.js",
       "/content/note.js",
-      "/content/content.js"
+      "/content/content.js",
+      "/js/dependencies/bluebird.min.js"
     ],
     "css": [
       "/css/content.css",
       "/css/jquery-ui.min.css"
-      // "/css/font-awesome.min.css"
     ]
   }],
   "browser_action": {
@@ -39,7 +39,7 @@
       "19": "/icons/icon19.png",
       "38": "/icons/icon38.png"
     },
-    "default_title": "WebNotes",
+    "default_title": "Noto",
     "default_popup": "popup.html"
   },
   "web_accessible_resources": [

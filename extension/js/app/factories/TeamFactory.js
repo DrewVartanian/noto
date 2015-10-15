@@ -20,12 +20,12 @@ app.factory('TeamFactory', function ($http, BackgroundFactory, RequestFactory) {
             });
         },
 
-        getTeamMembers: function(teamID) {
-            return $http(RequestFactory.composeRequest('GET', '/api/team/' + teamID + '/users'))
-            .then(function (response){
-                return response.data;
-            });
-        },
+        // getTeamMembers: function(teamID) {
+        //     return $http(RequestFactory.composeRequest('GET', '/api/team/' + teamID + '/users'))
+        //     .then(function (response){
+        //         return response.data;
+        //     });
+        // },
 
         deleteTeamMember: function(teamID, userID){
             return $http(RequestFactory.composeRequest('DELETE', '/api/team/' + teamID + '/users/' + userID))
@@ -44,6 +44,13 @@ app.factory('TeamFactory', function ($http, BackgroundFactory, RequestFactory) {
 
         createNewTeam: function(teamName) {
             return $http(RequestFactory.composeRequest('POST', '/api/team/', {teamName: teamName}))
+            .then(function (response){
+                return response.data;
+            });
+        },
+
+        getTeamMembers: function() {
+            return $http(RequestFactory.composeRequest('GET', '/api/team/users'))
             .then(function (response){
                 return response.data;
             });

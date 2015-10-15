@@ -36,6 +36,19 @@ router.get('/:id/users', function(req, res, next) {
     .then(null, next);
 });
 
+
+// Get all teams populated with all users
+router.get('/users', function(req, res, next) {
+  console.log("what is req.team", req.team);
+  Team.find({users: req.user._id})
+    .populate('users')
+    .then(function(team) {
+      console.log(team);
+      res.status(200).json(team);
+    })
+    .then(null, next);
+});
+
 // POST new team
 router.post('/', function(req, res, next) {
   console.log("what is post team req body ", req.body);
@@ -63,17 +76,17 @@ router.put('/:id', function(req, res, next) {
             }
         });
         transporter.sendMail({
-            from: 'do-not-reply@webshare.com',
+            from: 'do-not-reply@noto.com',
             to: req.body.userEmail,
-            subject: req.user.email + ' has added you to team '+ req.body.name + ' on WebShare!',
+            subject: req.user.email + ' has added you to team '+ req.body.name + ' on Noto!',
             html: `<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="20" background="http://s3.postimg.org/fjnpfxlvn/postit_background.png" style="background-repeat:no-repeat;">
                    <tr>
                    <td>
                    <div style="height: 600px; width: 600px"><div>
                    <div style="height: 1px; padding: 0; margin: 0"></div>
-                   <div style="text-align: center; margin-top: 250px; padding-left: 75px;"><h1 style="font-family: cursive; padding-bottom: 20px">webShare</h1>
-                   <p style="font-weight: 900">Hello ${req.body.userEmail},</p><p>${req.user.email} has added you to their team on webShare! 
-                   <p>Have you heard about webShare yet?</p> <p>get the wonderful Chrome extension today!</p>
+                   <div style="text-align: center; margin-top: 250px; padding-left: 75px;"><h1 style="font-family: cursive; padding-bottom: 20px">Noto</h1>
+                   <p style="font-weight: 900">Hello ${req.body.userEmail},</p><p>${req.user.email} has added you to their team on Noto! 
+                   <p>Have you heard about Noto yet?</p> <p>get the wonderful Chrome extension today!</p>
                    </p><p><a>insert link to extension here!</a></p></div></div></div>
                    </td>
                    </tr>
@@ -102,7 +115,8 @@ router.put('/:id', function(req, res, next) {
       .then(function(team) {
         if(userId){
           console.log('adding user to socket');
-          socketLedger.getSocket(userId).join(team._id.toString());
+          var socket = socketLedger.getSocket(userId)
+          if (socket) socket.join(team._id.toString());
         }
         res.status(200).json(team);
       })

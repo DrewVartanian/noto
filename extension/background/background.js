@@ -14,12 +14,14 @@
                 text: String(count)
         });
      if(count === 0) chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
+
     });
     };
 
     overlay();
 
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        var background = chrome.extension.getBackgroundPage();
         switch(request.title){
             case 'logout' :
                 console.log("i got the message");
@@ -38,6 +40,11 @@
                         chrome.tabs.sendMessage(tabs[i].id, {title: "logout content"});
                     }
                 });
+                chrome.browserAction.setBadgeText({
+                text: String(0)
+                });
+                chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
+                //background.location.reload();
                 break;
             case 'newPage':
                 Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm]).then(function(dbInfo){
@@ -50,11 +57,9 @@
                     });
                     sendResponse({pages: pageToContent,teams: dbInfo[1], teamSelected:GLOBALS.teamSelected});
                 });
-                // chrome.runtime.reload();
-                // overlay();
+
                 return true;
             case 'unreadPage':
-                //console.log("what happens to overlay now?", overlay());
                 $.ajax({
                     url: GLOBALS.serverUrl+'/api/user/unreadPage',
                     type:'PUT',
@@ -65,9 +70,10 @@
                     })
                 });
                 console.log("update overlay");
-                chrome.runtime.reload();
                 overlay();
-                //console.log("what happens to overlay now?", overlay());
+                //background.location.reload();
+
+                
                 break;
             case 'destroyNote':
                 $.ajax({
@@ -95,6 +101,9 @@
                         });
                     }
                 });
+                //chrome.runtime
+
+
                 return true;
             case 'saveNoteSize':
             $.ajax({
@@ -238,9 +247,11 @@
                     }
 
                 });
-                overlay();
                 return true;
             case "login":
+                overlay();
+                //background.location.reload();
+                overlay();
                 console.log("hitting teams.js");
                 GLOBALS.teamsProm = GLOBALS.getTeams();
                 GLOBALS.pagesProm = GLOBALS.getPages();

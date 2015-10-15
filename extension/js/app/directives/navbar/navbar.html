@@ -1,14 +1,78 @@
 
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-  	 <a type="button" class="btn btn-default btn-md" ui-sref="pages">Pages</a>
-    <a type="button" class="btn btn-default btn-md" ui-sref="login" ng-hide="!isLoggedIn">Login</a>
-    <a type="button" class="btn btn-default btn-md" ui-sref="signup" ng-hide="!isLoggedIn">Signup</a>
-    <a type="button" class="btn btn-default btn-md" ng-show="!isLoggedIn" ng-click="logout()">Logout</a>
-    <a type="button" class="btn btn-default btn-md" ui-sref="team">Teams</a>
-    <a type="button" class="btn btn-default btn-md" ui-sref="unread">Unread</a>
-    <a type="button" class="btn btn-default btn-md" ng-click="refresh()">Refresh</a>
+<nav id="notonav">
+
+  <div class="container">
+    <a class="fa fa-unlock-alt fa-2x fa-fw" ui-sref="login" ng-hide="!isLoggedIn">
+        <span>Login</span>
+    </a>
+    <a class="fa fa-sign-in fa-2x fa-fw" ui-sref="signup" ng-hide="!isLoggedIn">
+        <span>Signup</span>
+    </a>
 
 
+    <a class="fa fa-sitemap fa-2x fa-fw" ui-sref="pages" data-info="Notes">
+        <span>Notes</span>
+    </a>
+    <a class="fa fa-commenting-o fa-2x fa-fw" ui-sref="unread" data-info="Unread">
+        <span>Unread</span>
+    </a>
+    <a class="fa fa-users fa-2x fa-fw" ui-sref="team" data-info="Groups">
+        <span>Groups</span>
+    </a>
+    <a class="fa fa-refresh fa-2x fa-fw" ng-click="refresh()" data-info="Refresh">
+        <span>Refresh</span>
+    </a>
+    <a class="fa fa-lock fa-2x fa-fw" ng-show="!isLoggedIn" ng-click="logout()" data-info="Logout">
+        <span>Logout</span>
+    </a>
   </div>
 </nav>
+
+
+<!-- <div class="container">
+    <header class="clearfix">
+        <nav>
+            <a class="bp-icon bp-icon-prev" data-info="previous Blueprint"><span>Previous Blueprint</span></a>
+            <a class="bp-icon bp-icon-drop" data-info="back to the Codrops article"><span>back to the Codrops article</span></a>
+            <a class="bp-icon bp-icon-archive" data-info="Blueprints archive"><span>Go to the archive</span></a>
+        </nav>
+    </header>
+ -->
+
+
+
+<!-- <nav id="notonav" class="navbar navbar-default">
+
+  <div class="container">
+    <a type="button" class="btn btn-default btn-md" ui-sref="login" ng-hide="!isLoggedIn">
+        <span>Login</span>
+        <i class="fa fa-unlock-alt fa-2x fa-fw"></i>
+    </a>
+    <a type="button" class="btn btn-default btn-md" ui-sref="signup" ng-hide="!isLoggedIn">
+        <span>Signup</span>
+        <i class="fa fa-sign-in fa-2x fa-fw"></i>
+    </a>
+
+
+    <a type="button" class="btn btn-default btn-md" ui-sref="pages" data-info="Pages">
+        <span>Pages</span>
+        <i class="fa fa-sitemap fa-2x fa-fw"></i>
+    </a>
+    <a type="button" class="btn btn-default btn-md" ui-sref="unread" data-info="Unread">
+        <span>Unread</span>
+        <i class="fa fa-commenting-o fa-2x fa-fw"></i>
+    </a>
+    <a type="button" class="btn btn-default btn-md" ui-sref="team" data-info="Teams">
+        <span>Teams</span>
+        <i class="fa fa-users fa-2x fa-fw"></i>
+    </a>
+    <a type="button" class="btn btn-default btn-md" ng-click="refresh()" data-info="Refresh">
+        <span>Refresh</span>
+        <i class="fa fa-refresh fa-2x fa-fw"></i>
+    </a>
+    <a type="button" class="btn btn-default btn-md" ng-show="!isLoggedIn" ng-click="logout()" data-info="Logout">
+        <span>Logout</span>
+        <i class="fa fa-lock fa-2x fa-fw"></i>
+    </a>
+  </div>
+</nav> -->
