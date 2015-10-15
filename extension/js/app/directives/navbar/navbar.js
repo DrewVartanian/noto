@@ -1,4 +1,4 @@
-app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log, UserFactory) {
+app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log, UserFactory,StateFactory) {
 
     return {
         restrict: 'E',
@@ -8,6 +8,7 @@ app.directive('navBar', function($rootScope, $state, BackgroundFactory, $log, Us
 
             // scope.user;
             scope.welcome=UserFactory.welcome;
+            scope.state=StateFactory.state;
 
             scope.logout = function() {
                 BackgroundFactory.logOutUser()

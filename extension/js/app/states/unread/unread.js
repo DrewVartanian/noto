@@ -13,7 +13,8 @@ app.config(function($stateProvider) {
 
 });
 
-app.controller('unreadController', function($scope, unreadPages, PageFactory, TeamFactory, BackgroundFactory) {
+app.controller('unreadController', function($scope, unreadPages, PageFactory, TeamFactory, BackgroundFactory,StateFactory) {
+    StateFactory.state.name='unread';
     $scope.unreadPages = unreadPages;
 
     $scope.setTeam = function () {
