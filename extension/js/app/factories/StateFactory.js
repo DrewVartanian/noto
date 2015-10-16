@@ -1,8 +1,8 @@
-app.factory('StateFactory', function (){
+app.factory('StateFactory', function() {
 
   return {
     state: {
-      name:''
+      name: ''
     }
   };
 

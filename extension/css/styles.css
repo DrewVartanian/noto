@@ -2,14 +2,23 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,500,700,800);
 @import url(https://fonts.googleapis.com/css?family=Indie+Flower:400,300,500,700,800);
 @import url(https://fonts.googleapis.com/css?family=Reenie+Beanie:400,300,500,700,800);
+*,
+*:after,
+*:before {
+  -webkit-box-sizing: border-box;
+}
 
-*, *:after, *:before { -webkit-box-sizing: border-box; }
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
 
-.clearfix:before, .clearfix:after { content: " "; display: table; }
-.clearfix:after { clear: both; }
+.clearfix:after {
+  clear: both;
+}
 
 body {
-  /*font: 300 18px/1.8 'Raleway', sans-serif;*/
   color: #272626;
   overflow-x: hidden;
 }
@@ -24,10 +33,12 @@ a {
   text-decoration: none;
 }
 
-a:focus, a:hover {
+a:focus,
+a:hover {
   text-decoration: none;
   color: #36444e;
 }
+
 
 /* ---------------------------------------------- /*
  * Typography
@@ -46,6 +57,7 @@ h2 {
     margin: 0 0 30px;
 }*/
 
+
 /* ---------------------------------------------- /*
  * <body>
 /* ---------------------------------------------- */
@@ -53,6 +65,7 @@ h2 {
 #mainWindow {
   width: 400px;
 }
+
 
 /* ---------------------------------------------- /*
  * webnote.html
@@ -64,7 +77,6 @@ h2 {
   background: url('../icons/corkboard.png') no-repeat center center fixed;
   background-size: cover;
   border: none;
-  /*position: relative;*/
 }
 
 /*div*/
@@ -89,7 +101,8 @@ h2 {
   font-weight: 800;
 }
 
-#loginsignup p, a {
+#loginsignup p,
+a {
   margin: 0;
   padding: 0;
 }
@@ -99,9 +112,11 @@ h2 {
   color: #133b8b;
 }
 
-#loginsignup a:focus, a:hover {
+#loginsignup a:focus,
+a:hover {
   color: #13778b;
 }
+
 
 /* ---------------------------------------------- /*
  * navbar
@@ -168,7 +183,6 @@ h2 {
   font-size: 1.5em;
 }
 
-
 #notonav .fa:after {
   font-family: 'FontAwesome';
   speak: none;
@@ -212,6 +226,7 @@ h2 {
   content: "\f023";
 }
 
+
 /* ---------------------------------------------- /*
  * edit.html
 /* ---------------------------------------------- */
@@ -219,6 +234,7 @@ h2 {
 #teamGroup {
   display: inline;
 }
+
 
 /* ---------------------------------------------- /*
  * paper
@@ -233,4 +249,3 @@ h2 {
   background-position: -70px -9px;
   color: black;
 }
-
