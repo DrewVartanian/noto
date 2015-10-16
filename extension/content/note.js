@@ -295,7 +295,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                 _id: $teamSelect.val(),
                 name: $teamSelect.children("option:selected").html()
             },
-            team);
+            team,
+            $thisNote.actions);
     });
 
     //$teamSelect.option($teamSelect.selectedIndex).html()
@@ -369,6 +370,17 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                 $thisNote.actions.push(clickObj);
                 console.log($thisNote.actions);
                 };
+            // document.onscroll = function(e){
+            //     console.log(e);
+            //     var ymotion = $(document).scrollTop() / 3;
+            //     var date = new Date();
+            //     var scrollObj = {
+            //         y: ymotion,
+            //         type: 'scroll',
+            //         time: date - startDate
+            //         };
+            //     $thisNote.actions.push(scrollObj);
+            //     };
             document.onkeyup = function (e){
                 var date = new Date();
                 var keyObj = {
@@ -464,7 +476,9 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                          top:  ($thisNote.actions[i].y),
                          opacity: 1
                     }, timeDifference, function() {
-
+                        $("body, html").animate({ 
+                        scrollTop: $('#theball').offset().top 
+                        }, 100);
                         // $('#' + mouseOverElement).hover(function() {
                         //     $(this).attr('id', mouseOverElement + ":hover")}
                         //     ,function() {
@@ -472,13 +486,14 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                         // $('#' + mouseOverElement).mouseenter();
                         // // $('#' + mouseOverElement).mouseleave()
                         // console.log(mouseOverElement)
-                       if(indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'click') {
+                      if(indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'click') {
                         console.log('event', $thisNote.actions[indexTracker]);
                         var element = document.elementFromPoint($thisNote.actions[indexTracker].x-1, $thisNote.actions[indexTracker].y-1)
-                        console.log(element.nodeName);
+                        if(element) {
                         if(element.nodeName==='INPUT'){
-                            elementObj.id = (element.id);
+                            elementObj.id = element.id;
                             console.log(elementObj.id);
+                            }
                         }
                         else if (element.className === 'ace_content'){
                             elementObj.theClass = (element.class)
@@ -486,7 +501,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                         }
                         element.click();
                        }
-                       else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'keypress') {
+                      else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'keypress') {
                         console.log('keypress!!', $thisNote.actions[indexTracker]);
                         var e = jQuery.Event('keydown');
                         e.which = Number($thisNote.actions[indexTracker].data);
@@ -496,13 +511,17 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                             $('.' + String(elementObj.theClass).toLowerCase()).trigger(e);
                             $('.' + String(elementObj.theClass).toLowerCase()).val(($('.' + String(elementObj.theClass).toLowerCase()).val() + String.fromCharCode(e.which)).toLowerCase())
                         } 
-                        else if(elementObj.id)
+                        else if( elementObj.id) {
                         $('#' + String(elementObj.id).toLowerCase()).trigger(e);
                         $('#' + String(elementObj.id).toLowerCase()).val(($('#' + String(elementObj.id).toLowerCase()).val() + String.fromCharCode(e.which)).toLowerCase())
-                        if(e.which === 8)  {
+                            if(e.which === 8)  {
                             $('#' + String(elementObj.id).toLowerCase()).val(($('#' + String(elementObj.id).toLowerCase()).val().slice(0,$('#' + String(elementObj.id).toLowerCase()).val().length-2)))
+                            }
                         }
                         }
+                      // else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'scroll') {
+                      //   window.scrollBy(0, Number($thisNote.actions[indexTracker].y));
+                      // }
                     });
                 };
                     setTimeout(theAnimation(), 0);
@@ -595,7 +614,7 @@ GLOBALS_WEB_NOTES.saveNotePosition = function(note, team){
 };
 
 
-GLOBALS_WEB_NOTES.saveNote = function(noteId, message, color, newTeam, oldTeam){
+GLOBALS_WEB_NOTES.saveNote = function(noteId, message, color, newTeam, oldTeam, actions){
     var self = this;
     chrome.runtime.sendMessage({
         title: "saveNote",
@@ -604,7 +623,8 @@ GLOBALS_WEB_NOTES.saveNote = function(noteId, message, color, newTeam, oldTeam){
         color: color,
         message: message,
         newTeam: newTeam._id,
-        oldTeam: oldTeam._id
+        oldTeam: oldTeam._id,
+        actions: actions
     },function(changedNote){
         console.log("saving note");
         self.unrenderNote(noteId);

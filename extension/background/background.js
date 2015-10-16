@@ -187,7 +187,8 @@
                         color: request.color,
                         newTeam: request.newTeam, //? request.newTeam : request.team,
                         oldTeam: request.oldTeam, //? request.oldTeam : request.team,
-                        url: sender.url
+                        url: sender.url,
+                        actions: request.actions
                     }),
                     success: function(res){
                         console.log('res',res);
@@ -197,7 +198,8 @@
                                           "newTeam": request.newTeam,
                                           "oldTeam": request.oldTeam,
                                           "note": res.note,
-                                          "oper": "put"
+                                          "oper": "put",
+                                          "actions": request.actions
                             });
                             if(request.newTeam===request.oldTeam){
                                 pages.some(function(page){
