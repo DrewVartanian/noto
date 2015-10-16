@@ -40,12 +40,14 @@
     <script src="/js/app/factories/UserFactory.js"></script>
     <script src="/js/app/factories/ExtensionFactory.js"></script>
     <script src="/js/app/factories/RequestFactory.js"></script>
+    <script src="/js/app/factories/StateFactory.js"></script>
     <script src="/js/app/directives/navbar/navbar.js"></script>
 </head>
 
 <body id='mainWindow' ng-app="WebNotes">
     <nav-bar ng-show="isLoggedIn"></nav-bar>
     <div ui-view></div>
+    <div id="heightBar" style="height: 1px"></div>
 </body>
 
 </html>

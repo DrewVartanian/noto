@@ -10,13 +10,13 @@
     </a>
 
 
-    <a class="fa fa-sitemap fa-2x fa-fw" ui-sref="pages" data-info="Notes">
+    <a class="fa fa-sitemap fa-2x fa-fw" ng-class="{activeState:state.name==='pages'}"ui-sref="pages" data-info="Notes">
         <span>Notes</span>
     </a>
-    <a class="fa fa-commenting-o fa-2x fa-fw" ui-sref="unread" data-info="Unread">
+    <a class="fa fa-commenting-o fa-2x fa-fw" ng-class="{activeState:state.name==='unread'}" ui-sref="unread" data-info="Unread">
         <span>Unread</span>
     </a>
-    <a class="fa fa-users fa-2x fa-fw" ui-sref="team" data-info="Groups">
+    <a class="fa fa-users fa-2x fa-fw" ng-class="{activeState:state.name==='team'}" ui-sref="team" data-info="Groups">
         <span>Groups</span>
     </a>
     <a class="fa fa-refresh fa-2x fa-fw" ng-click="refresh()" data-info="Refresh">
@@ -26,6 +26,7 @@
         <span>Logout</span>
     </a>
   </div>
+  <span class="pull-right"><br>Welcome {{welcome.user}}!</span>
 </nav>
 
 

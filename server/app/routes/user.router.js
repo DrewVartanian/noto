@@ -72,33 +72,41 @@ router.get('/unreadpage', function (req,res,next){
 //remove page from unreadPages array
 router.put('/unreadpage', function (req,res,next){
 
+    if (req.user) {
+        User.findOne({_id: req.user._id}).populate('unreadPages')
+        .then(function(user){
 
-    User.findOne({_id: req.user._id}).populate('unreadPages')
-    .then(function(user){
 
-        // user.unreadPages.forEach(function(page,index){
-        //     if (page.url === req.body.url) {
-        //         console.log("splicing index number: ", index)
-        //         user.unreadPages.splice(index,1);
-        //     }
-        // });
 
-        for (var i=user.unreadPages.length-1; i>=0; i--) {
-            if (!user.unreadPages[i] || user.unreadPages[i].url === req.body.url) {
-                console.log("splicing index number: ", i);
-                user.unreadPages.splice(i,1);
 
+            // user.unreadPages.forEach(function(page,index){
+            //     if (page.url === req.body.url) {
+            //         console.log("splicing index number: ", index)
+            //         user.unreadPages.splice(index,1);
+            //     }
+            // });
+
+            if (user.unreadPages.length) {
+                for (var i=user.unreadPages.length-1; i>=0; i--) {
+                    if (user.unreadPages[i].url === req.body.url) {
+                        console.log("splicing index number: ", i);
+                        user.unreadPages.splice(i,1);
+
+                    }
+                }
+                
             }
-        }
 
-        return user;
-        // console.log("in unread pages route, user: ", user);
-    }).then(function(user){
-        user.save().then(function (){
-            res.sendStatus(201);
-        }).then(null, next);
+            return user;
+            // console.log("in unread pages route, user: ", user);
+        }).then(function(user){
+            user.save().then(function (){
+                res.sendStatus(201);
+            }).then(null, next);
 
-    });
+        });
+        
+    }
 });
 
 

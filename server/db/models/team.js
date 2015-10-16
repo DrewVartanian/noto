@@ -1,5 +1,6 @@
 'use strict';
 var mongoose = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 var schema = new mongoose.Schema({
   name: {
@@ -12,4 +13,5 @@ var schema = new mongoose.Schema({
   }]
 });
 
+schema.plugin(deepPopulate);
 mongoose.model('Team', schema);

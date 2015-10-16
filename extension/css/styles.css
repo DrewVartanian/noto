@@ -52,7 +52,6 @@ h2 {
 
 #mainWindow {
   width: 400px;
-  height: 500px;
 }
 
 /* ---------------------------------------------- /*
@@ -110,7 +109,7 @@ h2 {
 
 #notonav {
   padding-top: 10px;
-  padding-bottom: 25px;
+  padding-bottom: 35px;
   text-align: center;
   font-family: 'Raleway', sans-serif;
   background-color: #FFFFCC;
@@ -128,6 +127,14 @@ h2 {
   border-radius: 50%;
   margin: 0 0.4em;
   border: 4px solid #6495ED;
+}
+
+#notonav a.activeState {
+  background: #6495ED;
+}
+
+#notonav .activeState.fa:after {
+  color: #FFFFCC;
 }
 
 #notonav a > span {

@@ -21,9 +21,9 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('pagesController', function ($scope, PageFactory, TeamFactory, BackgroundFactory,pages,teams) {
+app.controller('pagesController', function ($scope, PageFactory, TeamFactory, BackgroundFactory,pages,teams,StateFactory) {
 
-
+    StateFactory.state.name='pages';
     $scope.pages = pages;
     console.log('controller pages',pages);
 
@@ -69,5 +69,14 @@ app.controller('pagesController', function ($scope, PageFactory, TeamFactory, Ba
       console.log("teamname: ", teamname);
       BackgroundFactory.setTeamViewOnLinkVisit(teamname)
     };
+    // console.log('height:',$('body').height());
 
+    // // setTimeout(function() {
+    // //   if($('html').height() !== $('body').height()) {
+    // //     $('body').height($('body').height() + 1);
+    // //   }
+    // // });
+    // $('html').css({"min-height":(151+(44*teams.length))+"px"});
+    // console.log('height:',$('body').height());
+    setTimeout(function() { $('#heightBar').height(2); }, 1);
 });

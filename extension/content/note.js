@@ -15,7 +15,7 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
     $thisNote.css({
         'padding': '10px',
         'background-color': note.color,
-        'left': note.position.x+'px',
+        'left': note.position.x*$(document).width()/100+'px',
         'top': note.position.y+'px',
         'height': note.size.y+'px',
         'width': note.size.x + 'px',
@@ -42,7 +42,7 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         cursor: 'move',
         stop: function() {
             // console.log("drag stop, note: ", note,"self: ", self);
-            note.position.x = $(this).position().left;
+            note.position.x = 100*$(this).position().left/$(document).width();
             note.position.y = $(this).position().top;
             self.saveNotePosition(note, team);
         }
@@ -147,7 +147,7 @@ GLOBALS_WEB_NOTES.renderNote = function(note,team)
     var self = this;
     var $thisNote = this.buildNote(note,team);
     $thisNote.css({
-        'overflow': 'scroll'
+        'overflow': 'auto'
     });
     var message = note.message ? note.message : "";
     // console.log(message);
@@ -199,7 +199,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'box-shadow': 'none',
         'background': 'transparent',
         '-webkit-appearance': 'none',
-        'text-align': 'center'
+        'text-align': 'center',
+        'whte-space': 'nowrap'
         // 'border': '2px solid purple',
         //  'width': '200px;',
         // '-webkit-border-radius': '5px',
@@ -235,7 +236,9 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'box-shadow': 'none',
         'background': 'transparent',
         '-webkit-appearance': 'none',
-        'text-align': 'center'
+        'text-align': 'center',
+        'float': 'right',
+        'whte-space': 'nowrap'
     });
     $colorSelect.attr("id", "selectColor");
     var $colorCurrent = $('<option></option>');
