@@ -370,17 +370,17 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                 $thisNote.actions.push(clickObj);
                 console.log($thisNote.actions);
                 };
-            // document.onscroll = function(e){
-            //     console.log(e);
-            //     var ymotion = $(document).scrollTop() / 3;
-            //     var date = new Date();
-            //     var scrollObj = {
-            //         y: ymotion,
-            //         type: 'scroll',
-            //         time: date - startDate
-            //         };
-            //     $thisNote.actions.push(scrollObj);
-            //     };
+            document.onscroll = function(e){
+                console.log(e);
+                var ymotion = $(document).scrollTop() / 3;
+                var date = new Date();
+                var scrollObj = {
+                    y: ymotion,
+                    type: 'scroll',
+                    time: date - startDate
+                    };
+                $thisNote.actions.push(scrollObj);
+                };
             document.onkeyup = function (e){
                 var date = new Date();
                 var keyObj = {
@@ -476,9 +476,10 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                          top:  ($thisNote.actions[i].y),
                          opacity: 1
                     }, timeDifference, function() {
-                        $("body, html").animate({ 
-                        scrollTop: $('#theball').offset().top 
-                        }, 100);
+                        // $("#theball").get(0).scrollIntoView({block: "end", behavior: "smooth"});
+                        // $("body, html").animate({ 
+                        // scrollTop: $('#theball').offset().top 
+                        // });
                         // $('#' + mouseOverElement).hover(function() {
                         //     $(this).attr('id', mouseOverElement + ":hover")}
                         //     ,function() {
@@ -494,13 +495,13 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                             elementObj.id = element.id;
                             console.log(elementObj.id);
                             }
-                        }
                         else if (element.className === 'ace_content'){
                             elementObj.theClass = (element.class)
                             console.log("drew an ace!")
                         }
                         element.click();
                        }
+                        }
                       else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'keypress') {
                         console.log('keypress!!', $thisNote.actions[indexTracker]);
                         var e = jQuery.Event('keydown');
@@ -519,9 +520,13 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                             }
                         }
                         }
-                      // else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'scroll') {
-                      //   window.scrollBy(0, Number($thisNote.actions[indexTracker].y));
-                      // }
+                      else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'scroll') {
+                        $("#theball").get(0).scrollIntoView()
+
+                        $("body, html").animate({ 
+                        scrollTop: $('#theball').offset().top 
+                        });
+                      }
                     });
                 };
                     setTimeout(theAnimation(), 0);
