@@ -180,9 +180,13 @@ router.put('/:id', function(req, res, next) {
       return;
     }
     var pageSaves=pages.map(function(page){     //find old team and remove note from it
+      var keep = true;
       if(page.team.toString()===req.body.oldTeam){
         page.notes.splice(page.notes.indexOf(req.note._id),1);
-        console.log("Removing note from: ", req.body.oldTeam)
+        console.log("Removing note from: ", req.body.oldTeam);
+        if(page.notes.length<=0){
+          keep = false;
+        }
       }else if(page.team.toString()===req.body.newTeam){    // find new team if exists and add note to it
         newPageNeeded = false;      // mark that page for new team was found
         page.notes.push(req.note._id);
@@ -209,7 +213,11 @@ router.put('/:id', function(req, res, next) {
         }).then(null, next);
 
       }
-      return page.save();
+      if(keep){
+        return page.save();
+      }else{
+        return page.remove();
+      }
     });
     return Promise.all(pageSaves);
   }).then(function(){
@@ -274,7 +282,11 @@ router.delete('/:id', function(req, res, next) {
   Page.find({notes: req.note._id}).then(function(pages){
     pages.forEach(function(page){
       page.notes.splice(page.notes.indexOf(req.note._id),1);
-      pageSaves.push(page.save());
+      if(page.notes.length>0){
+        pageSaves.push(page.save());
+      }else{
+        pageSaves.push(page.remove());
+      }
     });
     return Promise.all(pageSaves);
   }).then(function(){
