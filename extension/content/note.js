@@ -263,7 +263,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
 
     var saveIcon = chrome.extension.getURL("/icons/save.png");
     var $buttonSave = $('<button></button>');
-    // invisible buttons
+    // invisible button
     $buttonSave.css({
         'height': '0px',
         'width': '0px',
@@ -326,14 +326,14 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     var $buttonDestroy = $('<div></div>');
     // $buttonDestroy.attr("'class': 'webnote'");
     $buttonDestroy.css({
-        // '-webkit-appearance': 'push-$button',
+        '-webkit-appearance': 'push-$button',
         'height': '30px',
         'width': '30px',
         'cursor': 'pointer',
         'background-image': 'url('+deleteIcon+')',
         'position': 'absolute',
         'left': '-15px',
-        'top': '-15px',
+        'top': '-20px',
         'display': 'none'
     });
 
@@ -341,10 +341,31 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $buttonDestroy.click(function(){
         self.destroyNote(note._id);
     });
-        $thisNote.actions = [];
-    var $buttonRecord = $('<button></button>')
-        $buttonRecord.css('-webkit-appearance','push-$button');
-        $buttonRecord.html('Record');
+
+    $thisNote.actions = [];
+    var $actionMenu = $('<div></div>');
+    $actionMenu.css({
+        'height': '30px',
+        'width': '110px',
+        'cursor': 'pointer',
+        'position': 'absolute',
+        'right': '-15px',
+        'top': '-20px',
+        'display': 'none'
+    });
+
+    var recordIcon = chrome.extension.getURL("/icons/record.png");
+    var $buttonRecord = $('<div></div>');
+    $buttonRecord.css({
+        '-webkit-appearance': 'push-$button',
+        'height': '30px',
+        'width': '30px',
+        'cursor': 'pointer',
+        'background-image': 'url('+recordIcon+')',
+        'position': 'absolute',
+        'left': '0px',
+        'top': '0px',
+    });
 
         $buttonRecord.click(function(){
             $thisNote.winWidthRecord = window.innerWidth;
@@ -381,21 +402,43 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                 };
                 $thisNote.actions.push(keyObj);
             };
-
         });
-    var $buttonStop = $('<button></button>');
-        $buttonStop.css('-webkit-appearance','push-$button');
-        $buttonStop.html('Stop');
+
+
+    var stopIcon = chrome.extension.getURL("/icons/stop.png");
+    var $buttonStop = $('<div></div>');
+    $buttonStop.css({
+        '-webkit-appearance': 'push-$button',
+        'height': '30px',
+        'width': '30px',
+        'cursor': 'pointer',
+        'background-image': 'url('+stopIcon+')',
+        'position': 'absolute',
+        'left': '40px',
+        'top': '0px'
+    });
+
         $buttonStop.click(function() {
-            console.log("height " + $thisNote.winHeightRecord,"width " + $thisNote.winWidthRecord); 
+            console.log("height " + $thisNote.winHeightRecord,"width " + $thisNote.winWidthRecord);
             $thisNote.actions.splice(0,3);
             document.onclick = null;
             document.onmousemove = null;
             document.onkeyup = null;
         });
-    var $buttonPlay = $('<button></button>');
-        $buttonPlay.css('-webkit-appearance','push-$button');
-        $buttonPlay.html('Play');
+
+    var playIcon = chrome.extension.getURL("/icons/play.png");
+    var $buttonPlay = $('<div></div>');
+
+    $buttonPlay.css({
+        'height': '30px',
+        'width': '30px',
+        'cursor': 'pointer',
+        'background-image': 'url('+playIcon+')',
+        'position': 'absolute',
+        'right': '0px',
+        'top': '0px',
+    });
+
     var $playball = $('<img id="theball" src="http://www.clker.com/cliparts/b/3/b/d/11971252702040963370chris_sharkot_ball.svg.med.png" height="10px" width="10px">');
         $playball.css({
             'zIndex': 2147483647,
@@ -408,12 +451,12 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
             // console.log("play height " + playHeight, "play width " + playWidth);
             // SCALAR_H = playHeight / $thisNote.winHeightRecord;
             // SCALAR_W = playWidth / $thisNote.winWidthRecord;
-            // console.log("height scalar ", SCALAR_H, "width_scalar ", SCALAR_W); 
+            // console.log("height scalar ", SCALAR_H, "width_scalar ", SCALAR_W);
             // console.log("transformed current ", playHeight / SCALAR_H, " width ", playWidth / SCALAR_W);
             $('body').append($playball);
             console.log($thisNote.actions.length);
             var beforetime = 0;
-            for(var i=0;i<$thisNote.actions.length; i++) {  
+            for(var i=0;i<$thisNote.actions.length; i++) {
                 console.log($thisNote.actions[i].x);
                 var timeDifference = $thisNote.actions[i].time - beforetime;
                 beforetime = $thisNote.actions[i].time;
@@ -444,10 +487,15 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         $buttonDestroy.css({'display': 'none'});
     });
 
+    $thisNote.hover(function() {
+        $actionMenu.css({'display': 'block'});
+    }, function() {
+        $actionMenu.css({'display': 'none'});
+    });
+
     $teamSelect.change(function() {
         $buttonSave.trigger('submit');
     });
-
     $colorSelect.change(function() {
         $buttonSave.trigger('submit');
     });
@@ -459,12 +507,14 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     $form.append($teamSelect);
     $form.append($colorSelect);
     $form.append($buttonSave);
-    // $thisNote.append($buttonCancel);
-    $thisNote.append($buttonDestroy);
-    $thisNote.append($buttonRecord);
-    $thisNote.append($buttonStop);
-    $thisNote.append($buttonPlay);
+
     $thisNote.append($form);
+    $thisNote.append($buttonDestroy);
+    $thisNote.append($actionMenu);
+
+    $actionMenu.append($buttonRecord);
+    $actionMenu.append($buttonStop);
+    $actionMenu.append($buttonPlay);
 };
 
 GLOBALS_WEB_NOTES.unrenderNote = function(noteId){

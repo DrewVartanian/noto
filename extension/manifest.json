@@ -44,13 +44,11 @@
   },
   "web_accessible_resources": [
     "/icons/delete.png",
+    "/icons/record.png",
+    "/icons/stop.png",
+    "/icons/play.png",
     "/icons/corkboard.png",
     "/icons/postit400.png",
-
-    // "/icons/save.png",
-    // "/icons/pin.png",
-    // "/icons/cancel.png",
-    // "/icons/resize.png",
     "/js/dependencies/externalMain.js",
     "/css/jquery-ui.min.css",
     "/css/font-awesome.min.css",
