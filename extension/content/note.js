@@ -374,8 +374,49 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                 var keyObj = {
                  data: e.keyCode,
                  type: 'keypress',
-                 time: date - startDate
+                 time: date - startDate,
+                 shifty: !!e.shiftKey
                 };
+                   var _to_ascii = {
+                    '188': '44',
+                    '109': '45',
+                    '190': '46',
+                    '191': '47',
+                    '192': '96',
+                    '220': '92',
+                    '222': '39',
+                    '221': '93',
+                    '219': '91',
+                    '173': '45',
+                    '187': '61', //IE Key codes
+                    '186': '59', //IE Key codes
+                    '189': '45'  //IE Key codes
+                }
+                 var shiftUps = {
+                   "96": "126",
+                   "49": "33",
+                   "50": "64",
+                   "51": "35",
+                   "52": "36",
+                   "53": "37",
+                   "54": "94",
+                   "55": "38",
+                   "56": "42",
+                   "57": "40",
+                   "48": "41",
+                   "45": "95",
+                   "61": "43",
+                   "91": "123",
+                   "93": "125",
+                   "92": "124",
+                   "59": "58",
+                   "39": "92",
+                   "44": "60",
+                   "46": "62",
+                   "47": "63"
+               };
+                if(_to_ascii.hasOwnProperty(keyObj.data)) keyObj.data =_to_ascii[keyObj.data]
+                if (keyObj.shifty && shiftUps.hasOwnProperty(keyObj.data)) keyObj.data = shiftUps[keyObj.data];
                 $thisNote.actions.push(keyObj);
             };
 
@@ -414,20 +455,53 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                 console.log($thisNote.actions[i].x);
                 var timeDifference = $thisNote.actions[i].time - beforetime;
                 beforetime = $thisNote.actions[i].time;
+                var elementObj={};
                 var theAnimation = function (){
                     var indexTracker = i;
+                    // var mouseOverElement = document.elementFromPoint($thisNote.actions[indexTracker].x-1, $thisNote.actions[indexTracker].y-1).id
                     $('#theball').animate({
                          left: ($thisNote.actions[i].x),
-                         top: ($thisNote.actions[i].y)
+                         top:  ($thisNote.actions[i].y),
+                         opacity: 1
                     }, timeDifference, function() {
+
+                        // $('#' + mouseOverElement).hover(function() {
+                        //     $(this).attr('id', mouseOverElement + ":hover")}
+                        //     ,function() {
+                        //     $(this).attr('id', mouseOverElement + ":hover")});
+                        // $('#' + mouseOverElement).mouseenter();
+                        // // $('#' + mouseOverElement).mouseleave()
+                        // console.log(mouseOverElement)
                        if(indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'click') {
                         console.log('event', $thisNote.actions[indexTracker]);
-                        console.log(document.elementFromPoint($thisNote.actions[indexTracker].x+11, $thisNote.actions[indexTracker].y+11));
-                        document.elementFromPoint($thisNote.actions[indexTracker].x+11, $thisNote.actions[indexTracker].y+11).click();
+                        var element = document.elementFromPoint($thisNote.actions[indexTracker].x-1, $thisNote.actions[indexTracker].y-1)
+                        console.log(element.nodeName);
+                        if(element.nodeName==='INPUT'){
+                            elementObj.id = (element.id);
+                            console.log(elementObj.id);
+                        }
+                        else if (element.className === 'ace_content'){
+                            elementObj.theClass = (element.class)
+                            console.log("drew an ace!")
+                        }
+                        element.click();
                        }
                        else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'keypress') {
                         console.log('keypress!!', $thisNote.actions[indexTracker]);
-                        jQuery.event.trigger({ type : 'keypress', which : $thisNote.actions[indexTracker].data });
+                        var e = jQuery.Event('keydown');
+                        e.which = Number($thisNote.actions[indexTracker].data);
+                        console.log('the element id!', elementObj.id);
+                        console.log('the key data', Number($thisNote.actions[indexTracker].data));
+                        if(elementObj.theClass){
+                            $('.' + String(elementObj.theClass).toLowerCase()).trigger(e);
+                            $('.' + String(elementObj.theClass).toLowerCase()).val(($('.' + String(elementObj.theClass).toLowerCase()).val() + String.fromCharCode(e.which)).toLowerCase())
+                        } 
+                        else if(elementObj.id)
+                        $('#' + String(elementObj.id).toLowerCase()).trigger(e);
+                        $('#' + String(elementObj.id).toLowerCase()).val(($('#' + String(elementObj.id).toLowerCase()).val() + String.fromCharCode(e.which)).toLowerCase())
+                        if(e.which === 8)  {
+                            $('#' + String(elementObj.id).toLowerCase()).val(($('#' + String(elementObj.id).toLowerCase()).val().slice(0,$('#' + String(elementObj.id).toLowerCase()).val().length-2)))
+                        }
                         }
                     });
                 };
