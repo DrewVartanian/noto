@@ -199,7 +199,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'box-shadow': 'none',
         'background': 'transparent',
         '-webkit-appearance': 'none',
-        'text-align': 'center'
+        'text-align': 'center',
+        'whte-space': 'nowrap'
         // 'border': '2px solid purple',
         //  'width': '200px;',
         // '-webkit-border-radius': '5px',
@@ -235,7 +236,9 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
         'box-shadow': 'none',
         'background': 'transparent',
         '-webkit-appearance': 'none',
-        'text-align': 'center'
+        'text-align': 'center',
+        'float': 'right',
+        'whte-space': 'nowrap'
     });
     $colorSelect.attr("id", "selectColor");
     var $colorCurrent = $('<option></option>');
