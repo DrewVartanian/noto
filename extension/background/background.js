@@ -25,16 +25,13 @@
                     GLOBALS.teamsProm = Promise.resolve([]);
                     chrome.contextMenus.removeAll();
                 });
+                GLOBALS.userProm = Promise.resolve({});
                 GLOBALS.socket.emit('logout', {});
                 chrome.tabs.getAllInWindow(null, function(tabs){
                     for (var i = 0; i < tabs.length; i++) {
                         chrome.tabs.sendMessage(tabs[i].id, {title: "logout content"});
                     }
                 });
-                chrome.browserAction.setBadgeText({
-                text: String(0)
-                });
-                chrome.browserAction.setBadgeBackgroundColor({color:[0, 0, 255, 100]});
                 break;
             case 'newPage':
                 Promise.all([GLOBALS.pagesProm,GLOBALS.teamsProm,GLOBALS.userProm]).then(function(dbInfo){
@@ -241,12 +238,15 @@
                 GLOBALS.teamsProm = GLOBALS.getTeams();
                 GLOBALS.pagesProm = GLOBALS.getPages();
                 GLOBALS.createRightClick();
+                console.log(GLOBALS.user.getLoggedInUser().email);
+                GLOBALS.userProm = Promise.resolve({email: GLOBALS.user.getLoggedInUser().email});
                 GLOBALS.socket.emit('login', {});
                 chrome.tabs.getAllInWindow(null, function(tabs){
                     for (var i = 0; i < tabs.length; i++) {
                         chrome.tabs.sendMessage(tabs[i].id, {title: "login content"});
                     }
                 });
+                sendResponse({});
                 break;
             case "change teams":
 

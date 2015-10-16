@@ -138,19 +138,21 @@ router.put('/:id', function(req, res, next) {
       if(req.body.oldTeam===req.body.newTeam) {
 
         //Add note to unread pages if the note was updated but there was no team change
+        console.log("FINDADD ote to unread pages if the note was updated but there was no team change")
         Page.findOne({url: req.body.url, team: req.body.newTeam})
         .then(function (page){
           pageCheck = page;
-          Team.findOne({_id: req.body.oldTeam}).populate('users')
+          Team.findOne({_id: req.body.oldTeam}).deepPopulate('users.unreadPages')
           .then(function (team){
             team.users.forEach(function(user){
                           console.log("User: ", user._id)
             console.log("Req.user: ", req.user._id)
                if ((user._id.toString() !== req.user._id.toString())) {
                 if (!user.unreadPages.some(function(page){
-                  return (pageCheck.url.toString() === req.body.url.toString())
+                  return (page.url.toString() === req.body.url.toString())
                 })) {
-                  user.unreadPages.push(page._id);
+                  console.log("page being pushed inside 1st case ", pageCheck)
+                  user.unreadPages.push(pageCheck);
                   user.save(); 
                 }
               }
@@ -186,17 +188,20 @@ router.put('/:id', function(req, res, next) {
         page.notes.push(req.note._id);
 
         //Add note to unread pages when team has been changed but it wasnt a new page
+
+        console.log("FINDADD note to unread page when team has been changed but it wasnt a new page")
         pageCheck = page;
-        Team.findOne({_id: req.body.oldTeam}).populate('users')
+        Team.findOne({_id: req.body.oldTeam}).deepPopulate('users.unreadPages')
         .then(function (team){
           team.users.forEach(function(user){
             console.log("User: ", user._id)
             console.log("Req.user: ", req.user._id)
             if ((user._id.toString() !== req.user._id.toString())) {
               if (!user.unreadPages.some(function(page){
-                return (pageCheck.url.toString() === req.body.url.toString())
+                return (page.url.toString() === req.body.url.toString())
               })) {
-                user.unreadPages.push(page._id);
+                console.log("page being pushed inside 2nd case ", pageCheck)
+                user.unreadPages.push(pageCheck);
                 user.save(); 
               }
             }
@@ -218,27 +223,45 @@ router.put('/:id', function(req, res, next) {
     return false;
   }).then(function(page){
     // add page to unreadpages when a new page is created for a user
-    if (page) {
-      pageCheck = page;
-      Team.findOne({_id: req.body.oldTeam}).populate('users')
-      .then(function (team){
-        team.users.forEach(function(user){
-                      console.log("User: ", user._id)
-            console.log("Req.user: ", req.user._id)
-          if ((user._id.toString() !== req.user._id.toString())) {
-            if (!user.unreadPages.some(function(page){
-              return (pageCheck.url.toString() === req.body.url.toString())
-            })) {
-              user.unreadPages.push(page._id);
-              user.save(); 
-            }
-          }
-        })
-      }).then(null, next);
 
-    }
-    res.status(200).json({note: retNote,page: newPageNeeded?page:false});
-  })
+      if (page) {
+
+      console.log("FINDADD unread page when a new page is created for a user");
+        console.log("In if statement so page exists");
+        pageCheck = page;
+        console.log("Page: ", page)
+        console.log("req.body.oldteam ", req.body.oldTeam);
+        console.log("req.body.newteam ", req.body.newTeam);
+
+        return Team.findOne({_id: req.body.newTeam}).deepPopulate('users.unreadPages')
+        .then(function (team){
+          console.log("team, ", team);
+
+          team.users.forEach(function(user){
+              console.log("User: ", user._id)
+              console.log("Req.user: ", req.user._id)
+            if ((user._id.toString() !== req.user._id.toString())) {
+              console.log("Found match")
+              if (!user.unreadPages.some(function(page){
+                console.log("page url", page)
+                console.log("req.body.url ", req.body.url)
+                return (page.url.toString() === req.body.url.toString())
+              })) {
+                console.log("page being pushed inside 3rd case ", pageCheck)
+                user.unreadPages.push(pageCheck);
+                user.save(); 
+              }
+            }
+          })
+          return {note: retNote,page: newPageNeeded?page:false};
+        })
+
+      } return {note: retNote,page: newPageNeeded?page:false};
+    }).then(function(obj){
+
+      res.status(200).json(obj);
+      
+    })
   .then(null, next);
   }
 
