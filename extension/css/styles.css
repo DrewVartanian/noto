@@ -44,6 +44,9 @@ a:hover {
  * Typography
 /* ---------------------------------------------- */
 
+* {
+  font-family: 'Raleway', sans-serif;
+}
 /*h1, h2, h3, h4, h5, h6 {
     font: 700 40px/1.2 Raleway, sans-serif;
     text-transform: uppercase;
@@ -249,6 +252,16 @@ a:hover {
   border-radius: 0px;
 }
 
+.panel-group .panel {
+  margin-bottom: 5px;
+  border-radius: 0px;
+}
+
+.panel {
+  border-radius: 0px;
+}
+
+
 .webnote-paper {
   border: none;
   background-color: #fff;
@@ -261,17 +274,21 @@ a:hover {
 }
 
 .teameditcenter {
-  margin: 0 130px;
+  margin: 0 auto;
+  display: block;
 }
 
 .teamcreatecenter {
-  margin: 0 140px;
+  margin: 10px auto;
+  display: block;
 }
 
 .teamsavecenter {
-  margin: 0 144px;
+  margin: 0 auto;
+  display: block;
 }
 
 .teamsavecreatecenter {
-  margin: 0 166px;
+  margin: 0 auto;
+  display: block;
 }
