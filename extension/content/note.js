@@ -17,8 +17,6 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
         'background-color': note.color,
         'left': note.position.x*$(document).width()/100+'px',
         'top': note.position.y+'px',
-        'height': note.size.y+'px',
-        'width': note.size.x + 'px',
         'zIndex': 2147483647,
         'position': 'absolute',
         'box-sizing': "border-box",
@@ -135,6 +133,10 @@ GLOBALS_WEB_NOTES.buildNote = function(note,team){
     //     note.position.y = $(this).position().top;
     //     self.saveNotePosition(note, team);
     // });
+    $thisNote.animate({
+        'height': note.size.y+'px',
+        'width': note.size.x + 'px'
+    });
 
     $('body').append($thisNote);
     return $thisNote;
