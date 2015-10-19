@@ -449,7 +449,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     var $buttonPlay = $('<button></button>');
         $buttonPlay.css('-webkit-appearance','push-$button');
         $buttonPlay.html('Play');
-    var $playball = $('<img id="theball" src="http://dc676.4shared.com/img/bMe5oGPq/s7/13d47badf30/Optical_flare__2_" height="100px" width="100px">');
+    var $playball = $('<img id="theball" src="http://www.fusionclothinguk.co.uk/eBay_shop_setup/star-blue-purple-glow.png" height="100px" width="100px">');
         $playball.css({
             'zIndex': 2147483647,
             'position': 'absolute'
@@ -477,7 +477,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                     // var mouseOverElement = document.elementFromPoint($thisNote.actions[indexTracker].x-1, $thisNote.actions[indexTracker].y-1).id
                     $('#theball').animate({
                          left: ($thisNote.actions[i].x-50),
-                         top:  ($thisNote.actions[i].y-25),
+                         top:  ($thisNote.actions[i].y-50),
                          opacity: 1
                     }, timeDifference, function() {
                         // $("#theball").get(0).scrollIntoView({block: "end", behavior: "smooth"});
