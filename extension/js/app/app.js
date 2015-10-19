@@ -1,5 +1,5 @@
 'use strict';
-window.app = angular.module('WebNotes', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'ngAnimate']);
+window.app = angular.module('WebNotes', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'ngAnimate', 'ngMaterial']);
 
 app.config(function($urlRouterProvider, $locationProvider) {
   // This turns off hashbang urls (/#about) and changes it to something normal (/about)
