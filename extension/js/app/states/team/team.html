@@ -1,10 +1,10 @@
-<h5 class="list-group-item-info" style="text-align:center; font-size: 24px; padding: 5px;">Team Management</h5>
+<h5 class="list-group-item-info" style="text-align:center; font-size: 24px; padding: 5px; margin: 0">Team Management</h5>
 <script type="text/ng-template" id="group-template.html"></script>
 <uib-accordion close-others="oneAtATime">
-  <uib-accordion-group ng-repeat="team in users" heading="{{team.name}}">
+  <uib-accordion-group ng-repeat="team in users" heading="{{team.name}}" style="border: none">
     <div id="teamGroup">
-      <ul ng-repeat="user in team.users" class="list-group">
-        <li class="list-group-item list-group-item-info webnote-paper">{{user.email}}<span class="glyphicon glyphicon-remove pull-right" ng-click="deleteMember(team._id, user._id)"></span></li>
+      <ul ng-repeat="user in team.users" class="list-group" style="margin: 0">
+        <li class="list-group-item list-group-item-info webnote-paper">{{user.email}}<span class="glyphicon glyphicon-remove pull-right" ng-click="deleteMember(team._id, user._id)" style="margin-top: 2px"></span></li>
       </ul>
     </div>
     <div>

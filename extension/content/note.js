@@ -22,7 +22,7 @@ GLOBALS_WEB_NOTES.buildNote = function(note, team) {
     'position': 'absolute',
     'box-sizing': "border-box",
     'font-family': 'Gloria Hallelujah',
-    'font-size': '15px',
+    'font-size': '20px',
     'box-shadow': '0px 4px 6px #333',
     '-webkit-box-shadow': '0px 4px 6px #333',
     'opacity': '0.8',
@@ -158,7 +158,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   }
   else{
     $optionCurrent.html(team.name + "  ▾");
-    
+
   }
   //$optionCurrent.html(team.name + "  ▾");
   $teamSelect.append($optionCurrent);
@@ -199,10 +199,10 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
     $colorCurrent.html(note.color);
   }
   else{
-    
+
     $colorCurrent.html(note.color + "  ▾");
   }
-  
+
   $colorSelect.append($colorCurrent);
   colors.forEach(function(color) {
     if (color === note.color) return;
@@ -414,7 +414,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
 
         });
         $buttonStop.click(function() {
-            console.log("height " + $thisNote.winHeightRecord,"width " + $thisNote.winWidthRecord); 
+            console.log("height " + $thisNote.winHeightRecord,"width " + $thisNote.winWidthRecord);
             $thisNote.actions.splice(0,3);
             document.onclick = null;
             document.onmousemove = null;
@@ -432,12 +432,12 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
             // console.log("play height " + playHeight, "play width " + playWidth);
             // SCALAR_H = playHeight / $thisNote.winHeightRecord;
             // SCALAR_W = playWidth / $thisNote.winWidthRecord;
-            // console.log("height scalar ", SCALAR_H, "width_scalar ", SCALAR_W); 
+            // console.log("height scalar ", SCALAR_H, "width_scalar ", SCALAR_W);
             // console.log("transformed current ", playHeight / SCALAR_H, " width ", playWidth / SCALAR_W);
             $('body').append($playball);
             console.log($thisNote.actions.length);
             var beforetime = 0;
-            for(var i=0;i<$thisNote.actions.length; i++) {  
+            for(var i=0;i<$thisNote.actions.length; i++) {
                 console.log($thisNote.actions[i].x);
                 var timeDifference = $thisNote.actions[i].time - beforetime;
                 beforetime = $thisNote.actions[i].time;
@@ -452,8 +452,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                          opacity: 1
                     }, timeDifference, function() {
                         // $("#theball").get(0).scrollIntoView({block: "end", behavior: "smooth"});
-                        // $("body, html").animate({ 
-                        // scrollTop: $('#theball').offset().top 
+                        // $("body, html").animate({
+                        // scrollTop: $('#theball').offset().top
                         // });
                         // $('#' + mouseOverElement).hover(function() {
                         //     $(this).attr('id', mouseOverElement + ":hover")}
@@ -494,7 +494,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                         if(elementObj.theClass){
                             $('.' + String(elementObj.theClass).toLowerCase()).trigger(e);
                             $('.' + String(elementObj.theClass).toLowerCase()).val(($('.' + String(elementObj.theClass).toLowerCase()).val() + String.fromCharCode(e.which)).toLowerCase())
-                        } 
+                        }
                         else if( elementObj.id) {
                         $('#' + String(elementObj.id).toLowerCase()).trigger(e);
                         $('#' + String(elementObj.id).toLowerCase()).val(($('#' + String(elementObj.id).toLowerCase()).val() + String.fromCharCode(e.which)).toLowerCase())
@@ -504,7 +504,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                         }
                         }
                       else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'scroll') {
-                        $("#theball").get(0).scrollIntoView() 
+                        $("#theball").get(0).scrollIntoView()
                       }
                     });
                 };
