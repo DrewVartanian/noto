@@ -125,6 +125,7 @@ router.post('/', function(req, res, next) {
 
 // PUT update note
 router.put('/:id', function(req, res, next) {
+  console.log(req.body.actions);
   _.extend(req.note, req.body);
   var retNote;
   var newPageNeeded = true;

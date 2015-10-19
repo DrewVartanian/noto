@@ -216,7 +216,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
       $messageInput.val(),
       $colorSelect.children("option:selected").html(), {
         _id: $teamSelect.val(),
-        name: $teamSelect.children("option:selected").html()
+        name: $teamSelect.children("option:selected").html(),
+        actions: $thisNote.actions
       },
       team);
   });
