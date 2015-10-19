@@ -249,6 +249,10 @@ a:hover {
   border-radius: 0px;
 }
 
+.panel-group {
+  margin-bottom: 5px;
+}
+
 .webnote-paper {
   border: none;
   background-color: #fff;
@@ -261,17 +265,21 @@ a:hover {
 }
 
 .teameditcenter {
-  margin: 0 130px;
+  margin: 0 auto;
+  display: block;
 }
 
 .teamcreatecenter {
-  margin: 0 140px;
+  margin: 10px auto;
+  display: block;
 }
 
 .teamsavecenter {
-  margin: 0 144px;
+  margin: 0 auto;
+  display: block;
 }
 
 .teamsavecreatecenter {
-  margin: 0 166px;
+  margin: 0 auto;
+  display: block;
 }
