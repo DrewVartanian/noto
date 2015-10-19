@@ -449,7 +449,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
     var $buttonPlay = $('<button></button>');
         $buttonPlay.css('-webkit-appearance','push-$button');
         $buttonPlay.html('Play');
-    var $playball = $('<img id="theball" src="http://www.clker.com/cliparts/b/3/b/d/11971252702040963370chris_sharkot_ball.svg.med.png" height="10px" width="10px">');
+    var $playball = $('<img id="theball" src="http://dc676.4shared.com/img/bMe5oGPq/s7/13d47badf30/Optical_flare__2_" height="100px" width="100px">');
         $playball.css({
             'zIndex': 2147483647,
             'position': 'absolute'
@@ -472,11 +472,12 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                 beforetime = $thisNote.actions[i].time;
                 var elementObj={};
                 var theAnimation = function (){
+                    // if($thisNote.actions[i].time === $thisNote.actions[$thisNote.actions[i].length-1].time) $    ("#theball").remove();
                     var indexTracker = i;
                     // var mouseOverElement = document.elementFromPoint($thisNote.actions[indexTracker].x-1, $thisNote.actions[indexTracker].y-1).id
                     $('#theball').animate({
-                         left: ($thisNote.actions[i].x),
-                         top:  ($thisNote.actions[i].y),
+                         left: ($thisNote.actions[i].x-50),
+                         top:  ($thisNote.actions[i].y-25),
                          opacity: 1
                     }, timeDifference, function() {
                         // $("#theball").get(0).scrollIntoView({block: "end", behavior: "smooth"});
@@ -492,7 +493,15 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                         // console.log(mouseOverElement)
                       if(indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'click') {
                         console.log('event', $thisNote.actions[indexTracker]);
-                        var element = document.elementFromPoint($thisNote.actions[indexTracker].x-1, $thisNote.actions[indexTracker].y-1)
+                        $('#theball').css({
+                            "height":"0px",
+                            "width":"0px"
+                        });
+                        var element = document.elementFromPoint($thisNote.actions[indexTracker].x, $thisNote.actions[indexTracker].y)
+                        $('#theball').css({
+                            "height":"100px",
+                            "width":"100px"
+                        });
                         if(element) {
                         if(element.nodeName==='INPUT'){
                             elementObj.id = element.id;
@@ -524,11 +533,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note,team)
                         }
                         }
                       else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'scroll') {
-                        $("#theball").get(0).scrollIntoView()
-
-                        $("body, html").animate({ 
-                        scrollTop: $('#theball').offset().top 
-                        });
+                        $("#theball").get(0).scrollIntoView() 
                       }
                     });
                 };
