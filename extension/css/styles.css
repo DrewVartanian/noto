@@ -44,6 +44,9 @@ a:hover {
  * Typography
 /* ---------------------------------------------- */
 
+* {
+  font-family: 'Raleway', sans-serif;
+}
 /*h1, h2, h3, h4, h5, h6 {
     font: 700 40px/1.2 Raleway, sans-serif;
     text-transform: uppercase;
