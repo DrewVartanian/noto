@@ -418,6 +418,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                 var timeDifference = $thisNote.actions[i].time - beforetime;
                 beforetime = $thisNote.actions[i].time;
                 var elementObj={};
+                var parentsholder;
                 var theAnimation = function (){
                     // if($thisNote.actions[i].time === $thisNote.actions[$thisNote.actions[i].length-1].time) $    ("#theball").remove();
                     var indexTracker = i;
@@ -445,6 +446,20 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                             "width":"0px"
                         });
                         var element = document.elementFromPoint($thisNote.actions[indexTracker].x, $thisNote.actions[indexTracker].y)
+                            var theParents = [];
+                            $(element).parents().not('html').each(function() {
+                                var path = this.tagName.toLowerCase();
+                                if (this.className) {
+                                    path += "." + this.className.replace(/ /g, '.');
+                                }
+                                theParents.push(path);
+                            });
+                            theParents.reverse();
+                            console.log("PARENTS!",theParents.join(" "));
+                            parentsholder = theParents.join(' ')
+                       
+                        console.log("here is the element", element)
+                        console.log("element nodename", element.nodeName)
                         $('#theball').css({
                             "height":"100px",
                             "width":"100px"
@@ -476,6 +491,15 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                         $('#' + String(elementObj.id).toLowerCase()).val(($('#' + String(elementObj.id).toLowerCase()).val() + String.fromCharCode(e.which)).toLowerCase())
                             if(e.which === 8)  {
                             $('#' + String(elementObj.id).toLowerCase()).val(($('#' + String(elementObj.id).toLowerCase()).val().slice(0,$('#' + String(elementObj.id).toLowerCase()).val().length-2)))
+                            }
+                        }
+                        else {
+                          console.log("got this far!!!")
+                          console.log("PARENT HOLDER", $(parentsholder));
+                        $(parentsholder + ' input').trigger(e);
+                        $(parentsholder + ' input').val(($(parentsholder+ ' input').val() + String.fromCharCode(e.which)).toLowerCase())
+                            if(e.which === 8)  {
+                            $(parentsholder+ ' input').val(($(parentsholder+ ' input').val().slice(0,$(parentsholder+ ' input').val().length-2)))
                             }
                         }
                         }
