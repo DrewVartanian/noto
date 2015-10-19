@@ -2,53 +2,49 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebNotes</title>
 
-    <title>WebNotes</title>
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
-    <!-- <link rel="stylesheet" href="/css/material.min.css"> -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/jquery-ui.min.css">
-    <link rel="stylesheet" href="/css/angular-csp.css" />
-    <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/jquery-ui.min.css">
+  <link rel="stylesheet" href="/css/angular-csp.css" />
+  <link rel="stylesheet" href="/css/styles.css" />
 
-    <script src="/js/dependencies/jquery-1.11.3.min.js"></script>
-    <script src="/js/dependencies/angular.min.js"></script>
-    <script src="/js/dependencies/angular-animate.min.js"></script>
-    <script src="/js/dependencies/angular-material.min.js"></script>
-    <script src="/js/dependencies/angular-ui-router.min.js"></script>
-    <script src="/js/dependencies/bootstrap.min.js"></script>
-    <script src="/js/dependencies/ui-bootstrap-tpls.min.js"></script>
-    <script src="/js/dependencies/socket.io.js"></script>
-    <script src="/js/dependencies/lodash.js"></script>
-
-    <script src="/js/app/app.js"></script>
-    <script src="/js/fsa/fsa-pre-built.js"></script>
-    <script src="/js/app/states/login/login.js"></script>
-    <script src="/js/app/states/signup/signup.js"></script>
-    <script src="/js/app/states/webnote/webnote.js"></script>
-    <script src="/js/app/states/team/team.js"></script>
-    <script src="/js/app/states/edit/edit.js"></script>
-    <script src="/js/app/states/pages/pages.js"></script>
-    <script src="/js/app/states/unread/unread.js"></script>
-    <script src="/js/app/factories/BackgroundFactory.js"></script>
-    <script src="/js/app/factories/NoteFactory.js"></script>
-    <script src="/js/app/factories/PageFactory.js"></script>
-    <script src="/js/app/factories/TeamFactory.js"></script>
-    <script src="/js/app/factories/UserFactory.js"></script>
-    <script src="/js/app/factories/ExtensionFactory.js"></script>
-    <script src="/js/app/factories/RequestFactory.js"></script>
-    <script src="/js/app/factories/StateFactory.js"></script>
-    <script src="/js/app/directives/navbar/navbar.js"></script>
+  <script src="/js/dependencies/jquery-1.11.3.min.js"></script>
+  <script src="/js/dependencies/angular.min.js"></script>
+  <script src="/js/dependencies/angular-animate.min.js"></script>
+  <script src="/js/dependencies/angular-material.min.js"></script>
+  <script src="/js/dependencies/angular-ui-router.min.js"></script>
+  <script src="/js/dependencies/bootstrap.min.js"></script>
+  <script src="/js/dependencies/ui-bootstrap-tpls.min.js"></script>
+  <script src="/js/dependencies/socket.io.js"></script>
+  <script src="/js/dependencies/lodash.js"></script>
+  <script src="/js/app/app.js"></script>
+  <script src="/js/fsa/fsa-pre-built.js"></script>
+  <script src="/js/app/states/login/login.js"></script>
+  <script src="/js/app/states/signup/signup.js"></script>
+  <script src="/js/app/states/webnote/webnote.js"></script>
+  <script src="/js/app/states/team/team.js"></script>
+  <script src="/js/app/states/edit/edit.js"></script>
+  <script src="/js/app/states/pages/pages.js"></script>
+  <script src="/js/app/states/unread/unread.js"></script>
+  <script src="/js/app/factories/BackgroundFactory.js"></script>
+  <script src="/js/app/factories/NoteFactory.js"></script>
+  <script src="/js/app/factories/PageFactory.js"></script>
+  <script src="/js/app/factories/TeamFactory.js"></script>
+  <script src="/js/app/factories/UserFactory.js"></script>
+  <script src="/js/app/factories/ExtensionFactory.js"></script>
+  <script src="/js/app/factories/RequestFactory.js"></script>
+  <script src="/js/app/factories/StateFactory.js"></script>
+  <script src="/js/app/directives/navbar/navbar.js"></script>
 </head>
 
 <body id='mainWindow' ng-app="WebNotes">
-    <nav-bar ng-show="isLoggedIn"></nav-bar>
-    <div ui-view></div>
-    <div id="heightBar" style="height: 1px"></div>
+  <nav-bar ng-show="isLoggedIn"></nav-bar>
+  <div ui-view></div>
+  <div id="heightBar" style="height: 1px"></div>
 </body>
 
 </html>
-

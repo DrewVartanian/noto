@@ -1,82 +1,73 @@
-app.config(function ($stateProvider) {
+app.config(function($stateProvider) {
 
-    $stateProvider.state('pages', {
-        url: '/pages',
-        templateUrl: 'js/app/states/pages/pages.html',
-        controller: 'pagesController',
-        resolve: {
-          pages: function(PageFactory){
-            console.log('resolving pages');
-            return PageFactory.getMyPages().then(function(pages){
-              console.log('page resolved');
-              console.log(pages);
-              return pages;
-            });
-          },
-          teams: function(TeamFactory){
-            return TeamFactory.getMyTeams();
-          }
-        }
-    });
+  $stateProvider.state('pages', {
+    url: '/pages',
+    templateUrl: 'js/app/states/pages/pages.html',
+    controller: 'pagesController',
+    resolve: {
+      pages: function(PageFactory) {
+        console.log('resolving pages');
+        return PageFactory.getMyPages().then(function(pages) {
+          console.log('page resolved');
+          console.log(pages);
+          return pages;
+        });
+      },
+      teams: function(TeamFactory) {
+        return TeamFactory.getMyTeams();
+      }
+    }
+  });
 
 });
 
-app.controller('pagesController', function ($scope, PageFactory, TeamFactory, BackgroundFactory,pages,teams,StateFactory) {
+app.controller('pagesController', function($scope, PageFactory, TeamFactory, BackgroundFactory, pages, teams, StateFactory) {
 
-    StateFactory.state.name='pages';
-    $scope.pages = pages;
-    console.log('controller pages',pages);
+  StateFactory.state.name = 'pages';
+  $scope.pages = pages;
+  console.log('controller pages', pages);
 
-    $scope.teams = teams;
-    console.log("before adding the pages for teams ", $scope.teams);
+  $scope.teams = teams;
+  console.log("before adding the pages for teams ", $scope.teams);
 
-    $scope.teams.forEach(function(team){
-        team.pages = [];
-        $scope.pages.forEach(function(page){
-          if(page.team._id === team._id){
-            team.pages.push(page);
-          }
-        });
-
+  $scope.teams.forEach(function(team) {
+    team.pages = [];
+    $scope.pages.forEach(function(page) {
+      if (page.team._id === team._id) {
+        team.pages.push(page);
+      }
     });
 
-    $scope.oneAtATime = true;
+  });
 
-    $scope.groups = [
-      {
-        title: 'Dynamic Group Header - 1',
-        content: 'Dynamic Group Body - 1'
-      },
-      {
-        title: 'Dynamic Group Header - 2',
-        content: 'Dynamic Group Body - 2'
-      }
-    ];
+  $scope.oneAtATime = true;
 
-    $scope.items = ['Item 1', 'Item 2', 'Item 3'];
+  $scope.groups = [{
+    title: 'Dynamic Group Header - 1',
+    content: 'Dynamic Group Body - 1'
+  }, {
+    title: 'Dynamic Group Header - 2',
+    content: 'Dynamic Group Body - 2'
+  }];
 
-    $scope.addItem = function() {
-      var newItemNo = $scope.items.length + 1;
-      $scope.items.push('Item ' + newItemNo);
-    };
+  $scope.items = ['Item 1', 'Item 2', 'Item 3'];
 
-    $scope.status = {
-      isFirstOpen: true,
-      isFirstDisabled: false
-    };
+  $scope.addItem = function() {
+    var newItemNo = $scope.items.length + 1;
+    $scope.items.push('Item ' + newItemNo);
+  };
 
-    $scope.setTeam = function (teamname){
-      console.log("teamname: ", teamname);
-      BackgroundFactory.setTeamViewOnLinkVisit(teamname)
-    };
-    // console.log('height:',$('body').height());
+  $scope.status = {
+    isFirstOpen: true,
+    isFirstDisabled: false
+  };
 
-    // // setTimeout(function() {
-    // //   if($('html').height() !== $('body').height()) {
-    // //     $('body').height($('body').height() + 1);
-    // //   }
-    // // });
-    // $('html').css({"min-height":(151+(44*teams.length))+"px"});
-    // console.log('height:',$('body').height());
-    setTimeout(function() { $('#heightBar').height(2); }, 1);
+  $scope.setTeam = function(teamname) {
+    console.log("teamname: ", teamname);
+    BackgroundFactory.setTeamViewOnLinkVisit(teamname)
+  };
+
+  setTimeout(function() {
+    $('#heightBar').height(2);
+  }, 1);
 });

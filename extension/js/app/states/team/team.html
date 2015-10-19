@@ -1,58 +1,38 @@
-<!-- style="background-color:grey; text-align:center" -->
-<h5 class="list-group-item-info" style="text-align:center; font-size: 24px; padding: 5px;" >Team Management</h5>
-
-<!-- <div class="container">
-    <div> -->
-
-<!--         <ul ng-repeat="team in teams">
-            <li ui-sref="edit({id: team._id})" ng-hide="team.name === 'personal'">{{team.name}}</li>
-
-        </ul> -->
-        <script type="text/ng-template" id="group-template.html"></script>
-            <uib-accordion close-others="oneAtATime">
-                <uib-accordion-group ng-repeat="team in users" heading="{{team.name}}">
-<!--                     <ul class="list-group">
-                        <a ng-repeat="page in team.pages track by $index" ng-click="setTeam(team.name)" target="_blank" href="{{page.url}}">
-                        <li class="list-group-item list-group-item-info webnote-paper">{{page.url}}</li></a>
-                    </ul> -->
-        <div id="teamGroup">
-            <ul ng-repeat="user in team.users" class="list-group">
-                <li class="list-group-item list-group-item-info webnote-paper">{{user.email}}<span class="glyphicon glyphicon-remove pull-right" ng-click="deleteMember(team._id, user._id)"></span></li>
-
-            </ul>
-
-        </div>
-
-                <div>
-                    <button type="button" class="btn btn-primary" ng-click="toggleEdit = !toggleEdit">Edit This Team</button>
-                    <div class="container" ng-show="toggleEdit">
-                        <form id="login-form" name="loginForm" ng-submit="addNewTeamMember(team._id, userObject, teamObject)">
-                            <div class="form-group">
-                                <label for="teamName">Team Name</label>
-                                <input type="name" ng-model="teamObject.name" class="form-control">
-                                <label for="email">Add Members</label>
-                                <input type="email" ng-model="userObject.email" typeahead="user for user in everySingleUser | filter:$viewValue | limitTo:6" class="form-control">
-                            </div>
-                            <button type="submit" class="btn btn-default">Save</button>
-                        </form>
-                    </div>
-                </div>
-
-                </uib-accordion-group>
-            </uib-accordion>
-        <div>
-            <button type="button" class="btn btn-primary" ng-click="toggleCreate = !toggleCreate">Create New Team</button>
-            <div class="container" ng-show="toggleCreate">
-                <form id="login-form" name="loginForm" ng-submit="loginForm.$valid && createNewTeam(teamObject)">
-                    <div class="form-group">
-                        <label for="teamName">Team Name</label>
-                        <input type="teamName" ng-model="teamObject.name" class="form-control" placeholder="Team Name">
-                    </div>
-                    <button type="submit" class="btn btn-default">Save</button>
-                </form>
-            </div>
-        </div>
-
-<!--     </div>
-</div> -->
+<h5 class="list-group-item-info" style="text-align:center; font-size: 24px; padding: 5px;">Team Management</h5>
+<script type="text/ng-template" id="group-template.html"></script>
+<uib-accordion close-others="oneAtATime">
+  <uib-accordion-group ng-repeat="team in users" heading="{{team.name}}">
+    <div id="teamGroup">
+      <ul ng-repeat="user in team.users" class="list-group">
+        <li class="list-group-item list-group-item-info webnote-paper">{{user.email}}<span class="glyphicon glyphicon-remove pull-right" ng-click="deleteMember(team._id, user._id)"></span></li>
+      </ul>
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary" ng-click="toggleEdit = !toggleEdit">Edit This Team</button>
+      <div class="container" ng-show="toggleEdit">
+        <form id="login-form" name="loginForm" ng-submit="addNewTeamMember(team._id, userObject, teamObject)">
+          <div class="form-group">
+            <label for="teamName">Team Name</label>
+            <input type="name" ng-model="teamObject.name" class="form-control">
+            <label for="email">Add Members</label>
+            <input type="email" ng-model="userObject.email" typeahead="user for user in everySingleUser | filter:$viewValue | limitTo:6" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-default">Save</button>
+        </form>
+      </div>
+    </div>
+  </uib-accordion-group>
+</uib-accordion>
+<div>
+  <button type="button" class="btn btn-primary" ng-click="toggleCreate = !toggleCreate">Create New Team</button>
+  <div class="container" ng-show="toggleCreate">
+    <form id="login-form" name="loginForm" ng-submit="loginForm.$valid && createNewTeam(teamObject)">
+      <div class="form-group">
+        <label for="teamName">Team Name</label>
+        <input type="teamName" ng-model="teamObject.name" class="form-control" placeholder="Team Name">
+      </div>
+      <button type="submit" class="btn btn-default">Save</button>
+    </form>
+  </div>
+</div>
 <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
