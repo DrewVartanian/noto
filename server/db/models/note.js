@@ -42,7 +42,7 @@ var schema = new mongoose.Schema({
   },
   // DOM element association
   association: String,
-  action: String
+  actions: []
 });
 
 mongoose.model('Note', schema);

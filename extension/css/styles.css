@@ -124,10 +124,14 @@ a:hover {
 
 #notonav {
   padding-top: 10px;
-  padding-bottom: 40px;
+  padding-bottom: 10px;
   text-align: center;
   font-family: 'Raleway', sans-serif;
   background-color: #FFFFCC;
+}
+
+.welcome-message {
+  padding-right: 10px;
 }
 
 #notonav a {
@@ -248,4 +252,20 @@ a:hover {
   font-size: 16px;
   background-position: -70px -9px;
   color: black;
+}
+
+.teameditcenter {
+  margin: 0 130px;
+}
+
+.teamcreatecenter {
+  margin: 0 140px;
+}
+
+.teamsavecenter {
+  margin: 0 144px;
+}
+
+.teamsavecreatecenter {
+  margin: 0 166px;
 }
