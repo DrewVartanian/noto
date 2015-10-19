@@ -106,6 +106,7 @@ h2 {
 
 #loginsignup p,
 a {
+  font-family: 'Reenie Beanie', cursive;
   margin: 0;
   padding: 0;
 }
@@ -244,12 +245,17 @@ a:hover {
 
 
 /* ---------------------------------------------- /*
- * paper
+ * accordion
 /* ---------------------------------------------- */
+
+.panel-group .panel {
+  padding: 10px;
+}
 
 .panel-heading {
   border: none;
   border-radius: 0px;
+  cursor: pointer;
 }
 
 .panel-group .panel {
@@ -257,10 +263,9 @@ a:hover {
   border-radius: 0px;
 }
 
-.panel {
-  border-radius: 0px;
+.list-group {
+  margin-bottom: 0;
 }
-
 
 .webnote-paper {
   border: none;
