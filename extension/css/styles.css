@@ -249,9 +249,15 @@ a:hover {
   border-radius: 0px;
 }
 
-.panel-group {
+.panel-group .panel {
   margin-bottom: 5px;
+  border-radius: 0px;
 }
+
+.panel {
+  border-radius: 0px;
+}
+
 
 .webnote-paper {
   border: none;
