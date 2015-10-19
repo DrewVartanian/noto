@@ -137,13 +137,13 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   $teamSelect.css({
     'width': '47%',
     'height': '15%',
-    // 'border': 'none',
+    'border': 'none',
     'box-shadow': 'none',
     'background': 'transparent',
     '-webkit-appearance': 'none',
     'text-align': 'center',
     'whte-space': 'nowrap',
-    "border": "2px solid #lightgrey",
+    // "border": "2px solid #lightgrey",
     "padding-left": "8px",
     "padding-right": "8px",
     "cursor": "pointer"
@@ -152,7 +152,15 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   $teamSelect.attr("id", "selectTeam");
   var $optionCurrent = $('<option></option>');
   $optionCurrent.attr('value', team._id);
-  $optionCurrent.html(team.name);
+  console.log("what is my current option for team?", $optionCurrent.html());
+  if($optionCurrent.html().indexOf("▾") >= 0){
+    $optionCurrent.html(team.name);
+  }
+  else{
+    $optionCurrent.html(team.name + "  ▾");
+    
+  }
+  //$optionCurrent.html(team.name + "  ▾");
   $teamSelect.append($optionCurrent);
   GLOBALS_WEB_NOTES.teamList.forEach(function(teamOp) {
     if (teamOp._id === team._id) return;
@@ -172,14 +180,14 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
     'class': 'colors',
     'width': '47%',
     'height': '15%',
-    // 'border-style': 'none',
+    'border-style': 'none',
     'box-shadow': 'none',
     'background': 'transparent',
     '-webkit-appearance': 'none',
     'text-align': 'center',
     'float': 'right',
     'whte-space': 'nowrap',
-    "border": "2px solid #lightgrey",
+    // "border": "2px solid #lightgrey",
     "padding-left": "8px",
     "padding-right": "8px",
     "cursor": "pointer"
@@ -187,7 +195,14 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   $colorSelect.attr("id", "selectColor");
   var $colorCurrent = $('<option></option>');
   $colorCurrent.attr('value', note.color);
-  $colorCurrent.html(note.color);
+  if($colorCurrent.html().indexOf("▾") >= 0){
+    $colorCurrent.html(note.color);
+  }
+  else{
+    
+    $colorCurrent.html(note.color + "  ▾");
+  }
+  
   $colorSelect.append($colorCurrent);
   colors.forEach(function(color) {
     if (color === note.color) return;
@@ -217,14 +232,15 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
 
   $buttonSave.attr('type', 'submit');
 
+
   $form.submit(function(e) {
     e.preventDefault();
     console.log("form.submit self: ", self);
     self.saveNote(note._id,
       $messageInput.val(),
-      $colorSelect.children("option:selected").html(), {
+      $colorSelect.children("option:selected").html().replace('  ▾', ''), {
         _id: $teamSelect.val(),
-        name: $teamSelect.children("option:selected").html(),
+        name: $teamSelect.children("option:selected").html().replace('  ▾', ''),
         actions: $thisNote.actions
       },
       team);
