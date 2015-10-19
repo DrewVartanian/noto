@@ -216,7 +216,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
       $messageInput.val(),
       $colorSelect.children("option:selected").html(), {
         _id: $teamSelect.val(),
-        name: $teamSelect.children("option:selected").html()
+        name: $teamSelect.children("option:selected").html(),
+        actions: $thisNote.actions
       },
       team);
   });
@@ -265,44 +266,6 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
     'top': '0px',
   });
 
-  $buttonRecord.click(function() {
-    $thisNote.winWidthRecord = window.innerWidth;
-    $thisNote.winHeightRecord = window.innerHeight;
-    var startDate = new Date();
-    console.log("Recording!");
-    document.onmousemove = function(e) {
-      var date = new Date();
-      var moveObj = {
-        x: e.pageX,
-        y: e.pageY,
-        type: 'move',
-        time: date - startDate
-      };
-      $thisNote.actions.push(moveObj);
-    };
-    document.onclick = function(e) {
-      var date = new Date();
-      var clickObj = {
-        x: e.pageX,
-        y: e.pageY,
-        type: 'click',
-        time: date - startDate
-      };
-      $thisNote.actions.push(clickObj);
-      console.log($thisNote.actions);
-    };
-    document.onkeyup = function(e) {
-      var date = new Date();
-      var keyObj = {
-        data: e.keyCode,
-        type: 'keypress',
-        time: date - startDate
-      };
-      $thisNote.actions.push(keyObj);
-    };
-  });
-
-
   var stopIcon = chrome.extension.getURL("/icons/stop.png");
   var $buttonStop = $('<div></div>');
   $buttonStop.css({
@@ -337,55 +300,193 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
     'top': '0px',
   });
 
-  // var cursorIcon = chrome.extension.getURL("/icons/cursor.png");
-  // var $playball = $('<div></div>');
-  // $playball.attr('id', 'theball');
-  var $playball = $('<img id="theball" src="http://www.clker.com/cliparts/b/3/b/d/11971252702040963370chris_sharkot_ball.svg.med.png" height="10px" width="10px">');
-  $playball.css({
-    'zIndex': 2147483647,
-    'position': 'absolute',
-    // 'height': '50px',
-    // 'width': '50px',
-    // 'background-image': 'url('+cursorIcon+')',
-  });
-  $buttonPlay.click(function() {
-    var playHeight = Number(window.innerHeight);
-    var playWidth = Number(window.innerWidth);
-    // console.log("record height " + $thisNote.winHeightRecord,"record width " + $thisNote.winWidthRecord);
-    // console.log("play height " + playHeight, "play width " + playWidth);
-    // SCALAR_H = playHeight / $thisNote.winHeightRecord;
-    // SCALAR_W = playWidth / $thisNote.winWidthRecord;
-    // console.log("height scalar ", SCALAR_H, "width_scalar ", SCALAR_W);
-    // console.log("transformed current ", playHeight / SCALAR_H, " width ", playWidth / SCALAR_W);
-    $('body').append($playball);
-    console.log($thisNote.actions.length);
-    var beforetime = 0;
-    for (var i = 0; i < $thisNote.actions.length; i++) {
-      console.log($thisNote.actions[i].x);
-      var timeDifference = $thisNote.actions[i].time - beforetime;
-      beforetime = $thisNote.actions[i].time;
-      var theAnimation = function() {
-        var indexTracker = i;
-        $('#theball').animate({
-          left: ($thisNote.actions[i].x),
-          top: ($thisNote.actions[i].y)
-        }, timeDifference, function() {
-          if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'click') {
-            console.log('event', $thisNote.actions[indexTracker]);
-            console.log(document.elementFromPoint($thisNote.actions[indexTracker].x + 11, $thisNote.actions[indexTracker].y + 11));
-            document.elementFromPoint($thisNote.actions[indexTracker].x + 11, $thisNote.actions[indexTracker].y + 11).click();
-          } else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'keypress') {
-            console.log('keypress!!', $thisNote.actions[indexTracker]);
-            jQuery.event.trigger({
-              type: 'keypress',
-              which: $thisNote.actions[indexTracker].data
-            });
-          }
+        $buttonRecord.click(function(){
+            $thisNote.winWidthRecord = window.innerWidth;
+            $thisNote.winHeightRecord = window.innerHeight;
+            var startDate = new Date();
+            console.log("Recording!");
+            document.onmousemove = function(e){
+                var date = new Date();
+                var moveObj = {
+                    x: e.pageX,
+                    y: e.pageY,
+                    type: 'move',
+                    time: date - startDate
+                };
+                $thisNote.actions.push(moveObj);
+            };
+            document.onclick = function(e){
+                var date = new Date();
+                var clickObj = {
+                    x: e.pageX,
+                    y: e.pageY,
+                    type: 'click',
+                    time: date - startDate
+                    };
+                $thisNote.actions.push(clickObj);
+                console.log($thisNote.actions);
+                };
+            document.onscroll = function(e){
+                console.log(e);
+                var ymotion = $(document).scrollTop() / 3;
+                var date = new Date();
+                var scrollObj = {
+                    y: ymotion,
+                    type: 'scroll',
+                    time: date - startDate
+                    };
+                $thisNote.actions.push(scrollObj);
+                };
+            document.onkeyup = function (e){
+                var date = new Date();
+                var keyObj = {
+                 data: e.keyCode,
+                 type: 'keypress',
+                 time: date - startDate,
+                 shifty: !!e.shiftKey
+                };
+                   var _to_ascii = {
+                    '188': '44',
+                    '109': '45',
+                    '190': '46',
+                    '191': '47',
+                    '192': '96',
+                    '220': '92',
+                    '222': '39',
+                    '221': '93',
+                    '219': '91',
+                    '173': '45',
+                    '187': '61', //IE Key codes
+                    '186': '59', //IE Key codes
+                    '189': '45'  //IE Key codes
+                }
+                 var shiftUps = {
+                   "96": "126",
+                   "49": "33",
+                   "50": "64",
+                   "51": "35",
+                   "52": "36",
+                   "53": "37",
+                   "54": "94",
+                   "55": "38",
+                   "56": "42",
+                   "57": "40",
+                   "48": "41",
+                   "45": "95",
+                   "61": "43",
+                   "91": "123",
+                   "93": "125",
+                   "92": "124",
+                   "59": "58",
+                   "39": "92",
+                   "44": "60",
+                   "46": "62",
+                   "47": "63"
+               };
+                if(_to_ascii.hasOwnProperty(keyObj.data)) keyObj.data =_to_ascii[keyObj.data]
+                if (keyObj.shifty && shiftUps.hasOwnProperty(keyObj.data)) keyObj.data = shiftUps[keyObj.data];
+                $thisNote.actions.push(keyObj);
+            };
+
         });
-      };
-      setTimeout(theAnimation(), 0);
-    }
-  });
+        $buttonStop.click(function() {
+            console.log("height " + $thisNote.winHeightRecord,"width " + $thisNote.winWidthRecord); 
+            $thisNote.actions.splice(0,3);
+            document.onclick = null;
+            document.onmousemove = null;
+            document.onkeyup = null;
+        });
+    var $playball = $('<img id="theball" src="http://www.fusionclothinguk.co.uk/eBay_shop_setup/star-blue-purple-glow.png" height="100px" width="100px">');
+        $playball.css({
+            'zIndex': 2147483647,
+            'position': 'absolute'
+        });
+        $buttonPlay.click(function() {
+            var playHeight = Number(window.innerHeight);
+            var playWidth = Number(window.innerWidth);
+            // console.log("record height " + $thisNote.winHeightRecord,"record width " + $thisNote.winWidthRecord);
+            // console.log("play height " + playHeight, "play width " + playWidth);
+            // SCALAR_H = playHeight / $thisNote.winHeightRecord;
+            // SCALAR_W = playWidth / $thisNote.winWidthRecord;
+            // console.log("height scalar ", SCALAR_H, "width_scalar ", SCALAR_W); 
+            // console.log("transformed current ", playHeight / SCALAR_H, " width ", playWidth / SCALAR_W);
+            $('body').append($playball);
+            console.log($thisNote.actions.length);
+            var beforetime = 0;
+            for(var i=0;i<$thisNote.actions.length; i++) {  
+                console.log($thisNote.actions[i].x);
+                var timeDifference = $thisNote.actions[i].time - beforetime;
+                beforetime = $thisNote.actions[i].time;
+                var elementObj={};
+                var theAnimation = function (){
+                    // if($thisNote.actions[i].time === $thisNote.actions[$thisNote.actions[i].length-1].time) $    ("#theball").remove();
+                    var indexTracker = i;
+                    // var mouseOverElement = document.elementFromPoint($thisNote.actions[indexTracker].x-1, $thisNote.actions[indexTracker].y-1).id
+                    $('#theball').animate({
+                         left: ($thisNote.actions[i].x-50),
+                         top:  ($thisNote.actions[i].y-50),
+                         opacity: 1
+                    }, timeDifference, function() {
+                        // $("#theball").get(0).scrollIntoView({block: "end", behavior: "smooth"});
+                        // $("body, html").animate({ 
+                        // scrollTop: $('#theball').offset().top 
+                        // });
+                        // $('#' + mouseOverElement).hover(function() {
+                        //     $(this).attr('id', mouseOverElement + ":hover")}
+                        //     ,function() {
+                        //     $(this).attr('id', mouseOverElement + ":hover")});
+                        // $('#' + mouseOverElement).mouseenter();
+                        // // $('#' + mouseOverElement).mouseleave()
+                        // console.log(mouseOverElement)
+                      if(indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'click') {
+                        console.log('event', $thisNote.actions[indexTracker]);
+                        $('#theball').css({
+                            "height":"0px",
+                            "width":"0px"
+                        });
+                        var element = document.elementFromPoint($thisNote.actions[indexTracker].x, $thisNote.actions[indexTracker].y)
+                        $('#theball').css({
+                            "height":"100px",
+                            "width":"100px"
+                        });
+                        if(element) {
+                        if(element.nodeName==='INPUT'){
+                            elementObj.id = element.id;
+                            console.log(elementObj.id);
+                            }
+                        else if (element.className === 'ace_content'){
+                            elementObj.theClass = (element.class)
+                            console.log("drew an ace!")
+                        }
+                        element.click();
+                       }
+                        }
+                      else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'keypress') {
+                        console.log('keypress!!', $thisNote.actions[indexTracker]);
+                        var e = jQuery.Event('keydown');
+                        e.which = Number($thisNote.actions[indexTracker].data);
+                        console.log('the element id!', elementObj.id);
+                        console.log('the key data', Number($thisNote.actions[indexTracker].data));
+                        if(elementObj.theClass){
+                            $('.' + String(elementObj.theClass).toLowerCase()).trigger(e);
+                            $('.' + String(elementObj.theClass).toLowerCase()).val(($('.' + String(elementObj.theClass).toLowerCase()).val() + String.fromCharCode(e.which)).toLowerCase())
+                        } 
+                        else if( elementObj.id) {
+                        $('#' + String(elementObj.id).toLowerCase()).trigger(e);
+                        $('#' + String(elementObj.id).toLowerCase()).val(($('#' + String(elementObj.id).toLowerCase()).val() + String.fromCharCode(e.which)).toLowerCase())
+                            if(e.which === 8)  {
+                            $('#' + String(elementObj.id).toLowerCase()).val(($('#' + String(elementObj.id).toLowerCase()).val().slice(0,$('#' + String(elementObj.id).toLowerCase()).val().length-2)))
+                            }
+                        }
+                        }
+                      else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'scroll') {
+                        $("#theball").get(0).scrollIntoView() 
+                      }
+                    });
+                };
+                    setTimeout(theAnimation(), 0);
+            }
+        });
 
   $thisNote.hover(function() {
     $buttonDestroy.css({
@@ -491,21 +592,22 @@ GLOBALS_WEB_NOTES.saveNotePosition = function(note, team) {
 };
 
 
-GLOBALS_WEB_NOTES.saveNote = function(noteId, message, color, newTeam, oldTeam) {
-  var self = this;
-  chrome.runtime.sendMessage({
-    title: "saveNote",
-    noteId: noteId,
-    // size: size,
-    color: color,
-    message: message,
-    newTeam: newTeam._id,
-    oldTeam: oldTeam._id
-  }, function(changedNote) {
-    console.log("saving note");
-    self.unrenderNote(noteId);
-    self.renderNote(changedNote, newTeam);
-  });
+GLOBALS_WEB_NOTES.saveNote = function(noteId, message, color, newTeam, oldTeam, actions){
+    var self = this;
+    chrome.runtime.sendMessage({
+        title: "saveNote",
+        noteId: noteId,
+        // size: size,
+        color: color,
+        message: message,
+        newTeam: newTeam._id,
+        oldTeam: oldTeam._id,
+        actions: actions
+    },function(changedNote){
+        console.log("saving note");
+        self.unrenderNote(noteId);
+        self.renderNote(changedNote,newTeam);
+    });
 };
 
 GLOBALS_WEB_NOTES.clearNotes = function(noteId) {

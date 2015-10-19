@@ -89,7 +89,6 @@ router.put('/unreadpage', function(req, res, next) {
             if (user.unreadPages[i].url === req.body.url) {
               console.log("splicing index number: ", i);
               user.unreadPages.splice(i, 1);
-
             }
           }
 
