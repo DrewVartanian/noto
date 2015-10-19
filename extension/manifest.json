@@ -30,7 +30,7 @@
       "/js/dependencies/bluebird.min.js"
     ],
     "css": [
-      "/css/content.css",
+      // "/css/content.css",
       "/css/jquery-ui.min.css"
     ]
   }],
