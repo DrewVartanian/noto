@@ -115,8 +115,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   var $thisNote = this.buildNote(note, team);
   var $form = $('<form></form>');
   $form.css({
-    'width': '95%',
-    'height': '90%'
+    'width': '100%',
+    'height': '100%'
   });
 
   var $messageInput = $('<textarea></textarea>');
@@ -135,14 +135,18 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   $messageInput.html(message);
   var $teamSelect = $('<select></select>');
   $teamSelect.css({
-    'width': '37%',
+    'width': '47%',
     'height': '15%',
-    'border': 'none',
+    // 'border': 'none',
     'box-shadow': 'none',
     'background': 'transparent',
     '-webkit-appearance': 'none',
     'text-align': 'center',
-    'whte-space': 'nowrap'
+    'whte-space': 'nowrap',
+    "border": "2px solid #lightgrey",
+    "padding-left": "8px",
+    "padding-right": "8px",
+    "cursor": "pointer"
   });
 
   $teamSelect.attr("id", "selectTeam");
@@ -166,15 +170,19 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   var $colorSelect = $('<select></select>');
   $colorSelect.css({
     'class': 'colors',
-    'width': '37%',
+    'width': '47%',
     'height': '15%',
-    'border-style': 'none',
+    // 'border-style': 'none',
     'box-shadow': 'none',
     'background': 'transparent',
     '-webkit-appearance': 'none',
     'text-align': 'center',
     'float': 'right',
-    'whte-space': 'nowrap'
+    'whte-space': 'nowrap',
+    "border": "2px solid #lightgrey",
+    "padding-left": "8px",
+    "padding-right": "8px",
+    "cursor": "pointer"
   });
   $colorSelect.attr("id", "selectColor");
   var $colorCurrent = $('<option></option>');
