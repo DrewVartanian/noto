@@ -249,3 +249,19 @@ a:hover {
   background-position: -70px -9px;
   color: black;
 }
+
+.teameditcenter {
+  margin: 0 130px;
+}
+
+.teamcreatecenter {
+  margin: 0 140px;
+}
+
+.teamsavecenter {
+  margin: 0 144px;
+}
+
+.teamsavecreatecenter {
+  margin: 0 166px;
+}
