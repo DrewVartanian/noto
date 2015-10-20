@@ -43,9 +43,13 @@
   },
   "web_accessible_resources": [
     "/icons/delete.png",
+    "/icons/delete0.png",
     "/icons/record.png",
+    "/icons/record0.png",
     "/icons/stop.png",
+    "/icons/stop0.png",
     "/icons/play.png",
+    "/icons/play0.png",
     "/icons/cursor.png",
     "/icons/corkboard.png",
     "/icons/postit400.png",
