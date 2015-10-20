@@ -18,6 +18,7 @@ var backgroundImg = chrome.extension.getURL("/icons/postit_edited.png");
     'background-image': "url(" + backgroundImg + ")",
     'background-size': 'cover',
     'background-repeat': 'no-repeat',
+    'background-position': 'center',
     // '-webkit-background-size': 'cover',
     'left': note.position.x * $(document).width() / 100 + 'px',
     'top': note.position.y + 'px',
