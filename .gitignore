@@ -4,3 +4,8 @@ npm-debug.log
 public
 .DS_Store
 coverage
+extension.crx
+extension.pem
+key.pem
+extension/key.pem
+extension.zip
