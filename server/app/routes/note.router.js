@@ -125,8 +125,24 @@ router.post('/', function(req, res, next) {
 
 // PUT update note
 router.put('/:id', function(req, res, next) {
-  console.log(req.body.actions);
   _.extend(req.note, req.body);
+  console.log(req.body.actions);
+  // if(req.body.actions){
+  //   console.log('attaching actions to note');
+  //   req.body.actions.forEach(function(act){
+  //     req.note.actions.push(JSON.stringify(act));
+  //     req.note.actions.push(act);
+  //   });
+  //   // req.note.actions.push({
+  //   //   x: 3,
+  //   //   y: 2,
+  //   //   type: 'move',
+  //   //   time: 23,
+  //   //   data: 45,
+  //   //   shifty: false
+  //   // });//req.body.actions;
+  // }
+  console.log(req.note);
   var retNote;
   var newPageNeeded = true;
   var pageCheck;
@@ -140,6 +156,15 @@ router.put('/:id', function(req, res, next) {
       });
 
     });
+  }// saving size
+  else if (req.body.actions) {
+    console.log('saving actions')
+    req.note.save().then(function(note) {
+      console.log("put with req.body.actions ", note);
+      res.status(200).json({
+        note: note
+      });
+    }).then(null,console.log);
   }
   // saving size
   else if (req.body.size) {

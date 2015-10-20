@@ -213,8 +213,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
       $messageInput.val(),
       $colorSelect.children("option:selected").html().replace('  ▾', ''), {
         _id: $teamSelect.val(),
-        name: $teamSelect.children("option:selected").html().replace('  ▾', ''),
-        actions: $thisNote.actions
+        name: $teamSelect.children("option:selected").html().replace('  ▾', '')
       },
       team);
   });
@@ -245,8 +244,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   $buttonDestroy.click(function() {
     self.destroyNote(note._id);
   });
-
-  $thisNote.actions = [];
+  console.log('actions',note.actions);
+  $thisNote.actions = note.actions?note.actions:[];
   var $actionMenu = $('<div></div>');
   $actionMenu.css({
     'height': '30px',
@@ -298,14 +297,6 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
       $(this).css('background-image', 'url(' + stopIconHover + ')');
       }, function(){
       $(this).css('background-image', 'url(' + stopIcon + ')');
-  });
-
-  $buttonStop.click(function() {
-    console.log("height " + $thisNote.winHeightRecord, "width " + $thisNote.winWidthRecord);
-    $thisNote.actions.splice(0, 3);
-    document.onclick = null;
-    document.onmousemove = null;
-    document.onkeyup = null;
   });
 
   var playIcon = chrome.extension.getURL("/icons/play.png");
@@ -423,6 +414,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
             document.onclick = null;
             document.onmousemove = null;
             document.onkeyup = null;
+            document.onscroll = null;
+            GLOBALS_WEB_NOTES.saveNoteRecording(note,team,$thisNote.actions);
         });
 
     var $playball = $('<img id="theball" src="https://raw.githubusercontent.com/DrewVartanian/noto/master/extension/icons/cursor.png"></img>');
@@ -521,8 +514,12 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                       }
                     });
                 };
-                    setTimeout(theAnimation(), 0);
+                setTimeout(theAnimation(), 0);
+                // theAnimation();
             }
+            setTimeout(function(){
+              $playball.remove();
+            }, $thisNote.actions[$thisNote.actions.length-1].time+1000);
         });
 
   $thisNote.hover(function() {
@@ -628,8 +625,20 @@ GLOBALS_WEB_NOTES.saveNotePosition = function(note, team) {
   });
 };
 
+GLOBALS_WEB_NOTES.saveNoteRecording = function(note, team, actions) {
+  console.log("saving recording",actions);
 
-GLOBALS_WEB_NOTES.saveNote = function(noteId, message, color, newTeam, oldTeam, actions){
+  var self = this;
+  chrome.runtime.sendMessage({
+    title: "saveNoteRecording",
+    noteId: note._id,
+    team: team._id,
+    actions: actions
+  });
+};
+
+
+GLOBALS_WEB_NOTES.saveNote = function(noteId, message, color, newTeam, oldTeam){
     var self = this;
     chrome.runtime.sendMessage({
         title: "saveNote",
@@ -638,8 +647,7 @@ GLOBALS_WEB_NOTES.saveNote = function(noteId, message, color, newTeam, oldTeam, 
         color: color,
         message: message,
         newTeam: newTeam._id,
-        oldTeam: oldTeam._id,
-        actions: actions
+        oldTeam: oldTeam._id
     },function(changedNote){
         console.log("saving note");
         self.unrenderNote(noteId);
