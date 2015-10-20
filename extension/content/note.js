@@ -1,7 +1,8 @@
 GLOBALS_WEB_NOTES.buildNote = function(note, team) {
   var self = this;
+var backgroundImg = chrome.extension.getURL("/icons/postit_edited.png");
   var $thisNote = $('<div></div>');
-
+  // $thisNote.html('<img style="z-index: -1; top: 0px; left: 0px; position: absolute; height: 100%; width: 100%" src="'+backgroundImg+'"></img>')
   var colors = ['yellow', 'red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
   $thisNote.attr({
     'id': note._id,
@@ -12,8 +13,12 @@ GLOBALS_WEB_NOTES.buildNote = function(note, team) {
   $thisNote.addClass("web-notes-id-class");
 
   $thisNote.css({
+    'overflow': 'none',
     'padding': '10px',
-    'background-color': note.color,
+    'background-image': "url(" + backgroundImg + ")",
+    'background-size': 'cover',
+    'background-repeat': 'no-repeat',
+    // '-webkit-background-size': 'cover',
     'left': note.position.x * $(document).width() / 100 + 'px',
     'top': note.position.y + 'px',
     'height': note.size.y + 'px',
@@ -23,8 +28,8 @@ GLOBALS_WEB_NOTES.buildNote = function(note, team) {
     'box-sizing': "border-box",
     'font-family': 'Gloria Hallelujah',
     'font-size': '15px',
-    'box-shadow': '0px 4px 6px #333',
-    '-webkit-box-shadow': '0px 4px 6px #333',
+    // 'box-shadow': '0px 4px 6px #333',
+    // '-webkit-box-shadow': '0px 4px 6px #333',
     'opacity': '0.8',
     'white-space': 'pre-wrap',
     'word-wrap': 'break-word'

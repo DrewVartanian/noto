@@ -43,6 +43,7 @@
     "default_popup": "popup.html"
   },
   "web_accessible_resources": [
+    "/icons/postit_edited.png",
     "/icons/delete.png",
     "/icons/record.png",
     "/icons/stop.png",
