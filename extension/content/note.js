@@ -221,6 +221,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
 
 
   var deleteIcon = chrome.extension.getURL("/icons/delete.png");
+  var deleteIconHover = chrome.extension.getURL("/icons/delete0.png");
+
   var $buttonDestroy = $('<div></div>');
   $buttonDestroy.css({
     '-webkit-appearance': 'push-$button',
@@ -232,6 +234,12 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
     'left': '-15px',
     'top': '-20px',
     'display': 'none'
+  });
+
+  $buttonDestroy.hover(function(){
+      $(this).css('background-image', 'url(' + deleteIconHover + ')');
+      }, function(){
+      $(this).css('background-image', 'url(' + deleteIcon + ')');
   });
 
   $buttonDestroy.click(function() {
@@ -251,6 +259,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   });
 
   var recordIcon = chrome.extension.getURL("/icons/record.png");
+  var recordIconHover = chrome.extension.getURL("/icons/record0.png");
+
   var $buttonRecord = $('<div></div>');
   $buttonRecord.css({
     '-webkit-appearance': 'push-$button',
@@ -260,10 +270,18 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
     'background-image': 'url(' + recordIcon + ')',
     'position': 'absolute',
     'left': '0px',
-    'top': '0px',
+    'top': '0px'
+  });
+
+  $buttonRecord.hover(function(){
+      $(this).css('background-image', 'url(' + recordIconHover + ')');
+      }, function(){
+      $(this).css('background-image', 'url(' + recordIcon + ')');
   });
 
   var stopIcon = chrome.extension.getURL("/icons/stop.png");
+  var stopIconHover = chrome.extension.getURL("/icons/stop0.png");
+
   var $buttonStop = $('<div></div>');
   $buttonStop.css({
     '-webkit-appearance': 'push-$button',
@@ -276,6 +294,12 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
     'top': '0px'
   });
 
+  $buttonStop.hover(function(){
+      $(this).css('background-image', 'url(' + stopIconHover + ')');
+      }, function(){
+      $(this).css('background-image', 'url(' + stopIcon + ')');
+  });
+
   $buttonStop.click(function() {
     console.log("height " + $thisNote.winHeightRecord, "width " + $thisNote.winWidthRecord);
     $thisNote.actions.splice(0, 3);
@@ -285,6 +309,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   });
 
   var playIcon = chrome.extension.getURL("/icons/play.png");
+  var playIconHover = chrome.extension.getURL("/icons/play0.png");
+
   var $buttonPlay = $('<div></div>');
 
   $buttonPlay.css({
@@ -295,6 +321,11 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
     'position': 'absolute',
     'right': '0px',
     'top': '0px',
+  });
+  $buttonPlay.hover(function(){
+      $(this).css('background-image', 'url(' + playIconHover + ')');
+      }, function(){
+      $(this).css('background-image', 'url(' + playIcon + ')');
   });
         $buttonRecord.click(function(){
             $thisNote.winWidthRecord = window.innerWidth;
@@ -393,11 +424,15 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
             document.onmousemove = null;
             document.onkeyup = null;
         });
-    var $playball = $('<img id="theball" src="http://www.fusionclothinguk.co.uk/eBay_shop_setup/star-blue-purple-glow.png" height="100px" width="100px">');
+
+    var $playball = $('<img id="theball" src="https://raw.githubusercontent.com/DrewVartanian/noto/master/extension/icons/cursor.png"></img>');
         $playball.css({
+            'height': '100px',
+            'width': '100px',
             'zIndex': 2147483647,
             'position': 'absolute'
         });
+
         $buttonPlay.click(function() {
             var playHeight = Number(window.innerHeight);
             var playWidth = Number(window.innerWidth);
