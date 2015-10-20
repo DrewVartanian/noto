@@ -40,9 +40,9 @@ var schema = new mongoose.Schema({
       default: 200
     }
   },
-  // DOM element association
-  association: String,
-  actions: []
+  // // DOM element association
+  // association: String,
+  actions: { type : Array , "default" : [] }
 });
 
 mongoose.model('Note', schema);

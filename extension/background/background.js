@@ -167,6 +167,43 @@
           }
         });
         return true;
+      case 'saveNoteRecording':
+        console.log('request', request);
+        $.ajax({
+          url: GLOBALS.serverUrl + '/api/note/' + request.noteId,
+          type: 'PUT',
+          contentType: 'application/json',
+          dataType: 'json',
+          data: JSON.stringify({
+            actions: request.actions,
+            url: sender.url
+          }),
+          success: function(res) {
+            console.log('res', res);
+            GLOBALS.pagesProm.then(function(pages) {
+              GLOBALS.socket.emit('changeNote', {
+                "url": sender.url,
+                "newTeam": request.newTeam,
+                "oldTeam": request.oldTeam,
+                "note": res.note,
+                "oper": "put"
+              });
+              pages.some(function(page) {
+                if (page.url !== sender.url) return false;
+                if (page.team._id !== request.team) return false;
+                return page.notes.some(function(note, index) {
+                  if (note._id === request.noteId) {
+                    page.notes[index] = res.note;
+                    console.log(res.note);
+                    return true;
+                  }
+                  return false;
+                });
+              });
+            });
+          }
+        });
+        return true;
       case 'saveNote':
         console.log('request', request);
         $.ajax({
@@ -180,8 +217,7 @@
             color: request.color,
             newTeam: request.newTeam, //? request.newTeam : request.team,
             oldTeam: request.oldTeam, //? request.oldTeam : request.team,
-            url: sender.url,
-            actions: request.actions
+            url: sender.url
           }),
           success: function(res) {
             console.log('res', res);
@@ -191,8 +227,7 @@
                 "newTeam": request.newTeam,
                 "oldTeam": request.oldTeam,
                 "note": res.note,
-                "oper": "put",
-                "actions": request.actions
+                "oper": "put"
               });
               if (request.newTeam === request.oldTeam) {
                 pages.some(function(page) {
