@@ -42,6 +42,13 @@
     "default_popup": "popup.html"
   },
   "web_accessible_resources": [
+    "/icons/recording1.png",
+    "/icons/postit_edited.png",
+    "/icons/postit_green.png",
+    "/icons/postit_blue.png",
+    "/icons/postit_pink.png",
+    "/icons/postit_white.png",
+    "/icons/postit_orange.png",
     "/icons/delete.png",
     "/icons/delete0.png",
     "/icons/record.png",

@@ -1,8 +1,17 @@
 GLOBALS_WEB_NOTES.buildNote = function(note, team) {
   var self = this;
   var $thisNote = $('<div></div>');
-
-  var colors = ['yellow', 'red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
+  var colors = ['yellow', 'green', 'pink', 'white', 'blue', 'orange'];
+  var colorKeys = {
+    'yellow': "/icons/postit_edited.png",
+    'green': "/icons/postit_green.png",
+    'pink': "/icons/postit_pink.png",
+    'white': "/icons/postit_white.png",
+    'blue': "/icons/postit_blue.png",
+    'orange': "/icons/postit_orange.png"
+  };
+  var theNoteColor  = colorKeys[note.color];
+  var backgroundImg = chrome.extension.getURL(theNoteColor);
   $thisNote.attr({
     'id': note._id,
     'data-team-name': team.name,
@@ -13,7 +22,11 @@ GLOBALS_WEB_NOTES.buildNote = function(note, team) {
 
   $thisNote.css({
     'padding': '10px',
-    'background-color': note.color,
+    'background-image': "url(" + backgroundImg + ")",
+    'background-size': 'cover',
+    'background-repeat': 'no-repeat',
+    'background-position': 'center',
+    '-webkit-background-size': 'cover',
     'left': note.position.x * $(document).width() / 100 + 'px',
     'top': note.position.y + 'px',
     'height': note.size.y + 'px',
@@ -23,12 +36,9 @@ GLOBALS_WEB_NOTES.buildNote = function(note, team) {
     'box-sizing': "border-box",
     'font-family': 'Gloria Hallelujah',
     'font-size': '20px',
-    'box-shadow': '0px 4px 6px #333',
-    '-webkit-box-shadow': '0px 4px 6px #333',
     'opacity': '0.8',
     'white-space': 'pre-wrap',
     'word-wrap': 'break-word'
-      //  '-webkit-transform': 'rotate(4deg)',
   });
 
 
@@ -46,48 +56,11 @@ GLOBALS_WEB_NOTES.buildNote = function(note, team) {
     minHeight: 200,
   });
 
-  // var resizeIcon = chrome.extension.getURL("/icons/resize.png");
-  // var $buttonResize = $('<div></div>');
-  // $buttonResize.addClass('ui-resizable-handle ui-resizable-se');
-  // $buttonResize.css({
-  //     'height': '30px',
-  //     'width': '30px',
-  //     'cursor': 'se-resize',
-  //     'background': 'url('+resizeIcon+')',
-  //     'position': 'absolute',
-  //     'right': '-15px',
-  //     'bottom': '-15px',
-  //     // 'display': 'none'
-  // });
-  // $thisNote.hover(function() {
-  //     $buttonResize.css({'display': 'block'});
-  // }, function() {
-  //     $buttonResize.css({'display': 'none'});
-  // });
-  // $thisNote.append($buttonResize);
-
   $thisNote.resize(function() {
     note.size.x = $(this).outerWidth();
     note.size.y = $(this).outerHeight();
     self.saveNoteSize(note, team);
   });
-
-
-  // $thisNote.mouseup(function() {
-  //     // console.log("this.position() ", $(this).position());
-  //     // console.log("original note position", note.position);
-  //     // console.log("attempting to save the position");
-  //     // console.log("event.x and event.y", event.x, event.y);
-  //     // $thisNote.css({
-  //     //     'offset.left':  event.x + "px",
-  //     //     'offset.top': event.y+'px'
-  //     // });
-  //     // console.log("what is note?", note);
-  //     console.log("drag mouseup");
-  //     note.position.x = $(this).position().left;
-  //     note.position.y = $(this).position().top;
-  //     self.saveNotePosition(note, team);
-  // });
 
   $('body').append($thisNote);
   return $thisNote;
@@ -174,7 +147,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   });
 
   //color
-  var colors = ['yellow', 'red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
+    var colors = ['yellow', 'green', 'pink', 'white', 'blue', 'orange'];
   var $colorSelect = $('<select></select>');
   $colorSelect.css({
     'class': 'colors',
@@ -349,17 +322,15 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
     'right': '0px',
     'top': '0px',
   });
-
-
   $buttonPlay.hover(function(){
       $(this).css('background-image', 'url(' + playIconHover + ')');
       }, function(){
       $(this).css('background-image', 'url(' + playIcon + ')');
   });
-
         $buttonRecord.click(function(){
             $thisNote.winWidthRecord = window.innerWidth;
             $thisNote.winHeightRecord = window.innerHeight;
+
             var startDate = new Date();
             console.log("Recording!");
             document.onmousemove = function(e){
@@ -465,12 +436,6 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
         $buttonPlay.click(function() {
             var playHeight = Number(window.innerHeight);
             var playWidth = Number(window.innerWidth);
-            // console.log("record height " + $thisNote.winHeightRecord,"record width " + $thisNote.winWidthRecord);
-            // console.log("play height " + playHeight, "play width " + playWidth);
-            // SCALAR_H = playHeight / $thisNote.winHeightRecord;
-            // SCALAR_W = playWidth / $thisNote.winWidthRecord;
-            // console.log("height scalar ", SCALAR_H, "width_scalar ", SCALAR_W);
-            // console.log("transformed current ", playHeight / SCALAR_H, " width ", playWidth / SCALAR_W);
             $('body').append($playball);
             console.log($thisNote.actions.length);
             var beforetime = 0;
@@ -479,26 +444,14 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                 var timeDifference = $thisNote.actions[i].time - beforetime;
                 beforetime = $thisNote.actions[i].time;
                 var elementObj={};
+                var parentsholder;
                 var theAnimation = function (){
-                    // if($thisNote.actions[i].time === $thisNote.actions[$thisNote.actions[i].length-1].time) $    ("#theball").remove();
                     var indexTracker = i;
-                    // var mouseOverElement = document.elementFromPoint($thisNote.actions[indexTracker].x-1, $thisNote.actions[indexTracker].y-1).id
                     $('#theball').animate({
                          left: ($thisNote.actions[i].x-50),
                          top:  ($thisNote.actions[i].y-50),
                          opacity: 1
                     }, timeDifference, function() {
-                        // $("#theball").get(0).scrollIntoView({block: "end", behavior: "smooth"});
-                        // $("body, html").animate({
-                        // scrollTop: $('#theball').offset().top
-                        // });
-                        // $('#' + mouseOverElement).hover(function() {
-                        //     $(this).attr('id', mouseOverElement + ":hover")}
-                        //     ,function() {
-                        //     $(this).attr('id', mouseOverElement + ":hover")});
-                        // $('#' + mouseOverElement).mouseenter();
-                        // // $('#' + mouseOverElement).mouseleave()
-                        // console.log(mouseOverElement)
                       if(indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'click') {
                         console.log('event', $thisNote.actions[indexTracker]);
                         $('#theball').css({
@@ -506,6 +459,20 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                             "width":"0px"
                         });
                         var element = document.elementFromPoint($thisNote.actions[indexTracker].x, $thisNote.actions[indexTracker].y)
+                            var theParents = [];
+                            $(element).parents().not('html').each(function() {
+                                var path = this.tagName.toLowerCase();
+                                if (this.className) {
+                                    path += "." + this.className.replace(/ /g, '.');
+                                }
+                                theParents.push(path);
+                            });
+                            theParents.reverse();
+                            console.log("PARENTS!",theParents.join(" "));
+                            parentsholder = theParents.join(' ')
+                       
+                        console.log("here is the element", element)
+                        console.log("element nodename", element.nodeName)
                         $('#theball').css({
                             "height":"100px",
                             "width":"100px"
@@ -537,6 +504,15 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                         $('#' + String(elementObj.id).toLowerCase()).val(($('#' + String(elementObj.id).toLowerCase()).val() + String.fromCharCode(e.which)).toLowerCase())
                             if(e.which === 8)  {
                             $('#' + String(elementObj.id).toLowerCase()).val(($('#' + String(elementObj.id).toLowerCase()).val().slice(0,$('#' + String(elementObj.id).toLowerCase()).val().length-2)))
+                            }
+                        }
+                        else {
+                          console.log("got this far!!!")
+                          console.log("PARENT HOLDER", $(parentsholder));
+                        $(parentsholder + ' input').trigger(e);
+                        $(parentsholder + ' input').val(($(parentsholder+ ' input').val() + String.fromCharCode(e.which)).toLowerCase())
+                            if(e.which === 8)  {
+                            $(parentsholder+ ' input').val(($(parentsholder+ ' input').val().slice(0,$(parentsholder+ ' input').val().length-2)))
                             }
                         }
                         }
