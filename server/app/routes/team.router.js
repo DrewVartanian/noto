@@ -94,7 +94,7 @@ router.put('/:id', function(req, res, next) {
                    <div style="text-align: center; margin-top: 250px; padding-left: 75px;"><h1 style="font-family: cursive; padding-bottom: 20px">Noto</h1>
                    <p style="font-weight: 900">Hello ${req.body.userEmail},</p><p>${req.user.email} has added you to their team on Noto!
                    <p>Have you heard about Noto yet?</p> <p>get the wonderful Chrome extension today!</p>
-                   </p><p><a>insert link to extension here!</a></p></div></div></div>
+                   </p><p><a href="https://chrome.google.com/webstore/detail/noto/aglcaapnhilgjpjciimkkcmobjbigklh">Click Here to Visit Noto On the Chrome Web Store</a></p></div></div></div>
                    </td>
                    </tr>
                    </table>`
