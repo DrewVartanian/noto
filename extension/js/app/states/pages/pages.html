@@ -1,10 +1,11 @@
-<h5 class="list-group-item-info" style="text-align:center; font-size: 24px; padding: 5px;">Your Notes</h5>
+<h5 class="list-group-item-info" style="text-align:center; font-size: 22px; padding: 5px; margin: 0;">Your Notes</h5>
 <script type="text/ng-template" id="group-template.html"></script>
 <uib-accordion close-others="oneAtATime">
-  <uib-accordion-group ng-repeat="team in teams" heading="{{team.name}}">
+  <uib-accordion-group ng-repeat="team in teams" heading="{{team.name}}" style="border: none">
     <ul class="list-group">
       <a ng-repeat="page in team.pages track by $index" ng-click="setTeam(team.name)" target="_blank" href="{{page.url}}">
-        <li class="list-group-item list-group-item-info webnote-paper">{{page.url}}</li>
+        <li class="list-group-item list-group-item-info webnote-paper">
+            <i class="fa fa-link"></i>  {{page.url}}</li>
       </a>
     </ul>
   </uib-accordion-group>

@@ -44,6 +44,9 @@ a:hover {
  * Typography
 /* ---------------------------------------------- */
 
+* {
+  font-family: 'Raleway', sans-serif;
+}
 /*h1, h2, h3, h4, h5, h6 {
     font: 700 40px/1.2 Raleway, sans-serif;
     text-transform: uppercase;
@@ -103,6 +106,7 @@ h2 {
 
 #loginsignup p,
 a {
+  font-family: 'Reenie Beanie', cursive;
   margin: 0;
   padding: 0;
 }
@@ -241,10 +245,30 @@ a:hover {
 
 
 /* ---------------------------------------------- /*
- * paper
+ * accordion
 /* ---------------------------------------------- */
 
+.panel-group .panel {
+  padding: 10px;
+}
+
+.panel-heading {
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+}
+
+.panel-group .panel {
+  margin-bottom: 5px;
+  border-radius: 0px;
+}
+
+.list-group {
+  margin-bottom: 0;
+}
+
 .webnote-paper {
+  border: none;
   background-color: #fff;
   background-image: linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px), linear-gradient(#eee .1em, transparent .1em);
   background-size: 100% 1.2em;
@@ -252,4 +276,24 @@ a:hover {
   font-size: 16px;
   background-position: -70px -9px;
   color: black;
+}
+
+.teameditcenter {
+  margin: 0 auto;
+  display: block;
+}
+
+.teamcreatecenter {
+  margin: 10px auto;
+  display: block;
+}
+
+.teamsavecenter {
+  margin: 0 auto;
+  display: block;
+}
+
+.teamsavecreatecenter {
+  margin: 0 auto;
+  display: block;
 }

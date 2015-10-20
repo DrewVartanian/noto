@@ -53,7 +53,7 @@
         y: GLOBALS_WEB_NOTES.offset.y
       };
       if (GLOBALS_WEB_NOTES.user.email) {
-        data.message = '-' + GLOBALS_WEB_NOTES.user.email.slice(0, GLOBALS_WEB_NOTES.user.email.indexOf('@')) + ": ";
+        data.message = '-' + GLOBALS_WEB_NOTES.user.email.slice(0, GLOBALS_WEB_NOTES.user.email.indexOf('@'));
       }
       sendResponse(data);
     }

@@ -28,7 +28,7 @@ var backgroundImg = chrome.extension.getURL("/icons/postit_edited.png");
     'position': 'absolute',
     'box-sizing': "border-box",
     'font-family': 'Gloria Hallelujah',
-    'font-size': '15px',
+    'font-size': '20px',
     // 'box-shadow': '0px 4px 6px #333',
     // '-webkit-box-shadow': '0px 4px 6px #333',
     'opacity': '0.8',
@@ -121,8 +121,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   var $thisNote = this.buildNote(note, team);
   var $form = $('<form></form>');
   $form.css({
-    'width': '95%',
-    'height': '90%'
+    'width': '100%',
+    'height': '100%'
   });
 
   var $messageInput = $('<textarea></textarea>');
@@ -141,20 +141,32 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   $messageInput.html(message);
   var $teamSelect = $('<select></select>');
   $teamSelect.css({
-    'width': '37%',
+    'width': '47%',
     'height': '15%',
     'border': 'none',
     'box-shadow': 'none',
     'background': 'transparent',
     '-webkit-appearance': 'none',
     'text-align': 'center',
-    'whte-space': 'nowrap'
+    'whte-space': 'nowrap',
+    // "border": "2px solid #lightgrey",
+    "padding-left": "8px",
+    "padding-right": "8px",
+    "cursor": "pointer"
   });
 
   $teamSelect.attr("id", "selectTeam");
   var $optionCurrent = $('<option></option>');
   $optionCurrent.attr('value', team._id);
-  $optionCurrent.html(team.name);
+  console.log("what is my current option for team?", $optionCurrent.html());
+  if($optionCurrent.html().indexOf("▾") >= 0){
+    $optionCurrent.html(team.name);
+  }
+  else{
+    $optionCurrent.html(team.name + "  ▾");
+
+  }
+  //$optionCurrent.html(team.name + "  ▾");
   $teamSelect.append($optionCurrent);
   GLOBALS_WEB_NOTES.teamList.forEach(function(teamOp) {
     if (teamOp._id === team._id) return;
@@ -172,7 +184,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   var $colorSelect = $('<select></select>');
   $colorSelect.css({
     'class': 'colors',
-    'width': '37%',
+    'width': '47%',
     'height': '15%',
     'border-style': 'none',
     'box-shadow': 'none',
@@ -180,12 +192,23 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
     '-webkit-appearance': 'none',
     'text-align': 'center',
     'float': 'right',
-    'whte-space': 'nowrap'
+    'whte-space': 'nowrap',
+    // "border": "2px solid #lightgrey",
+    "padding-left": "8px",
+    "padding-right": "8px",
+    "cursor": "pointer"
   });
   $colorSelect.attr("id", "selectColor");
   var $colorCurrent = $('<option></option>');
   $colorCurrent.attr('value', note.color);
-  $colorCurrent.html(note.color);
+  if($colorCurrent.html().indexOf("▾") >= 0){
+    $colorCurrent.html(note.color);
+  }
+  else{
+
+    $colorCurrent.html(note.color + "  ▾");
+  }
+
   $colorSelect.append($colorCurrent);
   colors.forEach(function(color) {
     if (color === note.color) return;
@@ -215,14 +238,15 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
 
   $buttonSave.attr('type', 'submit');
 
+
   $form.submit(function(e) {
     e.preventDefault();
     console.log("form.submit self: ", self);
     self.saveNote(note._id,
       $messageInput.val(),
-      $colorSelect.children("option:selected").html(), {
+      $colorSelect.children("option:selected").html().replace('  ▾', ''), {
         _id: $teamSelect.val(),
-        name: $teamSelect.children("option:selected").html(),
+        name: $teamSelect.children("option:selected").html().replace('  ▾', ''),
         actions: $thisNote.actions
       },
       team);
@@ -396,7 +420,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
 
         });
         $buttonStop.click(function() {
-            console.log("height " + $thisNote.winHeightRecord,"width " + $thisNote.winWidthRecord); 
+            console.log("height " + $thisNote.winHeightRecord,"width " + $thisNote.winWidthRecord);
             $thisNote.actions.splice(0,3);
             document.onclick = null;
             document.onmousemove = null;
@@ -414,12 +438,12 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
             // console.log("play height " + playHeight, "play width " + playWidth);
             // SCALAR_H = playHeight / $thisNote.winHeightRecord;
             // SCALAR_W = playWidth / $thisNote.winWidthRecord;
-            // console.log("height scalar ", SCALAR_H, "width_scalar ", SCALAR_W); 
+            // console.log("height scalar ", SCALAR_H, "width_scalar ", SCALAR_W);
             // console.log("transformed current ", playHeight / SCALAR_H, " width ", playWidth / SCALAR_W);
             $('body').append($playball);
             console.log($thisNote.actions.length);
             var beforetime = 0;
-            for(var i=0;i<$thisNote.actions.length; i++) {  
+            for(var i=0;i<$thisNote.actions.length; i++) {
                 console.log($thisNote.actions[i].x);
                 var timeDifference = $thisNote.actions[i].time - beforetime;
                 beforetime = $thisNote.actions[i].time;
@@ -435,8 +459,8 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                          opacity: 1
                     }, timeDifference, function() {
                         // $("#theball").get(0).scrollIntoView({block: "end", behavior: "smooth"});
-                        // $("body, html").animate({ 
-                        // scrollTop: $('#theball').offset().top 
+                        // $("body, html").animate({
+                        // scrollTop: $('#theball').offset().top
                         // });
                         // $('#' + mouseOverElement).hover(function() {
                         //     $(this).attr('id', mouseOverElement + ":hover")}
@@ -491,7 +515,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                         if(elementObj.theClass){
                             $('.' + String(elementObj.theClass).toLowerCase()).trigger(e);
                             $('.' + String(elementObj.theClass).toLowerCase()).val(($('.' + String(elementObj.theClass).toLowerCase()).val() + String.fromCharCode(e.which)).toLowerCase())
-                        } 
+                        }
                         else if( elementObj.id) {
                         $('#' + String(elementObj.id).toLowerCase()).trigger(e);
                         $('#' + String(elementObj.id).toLowerCase()).val(($('#' + String(elementObj.id).toLowerCase()).val() + String.fromCharCode(e.which)).toLowerCase())
@@ -510,7 +534,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                         }
                         }
                       else if (indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'scroll') {
-                        $("#theball").get(0).scrollIntoView() 
+                        $("#theball").get(0).scrollIntoView()
                       }
                     });
                 };
