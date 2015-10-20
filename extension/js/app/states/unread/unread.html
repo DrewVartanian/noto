@@ -1,5 +1,5 @@
 <h5 class="list-group-item-info" style="text-align:center; font-size: 22px; padding: 5px; margin: 0">New Notes</h5>
-<ul class="list-group">
+<ul class="list-group" id="newnotes">
   <a target="_blank" href="{{page.url}}" ng-repeat="page in unreadPages track by $index" ng-click="setTeam()">
     <li class="list-group-item list-group-item-info webnote-paper">
       <i class="fa fa-link"></i>  {{page.url}}
