@@ -10,7 +10,7 @@ GLOBALS_WEB_NOTES.buildNote = function(note, team) {
     'blue': "/icons/postit_blue.png",
     'orange': "/icons/postit_orange.png"
   };
-  var theNoteColor  = colorKeys[note.color];
+  var theNoteColor = colorKeys[note.color]?colorKeys[note.color]:colorKeys.white;
   var backgroundImg = chrome.extension.getURL(theNoteColor);
   $thisNote.attr({
     'id': note._id,
@@ -470,7 +470,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                             theParents.reverse();
                             console.log("PARENTS!",theParents.join(" "));
                             parentsholder = theParents.join(' ')
-                       
+
                         console.log("here is the element", element)
                         console.log("element nodename", element.nodeName)
                         $('#theball').css({
