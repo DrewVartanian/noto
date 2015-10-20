@@ -21,7 +21,6 @@ GLOBALS_WEB_NOTES.buildNote = function(note, team) {
   $thisNote.addClass("web-notes-id-class");
 
   $thisNote.css({
-    'overflow': 'none',
     'padding': '10px',
     'background-image': "url(" + backgroundImg + ")",
     'background-size': 'cover',
