@@ -26,7 +26,7 @@ GLOBALS_WEB_NOTES.buildNote = function(note, team) {
     'background-size': 'cover',
     'background-repeat': 'no-repeat',
     'background-position': 'center',
-    // '-webkit-background-size': 'cover',
+    '-webkit-background-size': 'cover',
     'left': note.position.x * $(document).width() / 100 + 'px',
     'top': note.position.y + 'px',
     'height': note.size.y + 'px',
@@ -36,12 +36,9 @@ GLOBALS_WEB_NOTES.buildNote = function(note, team) {
     'box-sizing': "border-box",
     'font-family': 'Gloria Hallelujah',
     'font-size': '20px',
-    // 'box-shadow': '0px 4px 6px #333',
-    // '-webkit-box-shadow': '0px 4px 6px #333',
     'opacity': '0.8',
     'white-space': 'pre-wrap',
     'word-wrap': 'break-word'
-      //  '-webkit-transform': 'rotate(4deg)',
   });
 
 
@@ -59,48 +56,11 @@ GLOBALS_WEB_NOTES.buildNote = function(note, team) {
     minHeight: 200,
   });
 
-  // var resizeIcon = chrome.extension.getURL("/icons/resize.png");
-  // var $buttonResize = $('<div></div>');
-  // $buttonResize.addClass('ui-resizable-handle ui-resizable-se');
-  // $buttonResize.css({
-  //     'height': '30px',
-  //     'width': '30px',
-  //     'cursor': 'se-resize',
-  //     'background': 'url('+resizeIcon+')',
-  //     'position': 'absolute',
-  //     'right': '-15px',
-  //     'bottom': '-15px',
-  //     // 'display': 'none'
-  // });
-  // $thisNote.hover(function() {
-  //     $buttonResize.css({'display': 'block'});
-  // }, function() {
-  //     $buttonResize.css({'display': 'none'});
-  // });
-  // $thisNote.append($buttonResize);
-
   $thisNote.resize(function() {
     note.size.x = $(this).outerWidth();
     note.size.y = $(this).outerHeight();
     self.saveNoteSize(note, team);
   });
-
-
-  // $thisNote.mouseup(function() {
-  //     // console.log("this.position() ", $(this).position());
-  //     // console.log("original note position", note.position);
-  //     // console.log("attempting to save the position");
-  //     // console.log("event.x and event.y", event.x, event.y);
-  //     // $thisNote.css({
-  //     //     'offset.left':  event.x + "px",
-  //     //     'offset.top': event.y+'px'
-  //     // });
-  //     // console.log("what is note?", note);
-  //     console.log("drag mouseup");
-  //     note.position.x = $(this).position().left;
-  //     note.position.y = $(this).position().top;
-  //     self.saveNotePosition(note, team);
-  // });
 
   $('body').append($thisNote);
   return $thisNote;
@@ -336,10 +296,10 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
     'right': '0px',
     'top': '0px',
   });
-
         $buttonRecord.click(function(){
             $thisNote.winWidthRecord = window.innerWidth;
             $thisNote.winHeightRecord = window.innerHeight;
+
             var startDate = new Date();
             console.log("Recording!");
             document.onmousemove = function(e){
@@ -441,12 +401,6 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
         $buttonPlay.click(function() {
             var playHeight = Number(window.innerHeight);
             var playWidth = Number(window.innerWidth);
-            // console.log("record height " + $thisNote.winHeightRecord,"record width " + $thisNote.winWidthRecord);
-            // console.log("play height " + playHeight, "play width " + playWidth);
-            // SCALAR_H = playHeight / $thisNote.winHeightRecord;
-            // SCALAR_W = playWidth / $thisNote.winWidthRecord;
-            // console.log("height scalar ", SCALAR_H, "width_scalar ", SCALAR_W);
-            // console.log("transformed current ", playHeight / SCALAR_H, " width ", playWidth / SCALAR_W);
             $('body').append($playball);
             console.log($thisNote.actions.length);
             var beforetime = 0;
@@ -457,25 +411,12 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
                 var elementObj={};
                 var parentsholder;
                 var theAnimation = function (){
-                    // if($thisNote.actions[i].time === $thisNote.actions[$thisNote.actions[i].length-1].time) $    ("#theball").remove();
                     var indexTracker = i;
-                    // var mouseOverElement = document.elementFromPoint($thisNote.actions[indexTracker].x-1, $thisNote.actions[indexTracker].y-1).id
                     $('#theball').animate({
                          left: ($thisNote.actions[i].x-50),
                          top:  ($thisNote.actions[i].y-50),
                          opacity: 1
                     }, timeDifference, function() {
-                        // $("#theball").get(0).scrollIntoView({block: "end", behavior: "smooth"});
-                        // $("body, html").animate({
-                        // scrollTop: $('#theball').offset().top
-                        // });
-                        // $('#' + mouseOverElement).hover(function() {
-                        //     $(this).attr('id', mouseOverElement + ":hover")}
-                        //     ,function() {
-                        //     $(this).attr('id', mouseOverElement + ":hover")});
-                        // $('#' + mouseOverElement).mouseenter();
-                        // // $('#' + mouseOverElement).mouseleave()
-                        // console.log(mouseOverElement)
                       if(indexTracker < $thisNote.actions.length && $thisNote.actions[indexTracker].type === 'click') {
                         console.log('event', $thisNote.actions[indexTracker]);
                         $('#theball').css({
