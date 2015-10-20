@@ -38,6 +38,7 @@ module.exports = function (app) {
                 error.status = 401;
                 return next(error);
             }
+            
 
             // req.logIn will establish our session.
             req.logIn(user, function (loginErr) {

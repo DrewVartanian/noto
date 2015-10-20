@@ -1,9 +1,17 @@
 GLOBALS_WEB_NOTES.buildNote = function(note, team) {
   var self = this;
-var backgroundImg = chrome.extension.getURL("/icons/postit_edited.png");
   var $thisNote = $('<div></div>');
-  // $thisNote.html('<img style="z-index: -1; top: 0px; left: 0px; position: absolute; height: 100%; width: 100%" src="'+backgroundImg+'"></img>')
-  var colors = ['yellow', 'red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
+  var colors = ['yellow', 'green', 'pink', 'white', 'blue', 'orange'];
+  var colorKeys = {
+    'yellow': "/icons/postit_edited.png",
+    'green': "/icons/postit_green.png",
+    'pink': "/icons/postit_pink.png",
+    'white': "/icons/postit_white.png",
+    'blue': "/icons/postit_blue.png",
+    'orange': "/icons/postit_orange.png"
+  };
+  var theNoteColor  = colorKeys[note.color];
+  var backgroundImg = chrome.extension.getURL(theNoteColor);
   $thisNote.attr({
     'id': note._id,
     'data-team-name': team.name,
@@ -180,7 +188,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
   });
 
   //color
-  var colors = ['yellow', 'red', 'pink', 'white', 'green', 'blue', 'orange', 'purple'];
+    var colors = ['yellow', 'green', 'pink', 'white', 'blue', 'orange'];
   var $colorSelect = $('<select></select>');
   $colorSelect.css({
     'class': 'colors',
