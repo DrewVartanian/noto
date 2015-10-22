@@ -320,15 +320,15 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
     var recordingBool = false;
 
     var stopRecording = function() {
-      if(recordingBool){
-        recordingBool = false;
-        $thisNote.actions.splice(0, 3);
-        document.onclick = null;
-        document.onmousemove = null;
-        document.onkeyup = null;
-        document.onscroll = null;
-        GLOBALS_WEB_NOTES.saveNoteRecording(note, team, $thisNote.actions);
-      }
+        if (recordingBool) {
+            recordingBool = false;
+            $thisNote.actions.splice(0, 3);
+            document.onclick = null;
+            document.onmousemove = null;
+            document.onkeyup = null;
+            document.onscroll = null;
+            GLOBALS_WEB_NOTES.saveNoteRecording(note, team, $thisNote.actions);
+        }
     };
 
     $buttonRecord.click(function() {
@@ -422,7 +422,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
             $thisNote.actions.push(keyObj);
         };
 
-      setTimeout(stopRecording, 30000);
+        setTimeout(stopRecording, 30000);
 
     });
 
