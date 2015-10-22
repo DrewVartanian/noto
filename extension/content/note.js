@@ -323,6 +323,7 @@ GLOBALS_WEB_NOTES.renderNoteForm = function(note, team) {
             $thisNote.winHeightRecord = window.innerHeight;
 
             var startDate = new Date();
+            $thisNote.actions = [];
             console.log("Recording!");
             document.onmousemove = function(e){
                 var date = new Date();
